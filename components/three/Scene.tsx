@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
-import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
+// EffectComposer/Bloom/Vignette disabled to remove bloom flare
 import { ACESFilmicToneMapping } from "three";
 import { ReactorCore } from "./ArcReactor";
 
@@ -28,15 +28,7 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
       <Suspense fallback={null}>
         <Environment preset="studio" />
         <ReactorCore powerUp={powerUp} />
-        <EffectComposer>
-          <Bloom
-            intensity={0.3}
-            luminanceThreshold={0.6}
-            luminanceSmoothing={0.9}
-            mipmapBlur
-          />
-          <Vignette eskil={false} offset={0.3} darkness={0.7} />
-        </EffectComposer>
+        {/* Bloom+Vignette disabled — matte metal look */}
       </Suspense>
     </Canvas>
   );
