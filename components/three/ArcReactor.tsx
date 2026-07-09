@@ -50,12 +50,12 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
         const isEmissive = emis;
 
         if (isEmissive) {
-          // Glacial white core, soft glow. Respect baked base color elsewhere.
-          mat.emissive.set("#e3e6ec");
-          mat.emissiveIntensity = 0.35;
+          // Respect baked emissive (glacial white + subtle blue texture tinge).
+          // Only clamp intensity so the glow stays soft, and tag for power-up.
           mat.toneMapped = false;
           mat.metalness = 0.0;
           mat.roughness = 0.4;
+          if (mat.emissiveIntensity > 1.5) mat.emissiveIntensity = 0.5;
           emissiveMats.push(mat);
         }
         // Non-emissive materials (steel housing, bronze coils) keep their
@@ -99,8 +99,8 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
     }
 
     // pulse emissive intensity on all glowing materials
-    const baseIntensity = 0.35 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.05);
-    const targetIntensity = baseIntensity + powerUpRef.current * 0.4;
+    const baseIntensity = 0.5 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.06);
+    const targetIntensity = baseIntensity + powerUpRef.current * 0.45;
 
     emissiveMaterialsRef.current.forEach((mat) => {
       mat.emissiveIntensity = THREE.MathUtils.lerp(
