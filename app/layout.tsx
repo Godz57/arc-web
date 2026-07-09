@@ -94,6 +94,12 @@ export default function RootLayout({
           aria-hidden="true"
         />
 
+        {/* top header readability fade */}
+        <div
+          className="fixed inset-x-0 top-0 z-30 h-32 pointer-events-none header-fade"
+          aria-hidden="true"
+        />
+
         <CursorCustomizado />
         <HUDOverlay />
         <Navbar />

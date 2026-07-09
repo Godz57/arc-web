@@ -10,6 +10,8 @@
   --arc-blue: #a8e6ff;
   --red-alert: #ff3b3b;
   --carbon: #0a0e14;
+  --grid-steel: rgba(110, 130, 160, 0.035);
+  --scan-steel: rgba(110, 130, 160, 0.025);
 }
 
 @layer base {
@@ -51,17 +53,17 @@
 
 @layer components {
   .text-glow-cyan {
-    text-shadow: 0 0 8px rgba(0, 212, 255, 0.6), 0 0 16px rgba(0, 212, 255, 0.3);
+    text-shadow: 0 0 6px rgba(0, 212, 255, 0.45), 0 0 12px rgba(0, 212, 255, 0.2);
   }
 
   .text-glow-gold {
-    text-shadow: 0 0 8px rgba(212, 175, 55, 0.5), 0 0 16px rgba(212, 175, 55, 0.25);
+    text-shadow: 0 0 6px rgba(212, 175, 55, 0.4), 0 0 12px rgba(212, 175, 55, 0.18);
   }
 
   .bg-hud-grid {
     background-image:
-      linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
+      linear-gradient(var(--grid-steel) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-steel) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
@@ -74,8 +76,8 @@
       0deg,
       rgba(0, 0, 0, 0) 0px,
       rgba(0, 0, 0, 0) 2px,
-      rgba(0, 212, 255, 0.03) 2px,
-      rgba(0, 212, 255, 0.03) 4px
+      var(--scan-steel) 2px,
+      var(--scan-steel) 4px
     );
     z-index: 10;
   }
@@ -84,7 +86,17 @@
     background: rgba(10, 14, 20, 0.65);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 212, 255, 0.12);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .header-fade {
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 14, 20, 0.95) 0%,
+      rgba(10, 14, 20, 0.75) 35%,
+      rgba(10, 14, 20, 0.35) 65%,
+      transparent 100%
+    );
   }
 }
 

@@ -23,14 +23,14 @@ const config: Config = {
       },
       backgroundImage: {
         "hud-grid":
-          "linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px)",
+          "linear-gradient(rgba(110, 130, 160, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(110, 130, 160, 0.035) 1px, transparent 1px)",
       },
       backgroundSize: {
         "hud-grid": "48px 48px",
       },
       boxShadow: {
-        "glow-cyan": "0 0 16px rgba(0, 212, 255, 0.4)",
-        "glow-gold": "0 0 16px rgba(212, 175, 55, 0.4)",
+        "glow-cyan": "0 0 14px rgba(0, 212, 255, 0.3)",
+        "glow-gold": "0 0 14px rgba(212, 175, 55, 0.28)",
       },
       animation: {
         "pulse-slow": "pulse-slow 3s ease-in-out infinite",

@@ -20,7 +20,7 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
       gl={{
         antialias: true,
         toneMapping: ACESFilmicToneMapping,
-        toneMappingExposure: 1.2,
+        toneMappingExposure: 1.0,
       }}
       dpr={[1, 1.5]}
       frameloop="always"
@@ -30,12 +30,12 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
         <ReactorCore powerUp={powerUp} />
         <EffectComposer>
           <Bloom
-            intensity={1.5}
-            luminanceThreshold={0.2}
-            luminanceSmoothing={0.9}
+            intensity={0.8}
+            luminanceThreshold={0.35}
+            luminanceSmoothing={0.85}
             mipmapBlur
           />
-          <Vignette eskil={false} offset={0.3} darkness={0.8} />
+          <Vignette eskil={false} offset={0.35} darkness={0.85} />
         </EffectComposer>
       </Suspense>
     </Canvas>
