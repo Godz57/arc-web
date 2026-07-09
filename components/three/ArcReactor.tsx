@@ -114,8 +114,8 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
       const mat = coreRef.current.material as THREE.MeshStandardMaterial;
       if (mat) {
-        const baseIntensity = 1.4 + (shouldReduceMotion ? 0 : Math.sin(t * 3) * 0.12);
-        mat.emissiveIntensity = baseIntensity + powerUpRef.current * 1.2;
+        const baseIntensity = 1.8 + (shouldReduceMotion ? 0 : Math.sin(t * 3) * 0.15);
+        mat.emissiveIntensity = baseIntensity + powerUpRef.current * 1.4;
       }
     }
 
@@ -131,21 +131,21 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
   return (
     <group ref={groupRef}>
-      {/* ambient base */}
-      <ambientLight intensity={0.12} />
+      {/* warm ambient base */}
+      <ambientLight intensity={0.15} color="#aaa8a0" />
 
-      {/* core lights — soft, concentrated */}
-      <pointLight position={[0, 0, 1.2]} intensity={0.55} color="#e8f7ff" />
-      <pointLight position={[0, 0, -0.6]} intensity={0.2} color="#4db8ff" />
-      <pointLight position={[1.4, 1.4, 0.8]} intensity={0.35} color="#b8c0d0" />
+      {/* core lights — warm, concentrated */}
+      <pointLight position={[0, 0, 1.2]} intensity={0.6} color="#fff0d8" />
+      <pointLight position={[0, 0, -0.6]} intensity={0.2} color="#ffcaa0" />
+      <pointLight position={[1.4, 1.4, 0.8]} intensity={0.4} color="#d4af37" />
 
-      {/* outer housing — dark metallic red */}
+      {/* outer housing — warm satin steel */}
       <mesh>
         <torusGeometry args={[1.25, 0.14, 32, 120]} />
         <meshStandardMaterial
-          color="#7a121a"
+          color="#5a5550"
           metalness={1.0}
-          roughness={0.38}
+          roughness={0.42}
         />
       </mesh>
 
@@ -159,19 +159,19 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
           >
             <cylinderGeometry args={[0.038, 0.038, 0.09, 12]} />
             <meshStandardMaterial
-              color="#b8c0d0"
+              color="#4a4540"
               metalness={1.0}
-              roughness={0.35}
+              roughness={0.45}
             />
           </mesh>
         ))}
       </group>
 
-      {/* inner recess ring — gunmetal */}
+      {/* inner recess ring — warm dark brown shadow */}
       <mesh>
         <torusGeometry args={[1.0, 0.08, 24, 80]} />
         <meshStandardMaterial
-          color="#141821"
+          color="#2a1c1a"
           metalness={0.9}
           roughness={0.55}
         />
@@ -187,37 +187,37 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
           >
             <cylinderGeometry args={[0.04, 0.04, 0.32, 16]} />
             <meshStandardMaterial
-              color="#4a3020"
+              color="#8a4a22"
               metalness={1.0}
-              roughness={0.42}
+              roughness={0.4}
             />
           </mesh>
         ))}
       </group>
 
-      {/* triangular aperture ring — faint blue emissive */}
+      {/* triangular aperture ring — warm amber emissive */}
       <mesh
         ref={apertureRef}
         geometry={apertureGeometry}
         position={[0, 0, -0.022]}
       >
         <meshStandardMaterial
-          color="#4db8ff"
-          emissive="#4db8ff"
-          emissiveIntensity={0.3}
+          color="#ffd9a0"
+          emissive="#ffd9a0"
+          emissiveIntensity={0.35}
           metalness={0.8}
           roughness={0.2}
           toneMapped={false}
         />
       </mesh>
 
-      {/* core — bright white-blue, the main bloom source */}
+      {/* core — warm white-amber palladium glow */}
       <mesh ref={coreRef}>
         <sphereGeometry args={[0.26, 32, 32]} />
         <meshStandardMaterial
-          color="#ffffff"
-          emissive="#e8f7ff"
-          emissiveIntensity={1.4}
+          color="#fff0d8"
+          emissive="#fff0d8"
+          emissiveIntensity={1.8}
           metalness={1}
           roughness={0}
           toneMapped={false}

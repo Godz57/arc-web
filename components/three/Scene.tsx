@@ -26,12 +26,12 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
       frameloop="always"
     >
       <Suspense fallback={null}>
-        <Environment preset="city" />
+        <Environment preset="warehouse" />
         <ReactorCore powerUp={powerUp} />
         <EffectComposer>
           <Bloom
-            intensity={0.8}
-            luminanceThreshold={0.35}
+            intensity={0.9}
+            luminanceThreshold={0.6}
             luminanceSmoothing={0.85}
             mipmapBlur
           />
