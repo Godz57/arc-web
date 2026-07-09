@@ -1,10 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import Scene from "@/components/three/Scene";
 import HudButton from "@/components/ui/HudButton";
+
+const Scene = dynamic(() => import("@/components/three/Scene"), {
+  ssr: false,
+  loading: () => (
+    <div
+      className="flex h-full w-full items-center justify-center"
+      aria-hidden="true"
+    >
+      <div className="h-32 w-32 rounded-full bg-hud-cyan/10 shadow-[0_0_60px_rgba(0,212,255,0.15)]" />
+    </div>
+  ),
+});
 
 export default function Hero() {
   const [powerUp, setPowerUp] = useState(false);
@@ -112,12 +124,16 @@ export default function Hero() {
       {/* scroll hint */}
       <motion.div
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
-        animate={{ y: [0, 8, 0] }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        animate={shouldReduceMotion ? undefined : { y: [0, 8, 0] }}
+        transition={
+          shouldReduceMotion
+            ? undefined
+            : {
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }
+        }
       >
         <div className="flex flex-col items-center gap-2 text-arc-blue/50">
           <span className="font-rajdhani text-[10px] uppercase tracking-[0.3em]">

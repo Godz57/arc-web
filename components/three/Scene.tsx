@@ -21,7 +21,7 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
         toneMapping: ACESFilmicToneMapping,
         toneMappingExposure: 1.2,
       }}
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
       frameloop="always"
     >
       <Suspense fallback={null}>

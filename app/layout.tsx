@@ -21,8 +21,14 @@ const rajdhani = Rajdhani({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://arc-web.vercel.app";
+
 export const metadata: Metadata = {
-  title: "ARC WEB | Sites que parecem tecnologia do futuro",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "ARC WEB | Sites que parecem tecnologia do futuro",
+    template: "%s | ARC WEB",
+  },
   description:
     "ARC WEB é o portfólio vivo de uma agência/dev freelance especializada em criar sites premium, interativos e imersivos com design de nível Awwwards.",
   keywords: [
@@ -34,6 +40,25 @@ export const metadata: Metadata = {
     "freelance",
   ],
   authors: [{ name: "ARC WEB" }],
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "/",
+    siteName: "ARC WEB",
+    title: "ARC WEB | Sites que parecem tecnologia do futuro",
+    description:
+      "Design imersivo, interações vivas e tecnologia de ponta para quem quer um site que parece tecnologia do futuro.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ARC WEB | Sites que parecem tecnologia do futuro",
+    description:
+      "Design imersivo, interações vivas e tecnologia de ponta para quem quer um site que parece tecnologia do futuro.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

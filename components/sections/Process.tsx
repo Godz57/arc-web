@@ -4,18 +4,22 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useReducedMotion } from "framer-motion";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { processSteps } from "@/lib/data";
 
 export default function Process() {
   const sectionRef = useRef<HTMLElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   useGSAP(
     () => {
       gsap.registerPlugin(ScrollTrigger);
 
       const ctx = gsap.context(() => {
+        if (shouldReduceMotion) return;
+
         gsap.fromTo(
           ".process-line",
           { scaleY: 0 },
@@ -72,7 +76,7 @@ export default function Process() {
           <div className="absolute left-8 top-0 bottom-0 w-px bg-hud-cyan/10 md:left-1/2 md:-translate-x-1/2" />
           <div
             className="process-line absolute left-8 top-0 bottom-0 w-px origin-top bg-gradient-to-b from-hud-cyan via-titan-gold to-hud-cyan/20 shadow-[0_0_8px_rgba(0,212,255,0.3)] md:left-1/2 md:-translate-x-1/2"
-            style={{ transform: "scaleY(0)" }}
+            style={{ transform: shouldReduceMotion ? "scaleY(1)" : "scaleY(0)" }}
           />
 
           <div className="space-y-16 md:space-y-24">
@@ -85,6 +89,7 @@ export default function Process() {
                   className={`process-step relative flex items-start gap-8 md:items-center ${
                     isEven ? "md:flex-row" : "md:flex-row-reverse"
                   }`}
+                  style={{ opacity: shouldReduceMotion ? 1 : undefined }}
                 >
                   {/* node */}
                   <div className="absolute left-0 top-0 z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-hud-cyan/30 bg-carbon font-orbitron text-xl font-bold text-titan-gold shadow-[0_0_18px_rgba(0,212,255,0.15)] md:left-1/2 md:-translate-x-1/2">

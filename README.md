@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ARC WEB
 
-## Getting Started
+Site de captação de leads com estética de HUD holográfico inspirado na armadura do Homem de Ferro. Construído com **Next.js 14**, **React Three Fiber**, **Tailwind CSS**, **GSAP** e **Framer Motion**.
 
-First, run the development server:
+> Design imersivo. Interações vivas. Tecnologia de ponta.
+
+---
+
+## 🚀 Stack
+
+- **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+- **3D:** [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) + [Drei](https://github.com/pmndrs/drei) + [@react-three/postprocessing](https://github.com/pmndrs/react-postprocessing)
+- **Animações:** [GSAP](https://gsap.com/) + [Framer Motion](https://www.framer.com/motion/)
+- **Estilo:** [Tailwind CSS v3](https://tailwindcss.com/)
+- **Formulário:** [react-hook-form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- **Ícones:** [Lucide React](https://lucide.dev/)
+- **Fontes:** Orbitron + Rajdhani via `next/font/google`
+
+---
+
+## 📦 Instalação
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# clone o repositório e entre na pasta
+cd arc-web
+
+# instale as dependências
+npm install
+
+# copie as variáveis de ambiente (opcional)
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev      # inicia o servidor de desenvolvimento (http://localhost:3000)
+npm run build    # gera o build de produção
+npm run start    # roda o build de produção localmente
+npm run lint     # executa o ESLint
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Estrutura
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+arc-web/
+├── app/                    # rotas e layout do Next.js App Router
+│   ├── layout.tsx          # fontes, metadata, HUD global e background
+│   ├── page.tsx            # montagem das 8 seções
+│   ├── globals.css         # Tailwind + variáveis + scrollbar HUD
+│   ├── icon.svg            # favicon do arc reactor
+│   ├── opengraph-image.tsx # imagem OG gerada dinamicamente
+│   ├── robots.ts           # regras do robots.txt
+│   └── sitemap.ts          # sitemap.xml
+├── components/
+│   ├── three/              # Canvas 3D e ArcReactor
+│   ├── layout/             # Navbar, Footer, HUDOverlay, CursorCustomizado
+│   ├── sections/           # BootSequence, Hero, About, Services, Portfolio, Process, Testimonials, Contact
+│   └── ui/                 # HudButton, HudCard, Scanlines, SectionHeader
+├── lib/
+│   └── data.ts             # conteúdo dos cards e seções
+├── public/                 # assets estáticos
+├── tailwind.config.ts      # paleta e fontes customizadas
+├── .env.example            # template de variáveis de ambiente
+└── README.md
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🎨 Identidade Visual
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Token | Cor | Uso |
+|---|---|---|
+| `titan-gold` | `#d4af37` | logo, títulos, estruturas |
+| `hud-cyan` | `#00d4ff` | glow, dados, bordas interativas |
+| `arc-blue` | `#a8e6ff` | núcleo, CTAs, texto principal |
+| `red-alert` | `#ff3b3b` | avisos, estados críticos |
+| `carbon` | `#0a0e14` | fundo e profundidade |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🧩 Seções do Site
+
+1. **BootSequence** — animação de inicialização (apenas na primeira visita)
+2. **Hero / Power Core** — arc reactor 3D pulsante com Bloom
+3. **About / Operator Profile** — ficha técnica do desenvolvedor
+4. **Services / Capabilities** — 4 módulos de serviço
+5. **Portfolio / Mission Log** — 6 projetos placeholder MARK I-VI
+6. **Process / Assembly Protocol** — etapas do processo em timeline
+7. **Testimonials / Field Reports** — depoimentos placeholder
+8. **Contact / Establish Uplink** — formulário com validação Zod
+
+---
+
+## ♿ Acessibilidade & Performance
+
+- Respeita `prefers-reduced-motion` (boot pulado e animações pesadas desativadas)
+- Cursor customizado desativado em telas touch/mobile
+- Canvas 3D usa `dpr={[1, 1.5]}` e é carregado via `next/dynamic` sem SSR
+- Seções possuem IDs para navegação por âncora
+
+---
+
+## 🌐 Deploy
+
+O projeto está pronto para deploy na **Vercel**:
+
+1. Faça push para o GitHub
+2. Importe o repositório em [vercel.com/new](https://vercel.com/new)
+3. O framework Next.js será detectado automaticamente
+4. Defina `NEXT_PUBLIC_SITE_URL` com o domínio de produção
+
+---
+
+## 📝 Licença
+
+© 2026 ARC WEB. Todos os direitos reservados.

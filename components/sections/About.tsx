@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useReducedMotion } from "framer-motion";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { operatorStats } from "@/lib/data";
 
@@ -11,12 +12,15 @@ export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const barsRef = useRef<HTMLDivElement[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   useGSAP(
     () => {
       gsap.registerPlugin(ScrollTrigger);
 
       const ctx = gsap.context(() => {
+        if (shouldReduceMotion) return;
+
         gsap.fromTo(
           contentRef.current,
           { opacity: 0, y: 40 },
@@ -74,6 +78,7 @@ export default function About() {
         <div
           ref={contentRef}
           className="grid items-start gap-12 md:grid-cols-2"
+          style={{ opacity: shouldReduceMotion ? 1 : undefined }}
         >
           {/* avatar / identity */}
           <div className="flex flex-col items-center text-center md:items-start md:text-left">
@@ -124,7 +129,11 @@ export default function About() {
                       }}
                       data-target={percent}
                       className="h-full origin-left bg-gradient-to-r from-titan-gold via-hud-cyan to-arc-blue shadow-[0_0_10px_rgba(0,212,255,0.4)]"
-                      style={{ transform: "scaleX(0)" }}
+                      style={{
+                        transform: shouldReduceMotion
+                          ? `scaleX(${percent / 100})`
+                          : "scaleX(0)",
+                      }}
                     />
                   </div>
                 </div>

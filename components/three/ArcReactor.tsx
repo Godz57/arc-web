@@ -2,6 +2,7 @@
 
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
+import { useReducedMotion } from "framer-motion";
 import * as THREE from "three";
 
 interface ReactorCoreProps {
@@ -9,6 +10,7 @@ interface ReactorCoreProps {
 }
 
 export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
+  const shouldReduceMotion = useReducedMotion();
   const groupRef = useRef<THREE.Group>(null);
   const ringXRef = useRef<THREE.Mesh>(null);
   const ringYRef = useRef<THREE.Mesh>(null);
@@ -40,7 +42,7 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
     );
 
     // parallax
-    if (groupRef.current) {
+    if (groupRef.current && !shouldReduceMotion) {
       groupRef.current.rotation.y = THREE.MathUtils.lerp(
         groupRef.current.rotation.y,
         pointer.x * 0.3,
@@ -55,26 +57,26 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
     // rings rotation
     if (ringXRef.current) {
-      ringXRef.current.rotation.x += delta * 0.4;
-      ringXRef.current.rotation.z += delta * 0.15;
+      ringXRef.current.rotation.x += delta * (shouldReduceMotion ? 0.05 : 0.4);
+      ringXRef.current.rotation.z += delta * (shouldReduceMotion ? 0.02 : 0.15);
     }
     if (ringYRef.current) {
-      ringYRef.current.rotation.y += delta * 0.5;
-      ringYRef.current.rotation.x += delta * 0.1;
+      ringYRef.current.rotation.y += delta * (shouldReduceMotion ? 0.05 : 0.5);
+      ringYRef.current.rotation.x += delta * (shouldReduceMotion ? 0.02 : 0.1);
     }
 
     // core pulse
     if (coreRef.current) {
-      const baseScale = 1 + Math.sin(t * 2) * 0.08;
+      const pulseAmp = shouldReduceMotion ? 0.02 : 0.08;
+      const baseScale = 1 + Math.sin(t * 2) * pulseAmp;
       const powerScale = 1 + powerUpRef.current * 0.8;
       const scale = baseScale * powerScale;
       coreRef.current.scale.set(scale, scale, scale);
 
       const mat = coreRef.current.material as THREE.MeshStandardMaterial;
       if (mat) {
-        const baseIntensity = 2.5 + Math.sin(t * 3) * 0.5;
-        mat.emissiveIntensity =
-          baseIntensity + powerUpRef.current * 4;
+        const baseIntensity = 2.5 + (shouldReduceMotion ? 0 : Math.sin(t * 3) * 0.5);
+        mat.emissiveIntensity = baseIntensity + powerUpRef.current * 4;
       }
     }
 
