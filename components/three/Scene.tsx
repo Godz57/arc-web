@@ -30,9 +30,9 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
         <ReactorCore powerUp={powerUp} />
         <EffectComposer>
           <Bloom
-            intensity={0.9}
-            luminanceThreshold={0.6}
-            luminanceSmoothing={0.85}
+            intensity={0.5}
+            luminanceThreshold={0.78}
+            luminanceSmoothing={0.9}
             mipmapBlur
           />
           <Vignette eskil={false} offset={0.35} darkness={0.85} />
