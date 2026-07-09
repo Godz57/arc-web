@@ -69,7 +69,6 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
   useFrame((state, delta) => {
     const { pointer } = state;
-    const t = state.clock.elapsedTime;
 
     // smooth power-up state
     targetPowerUpRef.current = powerUp ? 1 : 0;
