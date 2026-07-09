@@ -22,9 +22,8 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
   const scene = useMemo(() => {
     const s = gltf.scene.clone();
-    // Face-on orientation fallback: many Blender exports come in Z-up.
-    // If the model already reads face-on, this rotation can be removed.
-    s.rotation.x = Math.PI / 2;
+    // Model exports already face-on (Y-up, gltf export_yup). No rotation needed.
+    // If it reads tilted later, re-add rotation here (e.g. s.rotation.x = Math.PI/2).
     s.scale.setScalar(1.3);
     return s;
   }, [gltf.scene]);
@@ -51,7 +50,7 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
         if (isEmissive) {
           mat.color.set("#e3e6ec");
           mat.emissive.set("#e3e6ec");
-          mat.emissiveIntensity = 1.0;
+          mat.emissiveIntensity = 0.35;
           mat.toneMapped = false;
           mat.metalness = 0.8;
           mat.roughness = 0.2;
@@ -104,8 +103,8 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
     }
 
     // pulse emissive intensity on all glowing materials
-    const baseIntensity = 1.0 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.1);
-    const targetIntensity = baseIntensity + powerUpRef.current * 0.7;
+    const baseIntensity = 0.35 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.05);
+    const targetIntensity = baseIntensity + powerUpRef.current * 0.4;
 
     emissiveMaterialsRef.current.forEach((mat) => {
       mat.emissiveIntensity = THREE.MathUtils.lerp(
@@ -121,10 +120,10 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
       {/* cool-silver ambient base */}
       <ambientLight intensity={0.18} color="#9a9fa6" />
 
-      {/* silver/glacial lights */}
-      <pointLight position={[0, 0, 2]} intensity={0.5} color="#e3e6ec" />
-      <pointLight position={[0, 0, -1]} intensity={0.15} color="#d8dde3" />
-      <pointLight position={[2, 2, 1]} intensity={0.25} color="#d4af37" />
+      {/* silver/glacial lights — softened to reduce overall glow */}
+      <pointLight position={[0, 0, 2]} intensity={0.3} color="#e3e6ec" />
+      <pointLight position={[0, 0, -1]} intensity={0.08} color="#d8dde3" />
+      <pointLight position={[2, 2, 1]} intensity={0.15} color="#d4af37" />
 
       {/* real arc reactor model */}
       <primitive object={scene} ref={reactorRef} />
