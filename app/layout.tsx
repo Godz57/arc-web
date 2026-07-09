@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Orbitron, Rajdhani } from "next/font/google";
 import "./globals.css";
 
+import CursorCustomizado from "@/components/layout/CursorCustomizado";
+import HUDOverlay from "@/components/layout/HUDOverlay";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+
 const orbitron = Orbitron({
   variable: "--font-orbitron",
   subsets: ["latin"],
@@ -41,8 +46,36 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${orbitron.variable} ${rajdhani.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-carbon font-rajdhani text-arc-blue">
-        {children}
+      <body className="relative min-h-full bg-carbon font-rajdhani text-arc-blue">
+        {/* background grid */}
+        <div
+          className="fixed inset-0 -z-10 bg-hud-grid"
+          aria-hidden="true"
+        />
+
+        {/* scanlines overlay */}
+        <div
+          className="fixed inset-0 -z-10 scanlines pointer-events-none"
+          aria-hidden="true"
+        />
+
+        {/* vignette */}
+        <div
+          className="fixed inset-0 -z-10 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle at center, transparent 0%, rgba(10,14,20,0.4) 60%, rgba(10,14,20,0.95) 100%)",
+          }}
+          aria-hidden="true"
+        />
+
+        <CursorCustomizado />
+        <HUDOverlay />
+        <Navbar />
+
+        <main className="relative z-10 pt-20">{children}</main>
+
+        <Footer />
       </body>
     </html>
   );
