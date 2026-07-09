@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
-// EffectComposer/Bloom/Vignette temporarily disabled while tuning reactor look
+import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { ACESFilmicToneMapping } from "three";
 import { ReactorCore } from "./ArcReactor";
 
@@ -28,11 +28,15 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
       <Suspense fallback={null}>
         <Environment preset="studio" />
         <ReactorCore powerUp={powerUp} />
-        {/* Bloom disabled while we tune reactor look; re-enable later if needed */}
-        {/* <EffectComposer>
-          <Bloom intensity={0.12} luminanceThreshold={0.95} luminanceSmoothing={0.9} mipmapBlur />
-          <Vignette eskil={false} offset={0.35} darkness={0.85} />
-        </EffectComposer> */}
+        <EffectComposer>
+          <Bloom
+            intensity={0.3}
+            luminanceThreshold={0.6}
+            luminanceSmoothing={0.9}
+            mipmapBlur
+          />
+          <Vignette eskil={false} offset={0.3} darkness={0.7} />
+        </EffectComposer>
       </Suspense>
     </Canvas>
   );

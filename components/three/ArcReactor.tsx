@@ -50,13 +50,12 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
         const isEmissive = emis;
 
         if (isEmissive) {
-          // Respect baked emissive (glacial white + subtle blue texture tinge).
-          // Only clamp intensity so the glow stays soft, and tag for power-up.
+          // Core: electric cyan emissive at low intensity (color, no blinding flare).
           mat.toneMapped = false;
           mat.metalness = 0.0;
           mat.roughness = 0.4;
-          mat.emissive.set("#000000");
-          mat.emissiveIntensity = 0;
+          mat.emissive.set("#00c8e0");
+          mat.emissiveIntensity = 0.25;
           emissiveMats.push(mat);
         }
         // Non-emissive materials (steel housing, bronze coils) keep their
@@ -69,6 +68,7 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
   useFrame((state, delta) => {
     const { pointer } = state;
+    const t = state.clock.elapsedTime;
 
     // smooth power-up state
     targetPowerUpRef.current = powerUp ? 1 : 0;
@@ -99,7 +99,7 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
     }
 
     // pulse emissive intensity on all glowing materials
-    const baseIntensity = 0;
+    const baseIntensity = 0.25 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.05);
     const targetIntensity = baseIntensity + powerUpRef.current * 0.4;
 
     emissiveMaterialsRef.current.forEach((mat) => {
@@ -113,13 +113,14 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
   return (
     <group ref={groupRef}>
-      {/* cool-silver ambient base */}
-      <ambientLight intensity={0.18} color="#9a9fa6" />
+      {/* teal ambient base */}
+      <ambientLight intensity={0.25} color="#356b85" />
 
-      {/* silver/glacial lights — softened to reduce overall glow */}
-      <pointLight position={[0, 0, 2]} intensity={0.3} color="#e3e6ec" />
-      <pointLight position={[0, 0, -1]} intensity={0.08} color="#d8dde3" />
-      <pointLight position={[2, 2, 1]} intensity={0.15} color="#d4af37" />
+      {/* cyan point lights give colored reflections on the metal (life, no flare) */}
+      <pointLight position={[0, 0, 2]} intensity={0.4} color="#00c8e0" />
+      <pointLight position={[0, 0, -1]} intensity={0.12} color="#1a3d4a" />
+      <pointLight position={[2, 2, 1]} intensity={0.3} color="#00c8e0" />
+      <pointLight position={[-2, -1, 1]} intensity={0.2} color="#356b85" />
 
       {/* real arc reactor model */}
       <primitive object={scene} ref={reactorRef} />
