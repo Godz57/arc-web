@@ -55,7 +55,7 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
           mat.toneMapped = false;
           mat.metalness = 0.0;
           mat.roughness = 0.4;
-          if (mat.emissiveIntensity > 1.5) mat.emissiveIntensity = 0.5;
+          mat.emissiveIntensity = 0.15;
           emissiveMats.push(mat);
         }
         // Non-emissive materials (steel housing, bronze coils) keep their
@@ -99,8 +99,8 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
     }
 
     // pulse emissive intensity on all glowing materials
-    const baseIntensity = 0.5 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.06);
-    const targetIntensity = baseIntensity + powerUpRef.current * 0.45;
+    const baseIntensity = 0.15 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.04);
+    const targetIntensity = baseIntensity + powerUpRef.current * 0.25;
 
     emissiveMaterialsRef.current.forEach((mat) => {
       mat.emissiveIntensity = THREE.MathUtils.lerp(
