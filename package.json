@@ -13,7 +13,7 @@
     "@hookform/resolvers": "^3.3.4",
     "@react-three/drei": "^9.92.7",
     "@react-three/fiber": "^8.15.12",
-    "@react-three/postprocessing": "^2.15.11",
+    "@react-three/postprocessing": "^2.19.1",
     "framer-motion": "^11.0.3",
     "gsap": "^3.12.4",
     "lucide-react": "^0.300.0",
