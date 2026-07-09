@@ -42,28 +42,24 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
         if (!(mat instanceof THREE.MeshStandardMaterial)) return;
 
         const name = mat.name.toLowerCase();
-        const isEmissive =
-          mat.emissiveIntensity > 0.05 ||
+        const emis =
+          (mat.emissive.r + mat.emissive.g + mat.emissive.b > 0.01) ||
           name.includes("emiss") ||
+          (mat.emissiveIntensity ?? 0) > 0.05 ||
           mat.name === "Material.003";
+        const isEmissive = emis;
 
         if (isEmissive) {
-          mat.color.set("#e3e6ec");
+          // Glacial white core, soft glow. Respect baked base color elsewhere.
           mat.emissive.set("#e3e6ec");
           mat.emissiveIntensity = 0.35;
           mat.toneMapped = false;
-          mat.metalness = 0.8;
-          mat.roughness = 0.2;
+          mat.metalness = 0.0;
+          mat.roughness = 0.4;
           emissiveMats.push(mat);
-        } else if (mat.name === "Base") {
-          mat.color.set("#4e4744");
-          mat.metalness = 1.0;
-          mat.roughness = 0.5;
-        } else {
-          mat.color.set("#282827");
-          mat.metalness = 0.9;
-          mat.roughness = 0.55;
         }
+        // Non-emissive materials (steel housing, bronze coils) keep their
+        // baked Principled colors from the GLB.
       });
     });
 
