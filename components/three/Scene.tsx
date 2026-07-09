@@ -28,15 +28,11 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
       <Suspense fallback={null}>
         <Environment preset="studio" />
         <ReactorCore powerUp={powerUp} />
-        <EffectComposer>
-          <Bloom
-            intensity={0.12}
-            luminanceThreshold={0.95}
-            luminanceSmoothing={0.9}
-            mipmapBlur
-          />
+        {/* Bloom disabled while we tune reactor look; re-enable later if needed */}
+        {/* <EffectComposer>
+          <Bloom intensity={0.12} luminanceThreshold={0.95} luminanceSmoothing={0.9} mipmapBlur />
           <Vignette eskil={false} offset={0.35} darkness={0.85} />
-        </EffectComposer>
+        </EffectComposer> */}
       </Suspense>
     </Canvas>
   );
