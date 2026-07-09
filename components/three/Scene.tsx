@@ -2,6 +2,7 @@
 
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
+import { Environment } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { ACESFilmicToneMapping } from "three";
 import { ReactorCore } from "./ArcReactor";
@@ -25,6 +26,7 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
       frameloop="always"
     >
       <Suspense fallback={null}>
+        <Environment preset="city" />
         <ReactorCore powerUp={powerUp} />
         <EffectComposer>
           <Bloom
