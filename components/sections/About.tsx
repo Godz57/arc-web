@@ -84,8 +84,8 @@ export default function About() {
           <div className="flex flex-col items-center text-center md:items-start md:text-left">
             <div className="relative mb-8 h-40 w-40">
               <div className="absolute inset-0 rounded-full border-2 border-dashed border-hud-cyan/30 animate-[spin_12s_linear_infinite]" />
-              <div className="absolute inset-2 rounded-full border border-titan-gold/40" />
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-carbon font-orbitron text-4xl font-bold text-titan-gold text-glow-gold shadow-[0_0_30px_rgba(212,175,55,0.15)]">
+              <div className="absolute inset-2 rounded-full border border-chrome/40" />
+              <div className="flex h-full w-full items-center justify-center rounded-full bg-carbon font-orbitron text-4xl font-bold text-chrome text-glow-chrome shadow-[0_0_30px_rgba(184,192,208,0.15)]">
                 OP
               </div>
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded bg-carbon px-3 py-1 font-rajdhani text-[10px] uppercase tracking-widest text-hud-cyan border border-hud-cyan/20">
@@ -93,7 +93,7 @@ export default function About() {
               </div>
             </div>
 
-            <h3 className="font-orbitron text-xl font-semibold text-hud-cyan">
+            <h3 className="font-orbitron text-xl font-semibold text-chrome">
               Gabriel
             </h3>
             <p className="mt-2 max-w-sm font-rajdhani text-arc-blue/70">

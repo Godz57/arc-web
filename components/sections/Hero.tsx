@@ -94,7 +94,7 @@ export default function Hero() {
       >
         <motion.h1
           variants={itemVariants}
-          className="font-orbitron text-4xl font-bold leading-tight text-titan-gold text-glow-gold md:text-6xl lg:text-7xl"
+          className="font-orbitron text-4xl font-bold leading-tight text-chrome text-glow-chrome md:text-6xl lg:text-7xl"
         >
           Construo sites que parecem tecnologia do futuro
         </motion.h1>

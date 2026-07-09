@@ -13,7 +13,7 @@ export default function Footer() {
     <footer className="border-t border-hud-cyan/10 bg-carbon py-10">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 md:flex-row">
         <div className="text-center md:text-left">
-          <h3 className="font-orbitron text-lg font-bold tracking-wider text-titan-gold text-glow-gold">
+          <h3 className="font-orbitron text-lg font-bold tracking-wider text-chrome text-glow-chrome">
             ARC WEB
           </h3>
           <p className="mt-1 text-sm text-arc-blue/60">

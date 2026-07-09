@@ -33,7 +33,7 @@ export default function Image() {
             position: "absolute",
             inset: 0,
             backgroundImage:
-              "linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px)",
+              "linear-gradient(rgba(185, 28, 44, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(185, 28, 44, 0.04) 1px, transparent 1px)",
             backgroundSize: "48px 48px",
           }}
         />
@@ -55,8 +55,8 @@ export default function Image() {
             width: 320,
             height: 320,
             borderRadius: "50%",
-            border: "2px solid rgba(0, 212, 255, 0.25)",
-            boxShadow: "0 0 60px rgba(0, 212, 255, 0.2)",
+            border: "2px solid rgba(77, 184, 255, 0.25)",
+            boxShadow: "0 0 60px rgba(77, 184, 255, 0.2)",
           }}
         />
         <div
@@ -65,7 +65,7 @@ export default function Image() {
             width: 240,
             height: 240,
             borderRadius: "50%",
-            border: "2px solid rgba(168, 230, 255, 0.2)",
+            border: "2px solid rgba(184, 192, 208, 0.2)",
           }}
         />
         <div
@@ -74,8 +74,8 @@ export default function Image() {
             width: 120,
             height: 120,
             borderRadius: "50%",
-            background: "rgba(168, 230, 255, 0.15)",
-            boxShadow: "0 0 80px rgba(0, 212, 255, 0.35)",
+            background: "rgba(207, 239, 255, 0.12)",
+            boxShadow: "0 0 80px rgba(77, 184, 255, 0.3)",
           }}
         />
 
@@ -96,8 +96,8 @@ export default function Image() {
               fontSize: 84,
               fontWeight: 800,
               letterSpacing: "0.15em",
-              color: "#d4af37",
-              textShadow: "0 0 30px rgba(212, 175, 55, 0.45)",
+              color: "#b8c0d0",
+              textShadow: "0 0 30px rgba(184, 192, 208, 0.45)",
             }}
           >
             ARC WEB
@@ -105,9 +105,9 @@ export default function Image() {
           <p
             style={{
               fontSize: 32,
-              color: "#a8e6ff",
+              color: "#cfefff",
               letterSpacing: "0.1em",
-              textShadow: "0 0 16px rgba(168, 230, 255, 0.35)",
+              textShadow: "0 0 16px rgba(207, 239, 255, 0.35)",
             }}
           >
             Sites que parecem tecnologia do futuro
@@ -116,12 +116,12 @@ export default function Image() {
             style={{
               marginTop: 24,
               padding: "10px 24px",
-              border: "1px solid rgba(0, 212, 255, 0.4)",
-              color: "#00d4ff",
+              border: "1px solid rgba(77, 184, 255, 0.4)",
+              color: "#4db8ff",
               fontSize: 18,
               letterSpacing: "0.2em",
               textTransform: "uppercase",
-              background: "rgba(0, 212, 255, 0.05)",
+              background: "rgba(77, 184, 255, 0.05)",
             }}
           >
             Establish Uplink

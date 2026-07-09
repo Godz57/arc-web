@@ -11,9 +11,11 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        "titan-gold": "#d4af37",
-        "hud-cyan": "#00d4ff",
-        "arc-blue": "#a8e6ff",
+        "titan-gold": "#b91c2c",
+        "hud-cyan": "#4db8ff",
+        "arc-blue": "#cfefff",
+        chrome: "#b8c0d0",
+        gunmetal: "#1a1f29",
         "red-alert": "#ff3b3b",
         carbon: "#0a0e14",
       },
@@ -23,7 +25,7 @@ const config: Config = {
       },
       backgroundImage: {
         "hud-grid":
-          "linear-gradient(rgba(110, 130, 160, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(110, 130, 160, 0.035) 1px, transparent 1px)",
+          "linear-gradient(rgba(160, 45, 55, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(160, 45, 55, 0.03) 1px, transparent 1px)",
       },
       backgroundSize: {
         "hud-grid": "48px 48px",

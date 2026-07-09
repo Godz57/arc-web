@@ -16,7 +16,7 @@ export default function SectionHeader({
           {label}
         </span>
       )}
-      <h2 className="font-orbitron text-3xl font-bold text-titan-gold text-glow-gold md:text-4xl">
+      <h2 className="font-orbitron text-3xl font-bold text-chrome text-glow-chrome md:text-4xl">
         {title}
       </h2>
       {subtitle && (

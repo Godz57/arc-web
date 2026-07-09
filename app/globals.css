@@ -4,14 +4,16 @@
 
 :root {
   --background: #0a0e14;
-  --foreground: #a8e6ff;
-  --titan-gold: #d4af37;
-  --hud-cyan: #00d4ff;
-  --arc-blue: #a8e6ff;
+  --foreground: #cfefff;
+  --titan-gold: #b91c2c;
+  --hud-cyan: #4db8ff;
+  --arc-blue: #cfefff;
+  --chrome: #b8c0d0;
+  --gunmetal: #1a1f29;
   --red-alert: #ff3b3b;
   --carbon: #0a0e14;
-  --grid-steel: rgba(110, 130, 160, 0.035);
-  --scan-steel: rgba(110, 130, 160, 0.025);
+  --grid-steel: rgba(160, 45, 55, 0.03);
+  --scan-steel: rgba(160, 45, 55, 0.025);
 }
 
 @layer base {
@@ -53,11 +55,15 @@
 
 @layer components {
   .text-glow-cyan {
-    text-shadow: 0 0 6px rgba(0, 212, 255, 0.45), 0 0 12px rgba(0, 212, 255, 0.2);
+    text-shadow: 0 0 6px rgba(77, 184, 255, 0.45), 0 0 12px rgba(77, 184, 255, 0.2);
   }
 
   .text-glow-gold {
-    text-shadow: 0 0 6px rgba(212, 175, 55, 0.4), 0 0 12px rgba(212, 175, 55, 0.18);
+    text-shadow: 0 0 6px rgba(185, 28, 44, 0.5), 0 0 12px rgba(185, 28, 44, 0.25);
+  }
+
+  .text-glow-chrome {
+    text-shadow: 0 0 6px rgba(184, 192, 208, 0.45), 0 0 12px rgba(184, 192, 208, 0.2);
   }
 
   .bg-hud-grid {
@@ -86,7 +92,7 @@
     background: rgba(10, 14, 20, 0.65);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(77, 184, 255, 0.1);
   }
 
   .header-fade {

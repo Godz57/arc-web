@@ -31,7 +31,7 @@ export default function Navbar() {
             e.preventDefault();
             handleLinkClick("#hero");
           }}
-          className="font-orbitron text-xl font-bold tracking-wider text-titan-gold text-glow-gold"
+          className="font-orbitron text-xl font-bold tracking-wider text-chrome text-glow-chrome"
           data-cursor="hover"
         >
           ARC WEB

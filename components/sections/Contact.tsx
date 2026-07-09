@@ -64,7 +64,7 @@ export default function Contact() {
               <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-hud-cyan/10 text-hud-cyan shadow-[0_0_16px_rgba(0,212,255,0.25)]">
                 <CheckCircle2 className="h-7 w-7" />
               </div>
-              <h3 className="font-orbitron text-xl font-bold text-titan-gold">
+              <h3 className="font-orbitron text-xl font-bold text-chrome">
                 TRANSMISSION SENT
               </h3>
               <p className="mt-2 font-rajdhani text-arc-blue/70">

@@ -9,6 +9,20 @@ interface ReactorCoreProps {
   powerUp?: boolean;
 }
 
+function createTriangleShape(radius: number) {
+  const shape = new THREE.Shape();
+  const angles = [-Math.PI / 2, Math.PI / 6, (5 * Math.PI) / 6];
+  const pts = angles.map((a) => ({
+    x: Math.cos(a) * radius,
+    y: Math.sin(a) * radius,
+  }));
+  shape.moveTo(pts[0].x, pts[0].y);
+  shape.lineTo(pts[1].x, pts[1].y);
+  shape.lineTo(pts[2].x, pts[2].y);
+  shape.lineTo(pts[0].x, pts[0].y);
+  return shape;
+}
+
 export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
   const shouldReduceMotion = useReducedMotion();
   const groupRef = useRef<THREE.Group>(null);
@@ -18,6 +32,17 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
   const powerUpRef = useRef(0);
   const targetPowerUpRef = useRef(0);
+
+  const apertureGeometry = useMemo(() => {
+    const outer = createTriangleShape(0.46);
+    const hole = createTriangleShape(0.3);
+    outer.holes.push(hole);
+    return new THREE.ExtrudeGeometry(outer, {
+      depth: 0.045,
+      bevelEnabled: false,
+      curveSegments: 24,
+    });
+  }, []);
 
   const coilCount = 10;
   const coilPositions = useMemo(() => {
@@ -89,8 +114,8 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
       const mat = coreRef.current.material as THREE.MeshStandardMaterial;
       if (mat) {
-        const baseIntensity = 1.6 + (shouldReduceMotion ? 0 : Math.sin(t * 3) * 0.15);
-        mat.emissiveIntensity = baseIntensity + powerUpRef.current * 1.4;
+        const baseIntensity = 1.4 + (shouldReduceMotion ? 0 : Math.sin(t * 3) * 0.12);
+        mat.emissiveIntensity = baseIntensity + powerUpRef.current * 1.2;
       }
     }
 
@@ -98,8 +123,8 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
     if (apertureRef.current) {
       const mat = apertureRef.current.material as THREE.MeshStandardMaterial;
       if (mat) {
-        const baseIntensity = 0.35;
-        mat.emissiveIntensity = baseIntensity + powerUpRef.current * 0.8;
+        const baseIntensity = 0.3;
+        mat.emissiveIntensity = baseIntensity + powerUpRef.current * 0.7;
       }
     }
   });
@@ -107,20 +132,20 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
   return (
     <group ref={groupRef}>
       {/* ambient base */}
-      <ambientLight intensity={0.15} />
+      <ambientLight intensity={0.12} />
 
       {/* core lights — soft, concentrated */}
-      <pointLight position={[0, 0, 1.2]} intensity={0.7} color="#e8f7ff" />
-      <pointLight position={[0, 0, -0.6]} intensity={0.25} color="#00d4ff" />
-      <pointLight position={[1.4, 1.4, 0.8]} intensity={0.4} color="#d4af37" />
+      <pointLight position={[0, 0, 1.2]} intensity={0.55} color="#e8f7ff" />
+      <pointLight position={[0, 0, -0.6]} intensity={0.2} color="#4db8ff" />
+      <pointLight position={[1.4, 1.4, 0.8]} intensity={0.35} color="#b8c0d0" />
 
-      {/* outer housing — dark gunmetal */}
+      {/* outer housing — dark metallic red */}
       <mesh>
         <torusGeometry args={[1.25, 0.14, 32, 120]} />
         <meshStandardMaterial
-          color="#1a1f29"
+          color="#7a121a"
           metalness={1.0}
-          roughness={0.42}
+          roughness={0.38}
         />
       </mesh>
 
@@ -134,15 +159,15 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
           >
             <cylinderGeometry args={[0.038, 0.038, 0.09, 12]} />
             <meshStandardMaterial
-              color="#3a404d"
+              color="#b8c0d0"
               metalness={1.0}
-              roughness={0.45}
+              roughness={0.35}
             />
           </mesh>
         ))}
       </group>
 
-      {/* inner recess ring — darker steel */}
+      {/* inner recess ring — gunmetal */}
       <mesh>
         <torusGeometry args={[1.0, 0.08, 24, 80]} />
         <meshStandardMaterial
@@ -152,7 +177,7 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
         />
       </mesh>
 
-      {/* radial coils — dark bronze/copper */}
+      {/* radial coils — dark bronze */}
       <group ref={coilsRef}>
         {coilPositions.map((coil, i) => (
           <mesh
@@ -162,21 +187,24 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
           >
             <cylinderGeometry args={[0.04, 0.04, 0.32, 16]} />
             <meshStandardMaterial
-              color="#5c4129"
+              color="#4a3020"
               metalness={1.0}
-              roughness={0.4}
+              roughness={0.42}
             />
           </mesh>
         ))}
       </group>
 
-      {/* aperture ring — faint cyan emissive */}
-      <mesh ref={apertureRef}>
-        <torusGeometry args={[0.42, 0.022, 16, 80]} />
+      {/* triangular aperture ring — faint blue emissive */}
+      <mesh
+        ref={apertureRef}
+        geometry={apertureGeometry}
+        position={[0, 0, -0.022]}
+      >
         <meshStandardMaterial
-          color="#00d4ff"
-          emissive="#00d4ff"
-          emissiveIntensity={0.35}
+          color="#4db8ff"
+          emissive="#4db8ff"
+          emissiveIntensity={0.3}
           metalness={0.8}
           roughness={0.2}
           toneMapped={false}
@@ -185,11 +213,11 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
       {/* core — bright white-blue, the main bloom source */}
       <mesh ref={coreRef}>
-        <sphereGeometry args={[0.28, 32, 32]} />
+        <sphereGeometry args={[0.26, 32, 32]} />
         <meshStandardMaterial
           color="#ffffff"
           emissive="#e8f7ff"
-          emissiveIntensity={1.6}
+          emissiveIntensity={1.4}
           metalness={1}
           roughness={0}
           toneMapped={false}
