@@ -55,7 +55,7 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
           mat.metalness = 0.0;
           mat.roughness = 0.4;
           mat.emissive.set("#00c8e0");
-          mat.emissiveIntensity = 0.12;
+          mat.emissiveIntensity = 0.08;
           emissiveMats.push(mat);
         }
         // Non-emissive materials (steel housing, bronze coils) keep their
@@ -99,7 +99,7 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
     }
 
     // pulse emissive intensity on all glowing materials
-    const baseIntensity = 0.12 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.03);
+    const baseIntensity = 0.08 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.02);
     const targetIntensity = baseIntensity + powerUpRef.current * 0.4;
 
     emissiveMaterialsRef.current.forEach((mat) => {
@@ -113,15 +113,11 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
   return (
     <group ref={groupRef}>
-      {/* neutral ambient so metal base colors read true */}
-      <ambientLight intensity={0.25} color="#9098a0" />
-
-      {/* cyan key on the core (cool tech reflection, no flare) */}
-      <pointLight position={[0, 0, 2]} intensity={0.22} color="#00c8e0" />
-      <pointLight position={[0, 0, -1]} intensity={0.08} color="#1a3d4a" />
-      {/* warm fill lights so copper/gold/wine metals catch warm reflections */}
-      <pointLight position={[2.5, 2, 1.5]} intensity={0.22} color="#e8b54a" />
-      <pointLight position={[-2.5, -1, 1.2]} intensity={0.18} color="#d97744" />
+      {/* flat matte lighting: low ambient, soft directional light for depth, no specular flares */}
+      <ambientLight intensity={0.6} color="#b8bcc4" />
+      <directionalLight position={[3, 4, 5]} intensity={0.5} color="#a8b0b8" />
+      <directionalLight position={[-3, -2, 3]} intensity={0.3} color="#5a6470" />
+      {/* only the core emissive gives the cyan accent — no colored reflection lights */}
 
       {/* real arc reactor model */}
       <primitive object={scene} ref={reactorRef} />
