@@ -113,14 +113,15 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
   return (
     <group ref={groupRef}>
-      {/* teal ambient base */}
-      <ambientLight intensity={0.25} color="#356b85" />
+      {/* neutral ambient so metal base colors read true */}
+      <ambientLight intensity={0.25} color="#9098a0" />
 
-      {/* cyan point lights give colored reflections on the metal (life, no flare) */}
-      <pointLight position={[0, 0, 2]} intensity={0.4} color="#00c8e0" />
+      {/* cyan key on the core (cool tech reflection, no flare) */}
+      <pointLight position={[0, 0, 2]} intensity={0.35} color="#00c8e0" />
       <pointLight position={[0, 0, -1]} intensity={0.12} color="#1a3d4a" />
-      <pointLight position={[2, 2, 1]} intensity={0.3} color="#00c8e0" />
-      <pointLight position={[-2, -1, 1]} intensity={0.2} color="#356b85" />
+      {/* warm fill lights so copper/gold/wine metals catch warm reflections */}
+      <pointLight position={[2.5, 2, 1.5]} intensity={0.35} color="#e8b54a" />
+      <pointLight position={[-2.5, -1, 1.2]} intensity={0.28} color="#d97744" />
 
       {/* real arc reactor model */}
       <primitive object={scene} ref={reactorRef} />
