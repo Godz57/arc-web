@@ -54,8 +54,8 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
           mat.toneMapped = false;
           mat.metalness = 0.0;
           mat.roughness = 0.4;
-          mat.emissive.set("#00c8e0");
-          mat.emissiveIntensity = 0.3;
+          mat.emissive.set("#d92630");
+          mat.emissiveIntensity = 0.5;
           emissiveMats.push(mat);
         }
         // Non-emissive materials (steel housing, bronze coils) keep their
@@ -99,7 +99,7 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
     }
 
     // pulse emissive intensity on all glowing materials
-    const baseIntensity = 0.3 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.05);
+    const baseIntensity = 0.5 + (shouldReduceMotion ? 0 : Math.sin(t * 2) * 0.08);
     const targetIntensity = baseIntensity + powerUpRef.current * 0.4;
 
     emissiveMaterialsRef.current.forEach((mat) => {
@@ -113,10 +113,10 @@ export function ReactorCore({ powerUp = false }: ReactorCoreProps) {
 
   return (
     <group ref={groupRef}>
-      {/* matte lighting: high ambient so albedo reads (no env reflections, no specular flare). White-ish lights to not tint the metals. */}
-      <ambientLight intensity={1.1} color="#cfd2d6" />
-      <directionalLight position={[3, 4, 5]} intensity={0.7} color="#d8dde2" />
-      <directionalLight position={[-3, -2, 3]} intensity={0.4} color="#9aa0a8" />
+      {/* matte lighting: mid neutral ambient so albedo (silver/red/copper/gold) reads without washing to white. Cool overcast tones. */}
+      <ambientLight intensity={0.75} color="#8e9499" />
+      <directionalLight position={[3, 4, 5]} intensity={0.5} color="#aeb4ba" />
+      <directionalLight position={[-3, -2, 3]} intensity={0.35} color="#5c646c" />
       {/* only the core emissive gives the cyan accent — no colored reflection lights */}
 
       {/* real arc reactor model */}
