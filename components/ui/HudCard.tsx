@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, ReactNode } from "react";
+import { useReducedMotion } from "framer-motion";
 import Scanlines from "./Scanlines";
 
 interface HudCardProps {
@@ -21,9 +22,12 @@ export default function HudCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState("");
   const [isHovering, setIsHovering] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  const tiltEnabled = tilt && !shouldReduceMotion;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!tilt || !cardRef.current) return;
+    if (!tiltEnabled || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;

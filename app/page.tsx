@@ -1,11 +1,29 @@
+import dynamic from "next/dynamic";
 import BootSequence from "@/components/sections/BootSequence";
 import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Services from "@/components/sections/Services";
-import Portfolio from "@/components/sections/Portfolio";
-import Process from "@/components/sections/Process";
-import Testimonials from "@/components/sections/Testimonials";
-import Contact from "@/components/sections/Contact";
+import SectionSkeleton from "@/components/ui/SectionSkeleton";
+
+const About = dynamic(() => import("@/components/sections/About"), {
+  loading: () => <SectionSkeleton id="about" />,
+});
+const Services = dynamic(() => import("@/components/sections/Services"), {
+  loading: () => <SectionSkeleton id="services" />,
+});
+const Portfolio = dynamic(() => import("@/components/sections/Portfolio"), {
+  loading: () => <SectionSkeleton id="portfolio" />,
+});
+const Process = dynamic(() => import("@/components/sections/Process"), {
+  loading: () => <SectionSkeleton id="process" />,
+});
+const Testimonials = dynamic(
+  () => import("@/components/sections/Testimonials"),
+  {
+    loading: () => <SectionSkeleton id="testimonials" />,
+  }
+);
+const Contact = dynamic(() => import("@/components/sections/Contact"), {
+  loading: () => <SectionSkeleton id="contact" />,
+});
 
 export default function Home() {
   return (
