@@ -26,7 +26,7 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
       frameloop="always"
     >
       <Suspense fallback={null}>
-        <Environment preset="warehouse" />
+        <Environment preset="studio" />
         <ReactorCore powerUp={powerUp} />
         <EffectComposer>
           <Bloom
