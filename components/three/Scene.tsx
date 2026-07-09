@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
-import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
+// EffectComposer/Bloom/Vignette temporarily disabled while tuning reactor look
 import { ACESFilmicToneMapping } from "three";
 import { ReactorCore } from "./ArcReactor";
 
