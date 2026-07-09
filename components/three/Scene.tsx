@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
+// Environment (HDRI) import disabled — relying on lights only for matte look
 // EffectComposer/Bloom/Vignette disabled to remove bloom flare
 import { ACESFilmicToneMapping } from "three";
 import { ReactorCore } from "./ArcReactor";
@@ -26,7 +26,7 @@ export default function Scene({ powerUp = false, className = "" }: SceneProps) {
       frameloop="always"
     >
       <Suspense fallback={null}>
-        <Environment preset="studio" />
+        {/* Environment (HDRI) disabled — it was causing mirror reflections on metals (the shine). Relying on flat lights only. */}
         <ReactorCore powerUp={powerUp} />
         {/* Bloom+Vignette disabled — matte metal look */}
       </Suspense>
