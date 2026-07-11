@@ -41,8 +41,8 @@ export default function Services() {
     >
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
-          label="Serviços"
-          title="Módulos holográficos"
+          label="Serviços de desenvolvimento web"
+          title="Landing pages, e-commerce e sistemas"
           subtitle="Cada módulo resolve um desafio real — com visual e engenharia no mesmo nível deste protótipo."
         />
 

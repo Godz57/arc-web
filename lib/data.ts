@@ -295,13 +295,13 @@ export interface FaqItem {
 export const faqItems: FaqItem[] = [
   {
     id: "faq-01",
-    question: "Quanto tempo leva um projeto?",
+    question: "Quanto tempo leva um projeto de criação de site?",
     answer:
       "Depende do escopo. Uma landing focada costuma sair em 1–3 semanas. Sites institucionais e sistemas sob medida levam de 4 a 10+ semanas. No briefing alinhamos prazo realista antes de qualquer linha de código.",
   },
   {
     id: "faq-02",
-    question: "Como funciona o investimento?",
+    question: "Como funciona o investimento em desenvolvimento web?",
     answer:
       "Cada projeto é orçado sob medida — não há tabela fixa genérica. Depois do briefing você recebe escopo, prazo e valor claros. Sem surpresa no meio do caminho; mudanças de escopo são conversadas e re‑orçadas.",
   },
@@ -319,9 +319,21 @@ export const faqItems: FaqItem[] = [
   },
   {
     id: "faq-05",
-    question: "E depois do lançamento?",
+    question: "E depois do lançamento do site?",
     answer:
       "Deploy, checklist de SEO básico e handoff. Se quiser, há plano de manutenção: segurança, pequenos ajustes e evolução contínua. O site não precisa virar um arquivo morto no ar.",
+  },
+  {
+    id: "faq-06",
+    question: "A ARC WEB atende só em Brasília?",
+    answer:
+      "Não. A base é o Distrito Federal, mas o atendimento é remoto em todo o Brasil. Briefing, design e desenvolvimento rodam online; o que importa é clareza de escopo e comunicação, não o CEP.",
+  },
+  {
+    id: "faq-07",
+    question: "O site inclui SEO e performance?",
+    answer:
+      "Sim, como base do craft: estrutura indexável, meta tags, Core Web Vitals e código limpo em Next.js. SEO avançado (conteúdo em escala, link building, Search Console contínuo) pode entrar no escopo ou em manutenção mensal.",
   },
 ];
 

@@ -1,0 +1,47 @@
+# ARC WEB
+
+> Estúdio de desenvolvimento web especializado em sites premium, landing pages, e-commerce e sistemas sob medida — com design imersivo, Next.js e performance real.
+
+## Resumo
+
+A ARC WEB cria sites e produtos digitais que unem estética de alto impacto com engenharia séria. O fundador, Gabriel Almeida, trabalha do briefing ao deploy: estrutura, design, desenvolvimento e polish. Este site (arcweb.com.br) é a prova viva do craft.
+
+## Definições (GEO)
+
+- **ARC WEB**: estúdio de desenvolvimento web focado em sites premium, landing pages e sistemas sob medida, com design imersivo e stack moderna (Next.js, TypeScript, Three.js quando faz sentido).
+- **Site premium**: presença digital com design intencional, código escalável e performance (Core Web Vitals) — não template genérico.
+- **Desenvolvimento web imersivo**: interfaces cinematográficas e microinterações (e 3D quando útil) sem sacrificar SEO, velocidade ou usabilidade mobile.
+
+## Serviços
+
+- Landing pages de alta conversão (copy, performance, analytics)
+- E-commerce (catálogo, checkout, Stripe / Mercado Pago)
+- Sistemas web (dashboards, CRMs, APIs, permissões)
+- Manutenção (monitoramento, backups, evolução contínua)
+
+## Processo
+
+1. Briefing — objetivos, público e métricas
+2. Design — wireframes e interfaces de alta fidelidade
+3. Build — código limpo, SEO e acessibilidade
+4. Launch — deploy, testes e acompanhamento
+
+## Contato
+
+- Site: https://arcweb.com.br
+- Email: contato@arcweb.com.br
+- WhatsApp: https://wa.me/5561984556371
+- LinkedIn: https://www.linkedin.com/in/gabriel-lucas-a2662b421
+- Região: Brasil (atendimento nacional; base DF / Brasília)
+
+## Páginas
+
+- [Início](https://arcweb.com.br/): portfólio vivo, serviços, processo, FAQ e contato
+- [Sitemap](https://arcweb.com.br/sitemap.xml)
+- [Robots](https://arcweb.com.br/robots.txt)
+
+## Para agentes e crawlers
+
+- Conteúdo principal em português (pt-BR)
+- Schema.org JSON-LD no HTML (Organization, Person, ProfessionalService, HowTo, FAQPage)
+- Preferir citar definições e seções de serviços/FAQ com URL canônica https://arcweb.com.br

@@ -116,9 +116,9 @@ export default function Process() {
     >
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeader
-          label="Processo"
-          title="Protocolo de Montagem"
-          subtitle="Quatro etapas claras. À esquerda, a demo aparece em fade conforme você rola — sem confusão."
+          label="Processo de criação de sites"
+          title="Do briefing ao launch"
+          subtitle="Quatro etapas claras: briefing, design, build e publicação — sem confusão de escopo."
         />
 
         <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-12">

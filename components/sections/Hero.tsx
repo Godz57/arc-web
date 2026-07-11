@@ -11,6 +11,7 @@ import {
   defaultWhatsappMessage,
   whatsappUrl,
 } from "@/lib/data";
+import { seoCopy } from "@/lib/seo";
 import {
   pulseReactor,
   subscribeReactorPulse,
@@ -246,16 +247,14 @@ export default function Hero() {
             variants={itemVariants}
             className="font-orbitron text-3xl font-semibold leading-[1.15] tracking-tight text-chrome sm:text-4xl lg:text-[2.75rem]"
           >
-            Construo sites que parecem tecnologia do futuro
+            {seoCopy.h1}
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
             className="mt-5 font-rajdhani text-base leading-relaxed text-arc-blue/70 sm:text-lg"
           >
-            Design imersivo, código limpo e interações memoráveis. O brilho ao
-            fundo é o mesmo cuidado técnico que levo para o seu projeto —
-            presente, sem roubar a cena.
+            {seoCopy.h1Support}
           </motion.p>
 
           <motion.div

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Orbitron, Rajdhani } from "next/font/google";
 import "./globals.css";
 
@@ -25,6 +25,16 @@ const rajdhani = Rajdhani({
 
 const siteUrl = getSiteUrl();
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0a0e14" },
+    { media: "(prefers-color-scheme: light)", color: "#0a0e14" },
+  ],
+  colorScheme: "dark",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -32,12 +42,18 @@ export const metadata: Metadata = {
     template: "%s | ARC WEB",
   },
   description: seoCopy.description,
+  applicationName: "ARC WEB",
   keywords: [...seoCopy.keywords],
-  authors: [{ name: "Gabriel Almeida" }, { name: "ARC WEB" }],
+  authors: [{ name: "Gabriel Almeida", url: siteUrl }],
   creator: "Gabriel Almeida",
   publisher: "ARC WEB",
+  category: "technology",
+  classification: "Web Design & Development",
   alternates: {
     canonical: "/",
+    types: {
+      "text/plain": [{ url: "/llms.txt", title: "llms.txt" }],
+    },
   },
   openGraph: {
     type: "website",
@@ -45,12 +61,21 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "ARC WEB",
     title: seoCopy.title,
-    description: seoCopy.description,
+    description: seoCopy.socialDescription,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "ARC WEB — Criação de sites premium e experiências web",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: seoCopy.title,
-    description: seoCopy.description,
+    description: seoCopy.socialDescription,
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -62,6 +87,11 @@ export const metadata: Metadata = {
       "max-snippet": -1,
       "max-video-preview": -1,
     },
+  },
+  other: {
+    "geo.region": "BR-DF",
+    "geo.placename": "Brasília",
+    "ICBM": "-15.793889, -47.882778",
   },
 };
 

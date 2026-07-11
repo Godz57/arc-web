@@ -9,6 +9,7 @@ import { useReducedMotion, motion } from "framer-motion";
 import { Code2, Palette, Sparkles } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { aboutContent, aboutPillars, stackTags } from "@/lib/data";
+import { geoDefinitions } from "@/lib/seo";
 
 const pillarIcons = {
   craft: Palette,
@@ -71,9 +72,9 @@ export default function About() {
     <section id="about" ref={sectionRef} className="relative py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeader
-          label="Sobre"
+          label="Sobre o estúdio"
           title="Quem está por trás da ARC WEB"
-          subtitle="Menos ficha de personagem. Mais clareza sobre como eu trabalho e o que entrego."
+          subtitle="Desenvolvimento web com design imersivo — clareza sobre como eu trabalho e o que entrego."
         />
 
         <div
@@ -125,6 +126,23 @@ export default function About() {
             <p className="mt-4 font-rajdhani text-sm leading-relaxed text-arc-blue/55 sm:text-base">
               {aboutContent.body}
             </p>
+
+            {/* GEO: standalone answer blocks for AI / organic extractability */}
+            <div className="mt-8 space-y-4 border-t border-hud-cyan/10 pt-6">
+              <p className="font-orbitron text-[10px] uppercase tracking-[0.22em] text-arc-blue/40">
+                Definições rápidas
+              </p>
+              {geoDefinitions.map((item) => (
+                <article key={item.term} className="space-y-1.5">
+                  <h4 className="font-orbitron text-xs font-semibold tracking-wide text-chrome/90 sm:text-sm">
+                    {item.question}
+                  </h4>
+                  <p className="font-rajdhani text-sm leading-relaxed text-arc-blue/65">
+                    {item.definition}
+                  </p>
+                </article>
+              ))}
+            </div>
 
             <div className="mt-8 border-t border-hud-cyan/10 pt-6">
               <p className="mb-3 font-orbitron text-[10px] uppercase tracking-[0.22em] text-arc-blue/40">

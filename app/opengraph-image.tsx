@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "ARC WEB — Sites que parecem tecnologia do futuro";
+export const alt = "ARC WEB — Criação de sites premium e experiências web";
 export const size = {
   width: 1200,
   height: 630,
@@ -192,7 +192,7 @@ export default function Image() {
                 maxWidth: 520,
               }}
             >
-              Sites que parecem tecnologia do futuro
+              Criação de sites premium e experiências web
             </div>
 
             <div

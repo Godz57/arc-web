@@ -84,8 +84,8 @@ export default function Footer() {
               </span>
             </a>
             <p className="mt-4 max-w-xs font-rajdhani text-sm leading-relaxed text-arc-blue/60">
-              Sites que parecem tecnologia do futuro. Design imersivo, código
-              limpo e entrega com polish — do briefing ao deploy.
+              Criação de sites premium, landing pages e sistemas web com design
+              imersivo e performance — do briefing ao deploy.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               {socials.map((link) => {
