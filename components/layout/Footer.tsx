@@ -15,6 +15,7 @@ import {
   whatsappUrl,
 } from "@/lib/data";
 import { playHud } from "@/lib/audio";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 const year = new Date().getFullYear();
 
@@ -97,7 +98,12 @@ export default function Footer() {
                     aria-label={link.label}
                     target={link.external ? "_blank" : undefined}
                     rel={link.external ? "noopener noreferrer" : undefined}
-                    onClick={() => playHud("click")}
+                    onClick={() => {
+                      playHud("click");
+                      if (link.label === "WhatsApp") {
+                        trackWhatsAppClick("footer");
+                      }
+                    }}
                     className="flex h-10 w-10 items-center justify-center rounded-sm border border-hud-cyan/15 text-arc-blue/65 transition-all hover:border-hud-cyan/40 hover:text-hud-cyan hover:shadow-[0_0_12px_rgba(0,212,255,0.15)]"
                   >
                     <Icon className="h-4 w-4" />

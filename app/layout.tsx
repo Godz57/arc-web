@@ -7,6 +7,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CinematicAtmosphere from "@/components/layout/CinematicAtmosphere";
 import JsonLd from "@/components/seo/JsonLd";
+import Analytics from "@/components/seo/Analytics";
 import { getSiteUrl, seoCopy } from "@/lib/seo";
 
 const orbitron = Orbitron({
@@ -148,6 +149,7 @@ export default function RootLayout({
         <main className="relative z-10 pt-20">{children}</main>
 
         <Footer />
+        <Analytics />
       </body>
     </html>
   );

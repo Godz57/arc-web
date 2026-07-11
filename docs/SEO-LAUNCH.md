@@ -152,6 +152,7 @@ Confirme em Production:
 | `NEXT_PUBLIC_GITHUB` | `https://github.com/Godz57` |
 | `NEXT_PUBLIC_LINKEDIN` | `https://www.linkedin.com/in/gabriel-lucas-a2662b421` |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | (após GSC, se usar tag HTML) |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | `G-XXXXXXXXXX` (GA4 Measurement ID) |
 
 ---
 

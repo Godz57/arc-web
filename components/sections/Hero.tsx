@@ -12,6 +12,7 @@ import {
   whatsappUrl,
 } from "@/lib/data";
 import { seoCopy } from "@/lib/seo";
+import { trackWhatsAppClick } from "@/lib/analytics";
 import {
   pulseReactor,
   subscribeReactorPulse,
@@ -267,7 +268,10 @@ export default function Hero() {
                 variant="secondary"
                 href={whatsappUrl(defaultWhatsappMessage)!}
                 target="_blank"
-                onClick={() => playHud("click")}
+                onClick={() => {
+                  playHud("click");
+                  trackWhatsAppClick("hero");
+                }}
               >
                 <span className="flex items-center gap-2">
                   <MessageCircle className="h-4 w-4" />

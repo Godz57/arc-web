@@ -9,6 +9,7 @@ import { Send, CheckCircle2, AlertTriangle, MessageCircle } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import HudButton from "@/components/ui/HudButton";
 import { playHud } from "@/lib/audio";
+import { trackContactSubmit, trackWhatsAppClick } from "@/lib/analytics";
 import { pulseReactor } from "@/lib/reactor-bus";
 import {
   defaultWhatsappMessage,
@@ -116,6 +117,7 @@ export default function Contact() {
       await transmitUplink(data);
       playHud("transmit");
       pulseReactor("transmit");
+      trackContactSubmit(data.project);
       setSubmitted(true);
       reset();
       setTimeout(() => setSubmitted(false), 6000);
@@ -293,7 +295,10 @@ export default function Contact() {
                       variant="secondary"
                       href={whatsappUrl(defaultWhatsappMessage)!}
                       target="_blank"
-                      onClick={() => playHud("click")}
+                      onClick={() => {
+                        playHud("click");
+                        trackWhatsAppClick("contact");
+                      }}
                       className="w-full sm:w-auto"
                     >
                       <span className="flex items-center justify-center gap-2">
