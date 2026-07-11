@@ -88,10 +88,13 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+  },
   other: {
     "geo.region": "BR-DF",
     "geo.placename": "Brasília",
-    "ICBM": "-15.793889, -47.882778",
+    ICBM: "-15.793889, -47.882778",
   },
 };
 

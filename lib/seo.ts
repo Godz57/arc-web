@@ -99,9 +99,19 @@ export function buildJsonLd(siteUrl: string = getSiteUrl()) {
   const serviceId = `${siteUrl}/#service`;
   const howtoId = `${siteUrl}/#howto`;
 
-  const sameAs = [siteContact.linkedin, siteContact.github].filter(
-    (url) => url && !url.endsWith("://github.com")
-  );
+  const sameAs = [siteContact.linkedin, siteContact.github].filter((url) => {
+    if (!url) return false;
+    try {
+      const host = new URL(url).hostname.replace(/^www\./, "");
+      // Skip empty placeholders like https://github.com (no user path)
+      if (host === "github.com" && new URL(url).pathname.replace(/\/$/, "") === "") {
+        return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  });
 
   const telephone = whatsappNumber
     ? `+${whatsappNumber.replace(/\D/g, "")}`
@@ -200,7 +210,8 @@ export function buildJsonLd(siteUrl: string = getSiteUrl()) {
         url: siteUrl,
         image: imageUrl,
         description: seoCopy.description,
-        provider: { "@id": orgId },
+        // brand / parent org (schema.org ProfessionalService → Organization)
+        brand: { "@id": orgId },
         founder: { "@id": personId },
         areaServed: [
           {
@@ -212,16 +223,14 @@ export function buildJsonLd(siteUrl: string = getSiteUrl()) {
             name: "Distrito Federal",
           },
         ],
-        availableLanguage: ["Portuguese", "pt-BR"],
         priceRange: "$$",
         ...(telephone ? { telephone } : {}),
         email: siteContact.email,
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Serviços de desenvolvimento web ARC WEB",
-          itemListElement: services.map((service, index) => ({
+          itemListElement: services.map((service) => ({
             "@type": "Offer",
-            position: index + 1,
             itemOffered: {
               "@type": "Service",
               name: service.title,

@@ -350,7 +350,9 @@ export const siteContact = {
     process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contato@arcweb.com.br"
   ).trim(),
   whatsapp: whatsappNumber,
-  github: (process.env.NEXT_PUBLIC_GITHUB ?? "https://github.com").trim(),
+  github: (
+    process.env.NEXT_PUBLIC_GITHUB ?? "https://github.com/Godz57"
+  ).trim(),
   linkedin: (
     process.env.NEXT_PUBLIC_LINKEDIN ??
     "https://www.linkedin.com/in/gabriel-lucas-a2662b421"

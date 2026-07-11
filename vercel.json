@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.arcweb.com.br"
+        }
+      ],
+      "destination": "https://arcweb.com.br/:path*",
+      "permanent": true
+    }
+  ]
+}

@@ -1,8 +1,12 @@
 # ARC WEB
 
+**Live:** [https://arcweb.com.br](https://arcweb.com.br)
+
 Site de captação de leads com estética de HUD holográfico inspirado na armadura do Homem de Ferro. Construído com **Next.js 14**, **React Three Fiber**, **Tailwind CSS**, **GSAP** e **Framer Motion**.
 
-> Design imersivo. Interações vivas. Tecnologia de ponta.
+> Criação de sites premium, landing pages e sistemas web com design imersivo e performance.
+
+Checklist operacional SEO/GEO: [`docs/SEO-LAUNCH.md`](./docs/SEO-LAUNCH.md)
 
 ---
 
