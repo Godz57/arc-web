@@ -210,9 +210,17 @@ export default function Footer() {
           <p className="font-rajdhani text-xs tracking-wider text-arc-blue/40">
             © {year} ARC WEB. ALL SYSTEMS OPERATIONAL.
           </p>
-          <p className="font-rajdhani text-xs tracking-wider text-arc-blue/30">
-            Built with intention · Next.js · R3F
-          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="/privacidade"
+              className="font-rajdhani text-xs tracking-wider text-arc-blue/40 transition-colors hover:text-hud-cyan"
+            >
+              Privacidade
+            </a>
+            <p className="font-rajdhani text-xs tracking-wider text-arc-blue/30">
+              Built with intention · Next.js · R3F
+            </p>
+          </div>
         </div>
       </div>
     </footer>
