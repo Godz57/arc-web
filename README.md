@@ -29,6 +29,7 @@ npm install
 
 # copie as variáveis de ambiente (opcional)
 cp .env.example .env.local
+# em .env.local: NEXT_PUBLIC_WEB3FORMS_KEY ou NEXT_PUBLIC_FORMSPREE_ID
 ```
 
 ---
@@ -89,10 +90,13 @@ arc-web/
 2. **Hero / Power Core** — arc reactor 3D pulsante com Bloom
 3. **About / Operator Profile** — ficha técnica do desenvolvedor
 4. **Services / Capabilities** — 4 módulos de serviço
-5. **Portfolio / Mission Log** — 6 projetos placeholder MARK I-VI
-6. **Process / Assembly Protocol** — etapas do processo em timeline
-7. **Testimonials / Field Reports** — depoimentos placeholder
-8. **Contact / Establish Uplink** — formulário com validação Zod
+5. **Portfolio / Mission Log** — 6 missões conceituais MARK I–VI (protótipos, não claims de cliente)
+6. **Process / Assembly Protocol** — timeline + suit-up 3D procedural no scroll
+7. **System Directives** — princípios de design (sem depoimentos inventados)
+8. **Contact / Establish Uplink** — formulário Zod + Web3Forms/Formspree (ou demo)
+
+### Áudio HUD
+Sons sintetizados via Web Audio API (zero MP3). Mute padrão **ON** — botão **AUDIO OFF/ON** no canto superior direito.
 
 ---
 
@@ -112,7 +116,7 @@ O projeto está pronto para deploy na **Vercel**:
 1. Faça push para o GitHub
 2. Importe o repositório em [vercel.com/new](https://vercel.com/new)
 3. O framework Next.js será detectado automaticamente
-4. Defina `NEXT_PUBLIC_SITE_URL` com o domínio de produção
+4. Defina `NEXT_PUBLIC_SITE_URL=https://arcweb.com.br` (e demais env de produção)
 
 ---
 

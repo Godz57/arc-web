@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { loadMutePreference, playHud } from "@/lib/audio";
+import { storageGet, storageSet } from "@/lib/safe-storage";
 
 const bootLines = [
   "> ARC WEB OS v3.0 BOOTING...",
@@ -31,18 +33,20 @@ export default function BootSequence() {
       return;
     }
 
-    const alreadyBooted = localStorage.getItem("arc_booted") === "1";
+    const alreadyBooted = storageGet("arc_booted") === "1";
     if (alreadyBooted) {
       setBooted(true);
       return;
     }
 
     setBooted(false);
+    loadMutePreference();
+    playHud("boot");
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         onComplete: () => {
-          localStorage.setItem("arc_booted", "1");
+          storageSet("arc_booted", "1");
           setBooted(true);
         },
       });
@@ -108,7 +112,7 @@ export default function BootSequence() {
       gsap.killTweensOf(containerRef.current);
       gsap.killTweensOf(linesRef.current);
       gsap.killTweensOf(progressRef.current);
-      localStorage.setItem("arc_booted", "1");
+      storageSet("arc_booted", "1");
       setBooted(true);
     }
   }, [skipByUser]);
@@ -162,7 +166,6 @@ export default function BootSequence() {
       <button
         onClick={() => setSkipByUser(true)}
         className="absolute bottom-8 right-8 font-orbitron text-xs uppercase tracking-[0.2em] text-hud-cyan transition-colors hover:text-titan-gold"
-        data-cursor="hover"
       >
         [ SKIP ]
       </button>

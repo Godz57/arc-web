@@ -48,7 +48,7 @@ export default function HudCard({
   return (
     <div
       ref={cardRef}
-      data-cursor="hover"
+
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={handleMouseLeave}

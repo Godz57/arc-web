@@ -18,9 +18,12 @@ const Process = dynamic(() => import("@/components/sections/Process"), {
 const Testimonials = dynamic(
   () => import("@/components/sections/Testimonials"),
   {
-    loading: () => <SectionSkeleton id="testimonials" />,
+    loading: () => <SectionSkeleton id="principles" />,
   }
 );
+const Faq = dynamic(() => import("@/components/sections/Faq"), {
+  loading: () => <SectionSkeleton id="faq" />,
+});
 const Contact = dynamic(() => import("@/components/sections/Contact"), {
   loading: () => <SectionSkeleton id="contact" />,
 });
@@ -35,6 +38,7 @@ export default function Home() {
       <Portfolio />
       <Process />
       <Testimonials />
+      <Faq />
       <Contact />
     </>
   );

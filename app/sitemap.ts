@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://arc-web.vercel.app";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://arcweb.com.br";
 
   return [
     {

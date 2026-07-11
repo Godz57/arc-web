@@ -1,37 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown, MessageCircle } from "lucide-react";
 import HudButton from "@/components/ui/HudButton";
+import ClientErrorBoundary from "@/components/ui/ClientErrorBoundary";
+import { playHud } from "@/lib/audio";
+import {
+  defaultWhatsappMessage,
+  whatsappUrl,
+} from "@/lib/data";
+import {
+  pulseReactor,
+  subscribeReactorPulse,
+  subscribeReactorStatus,
+  type ReactorSiteStatus,
+} from "@/lib/reactor-bus";
 
 const Scene = dynamic(() => import("@/components/three/Scene"), {
   ssr: false,
-  loading: () => (
-    <div
-      className="flex h-full w-full items-center justify-center"
-      aria-hidden="true"
-    >
-      <div className="h-32 w-32 rounded-full bg-hud-cyan/10 shadow-[0_0_60px_rgba(0,212,255,0.15)]" />
-    </div>
-  ),
+  loading: () => null,
 });
+
+const STATUS_LABEL: Record<ReactorSiteStatus, string> = {
+  online: "Core online",
+  overdrive: "Core overdrive",
+  assembled: "Sistema montado",
+  uplink: "Canal aberto",
+};
 
 export default function Hero() {
   const [powerUp, setPowerUp] = useState(false);
+  const [panelPulse, setPanelPulse] = useState(false);
+  const [status, setStatus] = useState<ReactorSiteStatus>("online");
   const shouldReduceMotion = useReducedMotion();
 
+  useEffect(() => {
+    const unsubPulse = subscribeReactorPulse((kind) => {
+      setPowerUp(true);
+      setPanelPulse(true);
+      const hold = kind === "transmit" ? 2200 : kind === "assemble" ? 1400 : 900;
+      window.setTimeout(() => setPowerUp(false), Math.min(hold, 1000));
+      window.setTimeout(() => setPanelPulse(false), hold);
+    });
+    const unsubStatus = subscribeReactorStatus(setStatus);
+    return () => {
+      unsubPulse();
+      unsubStatus();
+    };
+  }, []);
+
   const handlePowerUp = () => {
-    setPowerUp(true);
-    setTimeout(() => setPowerUp(false), 600);
+    playHud("power");
+    pulseReactor("power");
   };
 
   const scrollToContact = () => {
-    const el = document.querySelector("#contact");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+    playHud("click");
+    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToProcess = () => {
+    playHud("click");
+    document.querySelector("#process")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToWork = () => {
+    playHud("click");
+    document.querySelector("#portfolio")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const containerVariants = {
@@ -39,185 +76,244 @@ export default function Hero() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: shouldReduceMotion ? 0 : 0.15,
-        delayChildren: shouldReduceMotion ? 0 : 0.4,
+        staggerChildren: shouldReduceMotion ? 0 : 0.1,
+        delayChildren: shouldReduceMotion ? 0 : 0.15,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 30 },
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: shouldReduceMotion ? 0 : 0.8,
+        duration: shouldReduceMotion ? 0 : 0.65,
         ease: [0.22, 1, 0.36, 1],
       },
     },
   };
 
-  const diagnostics = [
-    { label: "POWER CORE", value: "ONLINE", ok: true },
-    { label: "OUTPUT", value: "8.0 GJ/s", ok: true },
-    { label: "REPULSORS", value: "STANDBY", ok: false },
-    { label: "TEMP", value: "42°C", ok: true },
-  ];
-  const metrics = [
-    { label: "DESIGN", pct: 99 },
-    { label: "BUILD", pct: 97 },
-    { label: "DEPLOY", pct: 95 },
-  ];
+  const labelVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: shouldReduceMotion ? 0 : 0.8, delay: 0.4 },
+    },
+  };
 
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="relative flex min-h-[calc(100vh-4rem)] items-center overflow-hidden"
     >
-      {/* 3D reactor background */}
+      {/* Reactor as discreet full-bleed backdrop */}
       <div
-        className="absolute inset-0 z-0 cursor-crosshair"
-        onClick={handlePowerUp}
-        aria-label="Arc reactor 3D interativo"
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") handlePowerUp();
-        }}
+        className="absolute inset-0 z-0 opacity-[0.4] sm:opacity-[0.45]"
+        aria-hidden="true"
       >
-        <Scene powerUp={powerUp} className="h-full w-full" />
+        <div className="absolute inset-0 scale-110 sm:translate-x-[14%] sm:scale-100 lg:translate-x-[20%]">
+          <ClientErrorBoundary name="HeroScene" fallback={null}>
+            <Scene
+              variant="background"
+              powerUp={powerUp}
+              onPowerUp={handlePowerUp}
+              className="h-full w-full"
+            />
+          </ClientErrorBoundary>
+        </div>
       </div>
 
-      {/* vignette overlay — stronger on sides so side panels pop */}
+      {/* Readability scrim — stronger on the left only, keep reactor clear on the right */}
       <div
-        className="absolute inset-0 z-[1] pointer-events-none"
+        className="pointer-events-none absolute inset-0 z-[1]"
+        aria-hidden="true"
         style={{
-          background:
-            "linear-gradient(to right, rgba(10,14,20,0.85) 0%, rgba(10,14,20,0.15) 22%, rgba(10,14,20,0.15) 78%, rgba(10,14,20,0.85) 100%), radial-gradient(circle at center, rgba(10,14,20,0.05) 0%, rgba(10,14,20,0.5) 60%, rgba(10,14,20,0.9) 100%)",
+          background: `
+            linear-gradient(90deg,
+              rgba(10,14,20,0.94) 0%,
+              rgba(10,14,20,0.82) 32%,
+              rgba(10,14,20,0.28) 58%,
+              rgba(10,14,20,0.2) 78%,
+              rgba(10,14,20,0.45) 100%),
+            radial-gradient(ellipse 50% 55% at 70% 48%,
+              rgba(0,180,255,0.05) 0%,
+              transparent 60%),
+            linear-gradient(to top, rgba(10,14,20,0.7) 0%, transparent 26%)
+          `,
         }}
       />
 
-      {/* JARVIS-style layout: HUD left | reactor center (free) | HUD right */}
-      <div className="relative z-10 grid w-full min-h-screen grid-cols-1 items-stretch gap-4 px-4 py-24 md:grid-cols-[1fr_minmax(320px,2fr)_1fr] md:px-8 md:py-16">
-
-        {/* LEFT — diagnostics / terminal */}
-        <motion.aside
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="hidden flex-col justify-center gap-3 md:flex"
-          aria-hidden="true"
-        >
-          <motion.div variants={itemVariants} className="glass-panel scanlines relative px-4 py-3">
-            <div className="flex items-center gap-2 border-b border-hud-cyan/20 pb-2">
-              <span className="h-1.5 w-1.5 animate-pulse bg-titan-gold shadow-[0_0_6px_#b91c1c]" />
-              <span className="font-orbitron text-[10px] uppercase tracking-[0.25em] text-hud-cyan/80">
-                System Diagnostics
-              </span>
-            </div>
-            <ul className="mt-2 space-y-1.5 font-rajdhani text-sm">
-              {diagnostics.map((d) => (
-                <motion.li key={d.label} variants={itemVariants} className="flex items-center justify-between gap-3">
-                  <span className="text-arc-blue/50 text-[11px] uppercase tracking-wider">{d.label}</span>
-                  <span className={d.ok ? "text-hud-cyan/90" : "text-titan-gold/90"}>
-                    {d.value}
-                  </span>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="glass-panel relative px-4 py-3">
-            <span className="font-orbitron text-[10px] uppercase tracking-[0.25em] text-hud-cyan/80">
-              Performance Metrics
-            </span>
-            <ul className="mt-2 space-y-2 font-rajdhani text-xs text-arc-blue/70">
-              {metrics.map((m) => (
-                <li key={m.label}>
-                  <div className="flex items-center justify-between">
-                    <span className="uppercase tracking-wider">{m.label}</span>
-                    <span className="text-hud-cyan/70">{m.pct}%</span>
-                  </div>
-                  <div className="mt-1 h-[3px] w-full overflow-hidden bg-hud-cyan/10">
-                    <motion.div
-                      className="h-full bg-hud-cyan/70 shadow-[0_0_6px_rgba(77,184,255,0.6)]"
-                      initial={{ width: 0 }}
-                      animate={{ width: shouldReduceMotion ? `${m.pct}%` : `${m.pct}%` }}
-                      transition={{ delay: 1, duration: shouldReduceMotion ? 0 : 1.2, ease: "easeOut" }}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        </motion.aside>
-
-        {/* CENTER — reactor only (free for 3D, no text on top) */}
-        <div className="pointer-events-none relative col-span-1 md:col-start-2 md:col-end-3" aria-hidden="true" />
-
-        {/* RIGHT — identity + CTA (replaces centered title) */}
-        <motion.aside
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col items-start justify-center gap-4"
-        >
-          <motion.span
-            variants={itemVariants}
-            className="font-rajdhani text-[11px] uppercase tracking-[0.4em] text-hud-cyan/60"
+      {/* Labels floating around the reactor (right half) — no card covering it */}
+      <motion.div
+        variants={labelVariants}
+        initial="hidden"
+        animate="visible"
+        className="pointer-events-none absolute inset-0 z-[2] hidden md:block"
+        aria-hidden="true"
+      >
+        {/* Top-right of reactor zone */}
+        <div className="absolute right-[7%] top-[20%] max-w-[14rem] text-right lg:right-[11%] lg:top-[18%]">
+          <p className="font-orbitron text-[11px] uppercase tracking-[0.26em] text-hud-cyan/70 drop-shadow-[0_1px_8px_rgba(10,14,20,0.9)]">
+            Protótipo vivo
+          </p>
+          <p
+            className={`mt-1.5 inline-flex items-center gap-2 font-orbitron text-xs uppercase tracking-[0.14em] text-hud-cyan drop-shadow-[0_1px_10px_rgba(10,14,20,0.95)] sm:text-sm ${
+              panelPulse ? "drop-shadow-[0_0_12px_rgba(77,184,255,0.55)]" : ""
+            }`}
           >
-            ARC WEB // FREELANCE DEV
-          </motion.span>
+            <span
+              className={`h-2 w-2 rounded-full bg-hud-cyan shadow-[0_0_8px_rgba(77,184,255,0.7)] ${
+                panelPulse ? "animate-pulse shadow-[0_0_12px_#4db8ff]" : ""
+              }`}
+            />
+            {STATUS_LABEL[status]}
+          </p>
+        </div>
+
+        {/* Mid-right */}
+        <div className="absolute right-[4%] top-[46%] max-w-[11rem] text-right lg:right-[7%]">
+          <p className="font-rajdhani text-xs uppercase tracking-[0.22em] text-arc-blue/55 drop-shadow-[0_1px_8px_rgba(10,14,20,0.9)]">
+            Stack
+          </p>
+          <p className="mt-1 font-orbitron text-sm tracking-wide text-arc-blue/85 drop-shadow-[0_1px_10px_rgba(10,14,20,0.95)] sm:text-base">
+            Next · R3F
+          </p>
+        </div>
+
+        {/* Lower-right */}
+        <div className="absolute bottom-[27%] right-[9%] max-w-[12rem] text-right lg:bottom-[25%] lg:right-[12%]">
+          <p className="font-rajdhani text-xs uppercase tracking-[0.22em] text-arc-blue/55 drop-shadow-[0_1px_8px_rgba(10,14,20,0.9)]">
+            Papel
+          </p>
+          <p className="mt-1 font-orbitron text-sm tracking-wide text-arc-blue/85 drop-shadow-[0_1px_10px_rgba(10,14,20,0.95)] sm:text-base">
+            Ambiente vivo
+          </p>
+        </div>
+
+        {/* Lower-center near core */}
+        <div className="absolute bottom-[16%] left-[50%] max-w-[14rem] lg:left-[54%]">
+          <p className="font-rajdhani text-xs leading-relaxed text-arc-blue/55 drop-shadow-[0_1px_8px_rgba(10,14,20,0.9)] sm:text-sm">
+            Clique no núcleo para power-up
+          </p>
+          <button
+            type="button"
+            onClick={scrollToProcess}
+            className="pointer-events-auto mt-2.5 inline-flex items-center gap-1.5 font-orbitron text-[11px] uppercase tracking-[0.16em] text-hud-cyan/85 transition-colors hover:text-hud-cyan drop-shadow-[0_1px_8px_rgba(10,14,20,0.9)]"
+          >
+            Ver processo
+            <ArrowRight className="h-3.5 w-3.5" />
+          </button>
+        </div>
+
+        {/* Thin orbital frame marks around reactor zone */}
+        <span className="absolute right-[18%] top-[30%] h-5 w-5 border-l border-t border-hud-cyan/25 lg:right-[22%]" />
+        <span className="absolute bottom-[32%] right-[16%] h-5 w-5 border-b border-r border-hud-cyan/25 lg:right-[20%]" />
+      </motion.div>
+
+      {/* Mobile-only compact status */}
+      <div className="pointer-events-none absolute bottom-20 right-6 z-[2] text-right md:hidden">
+        <p className="inline-flex items-center gap-2 font-orbitron text-[11px] uppercase tracking-wider text-hud-cyan/85 drop-shadow-[0_1px_8px_rgba(10,14,20,0.95)]">
+          <span className="h-2 w-2 rounded-full bg-hud-cyan shadow-[0_0_8px_rgba(77,184,255,0.7)]" />
+          {STATUS_LABEL[status]}
+        </p>
+      </div>
+
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16 md:py-20">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex max-w-xl flex-col items-start"
+        >
+          <motion.div
+            variants={itemVariants}
+            className="mb-5 inline-flex items-center gap-2 rounded-sm border border-hud-cyan/15 bg-carbon/40 px-3 py-1 backdrop-blur-sm"
+          >
+            <span
+              className={`h-1.5 w-1.5 rounded-full ${
+                panelPulse
+                  ? "bg-hud-cyan shadow-[0_0_12px_rgba(0,212,255,0.9)]"
+                  : "bg-hud-cyan/80"
+              }`}
+            />
+            <span className="font-rajdhani text-[11px] uppercase tracking-[0.28em] text-hud-cyan/70">
+              ARC WEB · Sites premium
+            </span>
+          </motion.div>
 
           <motion.h1
             variants={itemVariants}
-            className="font-orbitron text-3xl font-bold leading-tight text-chrome text-glow-chrome md:text-5xl"
+            className="font-orbitron text-3xl font-semibold leading-[1.15] tracking-tight text-chrome sm:text-4xl lg:text-[2.75rem]"
           >
             Construo sites que parecem tecnologia do futuro
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
-            className="max-w-sm font-rajdhani text-lg text-arc-blue/80"
+            className="mt-5 font-rajdhani text-base leading-relaxed text-arc-blue/70 sm:text-lg"
           >
-            Design imersivo. Interações vivas. Tecnologia de ponta.
+            Design imersivo, código limpo e interações memoráveis. O brilho ao
+            fundo é o mesmo cuidado técnico que levo para o seu projeto —
+            presente, sem roubar a cena.
           </motion.p>
 
           <motion.div
             variants={itemVariants}
-            className="flex flex-col items-start gap-3 sm:flex-row"
+            className="mt-8 flex flex-wrap items-center gap-3"
           >
-            <HudButton onClick={scrollToContact}>Establish Uplink</HudButton>
+            <HudButton onClick={scrollToContact}>Iniciar projeto</HudButton>
+            {whatsappUrl(defaultWhatsappMessage) ? (
+              <HudButton
+                variant="secondary"
+                href={whatsappUrl(defaultWhatsappMessage)!}
+                target="_blank"
+                onClick={() => playHud("click")}
+              >
+                <span className="flex items-center gap-2">
+                  <MessageCircle className="h-4 w-4" />
+                  WhatsApp
+                </span>
+              </HudButton>
+            ) : (
+              <button
+                type="button"
+                onClick={scrollToWork}
+                className="inline-flex items-center gap-2 border border-transparent px-4 py-3 font-orbitron text-xs uppercase tracking-[0.16em] text-arc-blue/55 transition-colors hover:text-hud-cyan"
+              >
+                Ver trabalhos
+                <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+            )}
           </motion.div>
 
-          <motion.p
+          <motion.ul
             variants={itemVariants}
-            className="text-xs text-arc-blue/40"
+            className="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-rajdhani text-xs uppercase tracking-[0.18em] text-arc-blue/40"
           >
-            Clique no reactor para power-up
-          </motion.p>
-        </motion.aside>
+            <li>Landing pages</li>
+            <li className="text-hud-cyan/25">·</li>
+            <li>Sistemas web</li>
+            <li className="text-hud-cyan/25">·</li>
+            <li>Experiências 3D</li>
+          </motion.ul>
+        </motion.div>
       </div>
 
-      {/* scroll hint */}
       <motion.div
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
-        animate={shouldReduceMotion ? undefined : { y: [0, 8, 0] }}
+        className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2"
+        animate={shouldReduceMotion ? undefined : { y: [0, 6, 0] }}
         transition={
           shouldReduceMotion
             ? undefined
-            : {
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }
+            : { duration: 2.2, repeat: Infinity, ease: "easeInOut" }
         }
       >
-        <div className="flex flex-col items-center gap-2 text-arc-blue/50">
-          <span className="font-rajdhani text-[10px] uppercase tracking-[0.3em]">
+        <div className="flex flex-col items-center gap-1.5 text-arc-blue/35">
+          <span className="font-rajdhani text-[10px] uppercase tracking-[0.28em]">
             Scroll
           </span>
-          <ChevronDown className="h-5 w-5" />
+          <ChevronDown className="h-4 w-4" />
         </div>
       </motion.div>
     </section>

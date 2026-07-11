@@ -1,13 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Send, CheckCircle2 } from "lucide-react";
+import { Send, CheckCircle2, AlertTriangle, MessageCircle } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import HudButton from "@/components/ui/HudButton";
+import { playHud } from "@/lib/audio";
+import { pulseReactor } from "@/lib/reactor-bus";
+import {
+  defaultWhatsappMessage,
+  whatsappUrl,
+} from "@/lib/data";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Identificação mínima: 2 caracteres"),
@@ -18,9 +24,82 @@ const contactSchema = z.object({
 
 type ContactForm = z.infer<typeof contactSchema>;
 
+/**
+ * Web3Forms is submitted from the browser (key is public by design).
+ * Cloudflare often challenges server-side Node IPs → client path is reliable.
+ * Other providers still go through /api/contact.
+ */
+async function transmitUplink(data: ContactForm): Promise<void> {
+  const web3Key = process.env.NEXT_PUBLIC_WEB3FORMS_KEY?.trim();
+
+  if (web3Key) {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        access_key: web3Key,
+        subject: `[ARC WEB] Uplink — ${data.project}`,
+        from_name: data.name,
+        name: data.name,
+        email: data.email,
+        replyto: data.email,
+        project: data.project,
+        message: data.message,
+        botcheck: "",
+      }),
+    });
+
+    const text = await res.text();
+    let json: { success?: boolean; message?: string } = {};
+    try {
+      json = JSON.parse(text) as { success?: boolean; message?: string };
+    } catch {
+      throw new Error(
+        "Web3Forms retornou resposta inválida. Confira a access key e o e-mail no dashboard."
+      );
+    }
+
+    if (!res.ok || !json.success) {
+      throw new Error(json.message || `Web3Forms HTTP ${res.status}`);
+    }
+    return;
+  }
+
+  // Fallback: server API (Formspree / FormSubmit / server Web3Forms)
+  const res = await fetch("/api/contact", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const json = (await res.json().catch(() => ({}))) as {
+    success?: boolean;
+    message?: string;
+  };
+
+  if (!res.ok || !json.success) {
+    throw new Error(
+      json.message || `Falha no uplink (HTTP ${res.status}).`
+    );
+  }
+}
+
 export default function Contact() {
   const shouldReduceMotion = useReducedMotion();
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const configured = useMemo(
+    () => Boolean(process.env.NEXT_PUBLIC_WEB3FORMS_KEY?.trim()),
+    []
+  );
+
   const {
     register,
     handleSubmit,
@@ -31,13 +110,22 @@ export default function Contact() {
   });
 
   const onSubmit = async (data: ContactForm) => {
-    // Simulate uplink transmission without backend
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-    // eslint-disable-next-line no-console
-    console.log("TRANSMISSION RECEIVED:", data);
-    setSubmitted(true);
-    reset();
-    setTimeout(() => setSubmitted(false), 5000);
+    setSubmitError(null);
+    playHud("click");
+    try {
+      await transmitUplink(data);
+      playHud("transmit");
+      pulseReactor("transmit");
+      setSubmitted(true);
+      reset();
+      setTimeout(() => setSubmitted(false), 6000);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error
+          ? err.message
+          : "Canal instável. Tente novamente."
+      );
+    }
   };
 
   const inputBase =
@@ -47,9 +135,9 @@ export default function Contact() {
     <section id="contact" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-3xl px-6">
         <SectionHeader
-          label="Establish Uplink"
-          title="Abrir Canal de Comunicação"
-          subtitle="Preencha os campos do terminal. Sua transmissão será recebida e respondida em até 24 horas."
+          label="Contato"
+          title="Vamos construir o seu próximo site"
+          subtitle="Conte o objetivo, o prazo e o tipo de projeto. Resposta em até 24 horas."
         />
 
         <AnimatePresence mode="wait">
@@ -65,11 +153,10 @@ export default function Contact() {
                 <CheckCircle2 className="h-7 w-7" />
               </div>
               <h3 className="font-orbitron text-xl font-bold text-chrome">
-                TRANSMISSION SENT
+                Mensagem enviada
               </h3>
               <p className="mt-2 font-rajdhani text-arc-blue/70">
-                Uplink estabelecido com sucesso. Aguarde confirmação no canal de
-                e-mail informado.
+                Recebi seu contato. Em breve retorno no e-mail informado.
               </p>
             </motion.div>
           ) : (
@@ -83,6 +170,27 @@ export default function Contact() {
               className="glass-panel rounded-sm border border-hud-cyan/15 p-6 md:p-10"
               noValidate
             >
+              {!configured && (
+                <div className="mb-6 flex items-start gap-2 rounded-sm border border-titan-gold/25 bg-titan-gold/5 px-3 py-2 text-xs text-titan-gold/90">
+                  <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  <span>
+                    UPLINK OFFLINE — defina{" "}
+                    <code className="text-hud-cyan">
+                      NEXT_PUBLIC_WEB3FORMS_KEY
+                    </code>{" "}
+                    em <code className="text-hud-cyan">.env.local</code> e
+                    reinicie o servidor.
+                  </span>
+                </div>
+              )}
+
+              {configured && (
+                <div className="mb-6 flex items-center gap-2 rounded-sm border border-hud-cyan/20 bg-hud-cyan/5 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-hud-cyan/80">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-hud-cyan shadow-[0_0_6px_#4db8ff]" />
+                  Canal ativo · web3forms
+                </div>
+              )}
+
               <div className="space-y-6">
                 <div>
                   <label
@@ -171,29 +279,49 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="mt-8 flex items-center justify-between gap-4">
-                <p className="hidden text-xs text-arc-blue/40 sm:block">
+              {submitError && (
+                <p className="mt-4 text-sm text-red-alert">{submitError}</p>
+              )}
+
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs text-arc-blue/40">
                   Todos os campos são obrigatórios.
                 </p>
-                <HudButton
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full sm:w-auto"
-                >
-                  <span className="flex items-center justify-center gap-2">
-                    {isSubmitting ? (
-                      <>
-                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-arc-blue/30 border-t-hud-cyan" />
-                        ENVIANDO...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="h-4 w-4" />
-                        ENVIAR
-                      </>
-                    )}
-                  </span>
-                </HudButton>
+                <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+                  {whatsappUrl(defaultWhatsappMessage) && (
+                    <HudButton
+                      variant="secondary"
+                      href={whatsappUrl(defaultWhatsappMessage)!}
+                      target="_blank"
+                      onClick={() => playHud("click")}
+                      className="w-full sm:w-auto"
+                    >
+                      <span className="flex items-center justify-center gap-2">
+                        <MessageCircle className="h-4 w-4" />
+                        WhatsApp
+                      </span>
+                    </HudButton>
+                  )}
+                  <HudButton
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      {isSubmitting ? (
+                        <>
+                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-arc-blue/30 border-t-hud-cyan" />
+                          ENVIANDO...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4" />
+                          ENVIAR
+                        </>
+                      )}
+                    </span>
+                  </HudButton>
+                </div>
               </div>
             </motion.form>
           )}

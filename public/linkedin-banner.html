@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ARC WEB — LinkedIn Cover</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1584px;
+        height: 396px;
+        overflow: hidden;
+        background: #0a0e14;
+      }
+
+      .banner {
+        position: relative;
+        width: 1584px;
+        height: 396px;
+        background: #0a0e14;
+        overflow: hidden;
+        font-family: "Rajdhani", sans-serif;
+        color: #a8e6ff;
+      }
+
+      /* Deep base gradient */
+      .base {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 55% 90% at 50% 50%,
+            rgba(12, 28, 42, 0.95) 0%,
+            #0a0e14 70%
+          ),
+          #0a0e14;
+      }
+
+      /* Blueprint grid — center focus */
+      .grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(0, 212, 255, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 212, 255, 0.045) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(
+          ellipse 70% 100% at 50% 50%,
+          black 15%,
+          transparent 72%
+        );
+      }
+
+      /* Soft ambient */
+      .glow-center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 700px;
+        height: 700px;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(
+          circle,
+          rgba(0, 212, 255, 0.14) 0%,
+          rgba(0, 212, 255, 0.04) 40%,
+          transparent 68%
+        );
+      }
+
+      .glow-gold {
+        position: absolute;
+        left: 18%;
+        bottom: -30%;
+        width: 380px;
+        height: 380px;
+        background: radial-gradient(
+          circle,
+          rgba(212, 175, 55, 0.1) 0%,
+          transparent 70%
+        );
+      }
+
+      .glow-right {
+        position: absolute;
+        right: 8%;
+        top: -20%;
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 180, 255, 0.1) 0%,
+          transparent 70%
+        );
+      }
+
+      /* Top accent bar */
+      .top-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        display: flex;
+        z-index: 5;
+      }
+
+      .top-bar span:nth-child(1) {
+        flex: 1;
+        background: rgba(0, 212, 255, 0.12);
+      }
+      .top-bar span:nth-child(2) {
+        width: 280px;
+        background: #00d4ff;
+        box-shadow: 0 0 18px rgba(0, 212, 255, 0.65);
+      }
+      .top-bar span:nth-child(3) {
+        width: 120px;
+        background: #d4af37;
+      }
+      .top-bar span:nth-child(4) {
+        flex: 1;
+        background: rgba(212, 175, 55, 0.18);
+      }
+
+      .scan {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1px;
+        z-index: 5;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 212, 255, 0.4) 25%,
+          rgba(212, 175, 55, 0.3) 50%,
+          rgba(0, 212, 255, 0.4) 75%,
+          transparent
+        );
+      }
+
+      /* Corner brackets — subtle */
+      .corner {
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        border-color: rgba(0, 212, 255, 0.4);
+        border-style: solid;
+        z-index: 5;
+      }
+      .corner.tl {
+        top: 18px;
+        left: 24px;
+        border-width: 2px 0 0 2px;
+      }
+      .corner.tr {
+        top: 18px;
+        right: 24px;
+        border-width: 2px 2px 0 0;
+      }
+      .corner.bl {
+        bottom: 18px;
+        left: 24px;
+        border-width: 0 0 2px 2px;
+      }
+      .corner.br {
+        bottom: 18px;
+        right: 24px;
+        border-width: 0 2px 2px 0;
+      }
+
+      /*
+        CENTER STAGE — LinkedIn avatar sits bottom-left of the banner.
+        Keep all primary text in the horizontal center so it stays readable.
+      */
+      .center-stage {
+        position: absolute;
+        left: 50%;
+        top: 48%;
+        transform: translate(-50%, -50%);
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 900px;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 12px;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: rgba(0, 212, 255, 0.78);
+        font-weight: 500;
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #00d4ff;
+        box-shadow: 0 0 10px rgba(0, 212, 255, 0.95);
+      }
+
+      .logo {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 68px;
+        letter-spacing: 0.16em;
+        line-height: 1;
+        color: #eef4fa;
+        text-shadow:
+          0 0 28px rgba(0, 212, 255, 0.4),
+          0 0 56px rgba(0, 212, 255, 0.18);
+      }
+
+      .logo em {
+        font-style: normal;
+        color: #d4af37;
+        text-shadow:
+          0 0 22px rgba(212, 175, 55, 0.5),
+          0 0 44px rgba(212, 175, 55, 0.18);
+      }
+
+      .tagline {
+        margin-top: 14px;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        color: rgba(168, 230, 255, 0.8);
+        line-height: 1.3;
+      }
+
+      .meta {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        font-family: "Orbitron", sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(0, 212, 255, 0.55);
+      }
+
+      .meta .sep {
+        width: 1px;
+        height: 11px;
+        background: rgba(0, 212, 255, 0.28);
+      }
+
+      /* ============ REACTOR (right of center, behind/beside text) ============ */
+      .reactor-wrap {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        /* sit slightly right & large as hero backdrop element */
+        width: 340px;
+        height: 340px;
+        transform: translate(calc(-50% + 320px), -50%);
+        z-index: 2;
+        opacity: 0.95;
+      }
+
+      /* second faint reactor left for balance (won't clash with avatar much) */
+      .reactor-ghost {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 220px;
+        height: 220px;
+        transform: translate(calc(-50% - 380px), -50%);
+        z-index: 1;
+        opacity: 0.22;
+        filter: blur(0.5px);
+      }
+
+      .reactor {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .ring {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      /* Outer armor ring */
+      .r1 {
+        width: 92%;
+        height: 92%;
+        border: 2px solid rgba(0, 212, 255, 0.28);
+        box-shadow:
+          0 0 28px rgba(0, 212, 255, 0.12),
+          inset 0 0 40px rgba(0, 212, 255, 0.06);
+        background: radial-gradient(
+          circle,
+          transparent 58%,
+          rgba(0, 40, 60, 0.35) 78%,
+          transparent 100%
+        );
+      }
+
+      /* Gold structural ring */
+      .r2 {
+        width: 74%;
+        height: 74%;
+        border: 1.5px solid rgba(212, 175, 55, 0.45);
+        box-shadow:
+          0 0 18px rgba(212, 175, 55, 0.12),
+          inset 0 0 20px rgba(212, 175, 55, 0.06);
+      }
+
+      /* Cyan energy ring */
+      .r3 {
+        width: 56%;
+        height: 56%;
+        border: 2px solid rgba(0, 212, 255, 0.55);
+        box-shadow:
+          0 0 22px rgba(0, 212, 255, 0.35),
+          inset 0 0 28px rgba(0, 212, 255, 0.12);
+      }
+
+      /* Inner shell */
+      .r4 {
+        width: 38%;
+        height: 38%;
+        border: 1.5px solid rgba(168, 230, 255, 0.4);
+        background: radial-gradient(
+          circle,
+          rgba(0, 212, 255, 0.08) 0%,
+          transparent 70%
+        );
+      }
+
+      /* Core */
+      .core {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 18%;
+        height: 18%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 32% 28%,
+          #ffffff 0%,
+          #b8f0ff 18%,
+          #00d4ff 42%,
+          #0077a8 72%,
+          #0a0e14 100%
+        );
+        box-shadow:
+          0 0 20px rgba(0, 212, 255, 1),
+          0 0 48px rgba(0, 212, 255, 0.65),
+          0 0 90px rgba(0, 212, 255, 0.35),
+          0 0 130px rgba(0, 180, 255, 0.18);
+      }
+
+      .core-halo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 28%;
+        height: 28%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(0, 212, 255, 0.35) 0%,
+          transparent 70%
+        );
+        filter: blur(4px);
+      }
+
+      /* Tick marks around outer ring */
+      .ticks {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 1px;
+        height: 1px;
+      }
+
+      .ticks i {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 2px;
+        height: 14px;
+        margin-left: -1px;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 212, 255, 0.75),
+          rgba(0, 212, 255, 0.1)
+        );
+        transform: rotate(var(--a)) translateY(-156px);
+        transform-origin: 50% 0;
+      }
+
+      /* Arc segments (gaps in rings) via conic-ish fake with borders */
+      .segment {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 88%;
+        height: 88%;
+        transform: translate(-50%, -50%) rotate(-20deg);
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-top-color: rgba(0, 212, 255, 0.55);
+        border-right-color: rgba(0, 212, 255, 0.15);
+        box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+      }
+
+      .segment-gold {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 70%;
+        height: 70%;
+        transform: translate(-50%, -50%) rotate(40deg);
+        border-radius: 50%;
+        border: 2px solid transparent;
+        border-bottom-color: rgba(212, 175, 55, 0.55);
+        border-left-color: rgba(212, 175, 55, 0.2);
+      }
+
+      /* Small orbiting nodes */
+      .node {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #00d4ff;
+        box-shadow: 0 0 10px rgba(0, 212, 255, 0.9);
+        left: 50%;
+        top: 50%;
+        margin: -4px 0 0 -4px;
+      }
+
+      .node.n1 {
+        transform: rotate(25deg) translateY(-155px);
+      }
+      .node.n2 {
+        transform: rotate(155deg) translateY(-155px);
+        background: #d4af37;
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.9);
+      }
+      .node.n3 {
+        transform: rotate(280deg) translateY(-155px);
+      }
+
+      /* Crosshair lines through reactor */
+      .cross {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 100%;
+        height: 100%;
+        transform: translate(-50%, -50%);
+        opacity: 0.2;
+      }
+
+      .cross::before,
+      .cross::after {
+        content: "";
+        position: absolute;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 212, 255, 0.6),
+          transparent
+        );
+      }
+
+      .cross::before {
+        left: 5%;
+        right: 5%;
+        top: 50%;
+        height: 1px;
+      }
+
+      .cross::after {
+        top: 5%;
+        bottom: 5%;
+        left: 50%;
+        width: 1px;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(0, 212, 255, 0.6),
+          transparent
+        );
+      }
+
+      .vignette {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        background: radial-gradient(
+          ellipse 85% 110% at 50% 50%,
+          transparent 35%,
+          rgba(10, 14, 20, 0.45) 100%
+        );
+      }
+
+      /* Left zone intentionally quieter for avatar */
+      .avatar-fade {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 28%;
+        z-index: 3;
+        background: linear-gradient(
+          90deg,
+          rgba(10, 14, 20, 0.35) 0%,
+          transparent 100%
+        );
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner" id="banner">
+      <div class="base"></div>
+      <div class="grid"></div>
+      <div class="glow-center"></div>
+      <div class="glow-gold"></div>
+      <div class="glow-right"></div>
+
+      <div class="top-bar">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="scan"></div>
+
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+
+      <!-- Ghost reactor left (decorative, low opacity) -->
+      <div class="reactor-ghost">
+        <div class="reactor">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <div class="core-halo"></div>
+          <div class="core"></div>
+        </div>
+      </div>
+
+      <!-- Main reactor right of center -->
+      <div class="reactor-wrap">
+        <div class="reactor">
+          <div class="cross"></div>
+          <div class="ring r1"></div>
+          <div class="segment"></div>
+          <div class="ring r2"></div>
+          <div class="segment-gold"></div>
+          <div class="ring r3"></div>
+          <div class="ring r4"></div>
+          <div class="ticks">
+            <i style="--a: 0deg"></i>
+            <i style="--a: 30deg"></i>
+            <i style="--a: 60deg"></i>
+            <i style="--a: 90deg"></i>
+            <i style="--a: 120deg"></i>
+            <i style="--a: 150deg"></i>
+            <i style="--a: 180deg"></i>
+            <i style="--a: 210deg"></i>
+            <i style="--a: 240deg"></i>
+            <i style="--a: 270deg"></i>
+            <i style="--a: 300deg"></i>
+            <i style="--a: 330deg"></i>
+          </div>
+          <div class="node n1"></div>
+          <div class="node n2"></div>
+          <div class="node n3"></div>
+          <div class="core-halo"></div>
+          <div class="core"></div>
+        </div>
+      </div>
+
+      <div class="vignette"></div>
+      <div class="avatar-fade"></div>
+
+      <!-- Text dead-center so profile photo (bottom-left) doesn't cover it -->
+      <div class="center-stage">
+        <div class="status">
+          <span class="status-dot"></span>
+          System online
+        </div>
+        <div class="logo">ARC <em>WEB</em></div>
+        <p class="tagline">Sites que parecem tecnologia do futuro</p>
+        <div class="meta">
+          <span>Front-end</span>
+          <span class="sep"></span>
+          <span>Next.js</span>
+          <span class="sep"></span>
+          <span>Interfaces imersivas</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

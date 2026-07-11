@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Orbitron, Rajdhani } from "next/font/google";
 import "./globals.css";
 
-import CursorCustomizado from "@/components/layout/CursorCustomizado";
 import HUDOverlay from "@/components/layout/HUDOverlay";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import CinematicAtmosphere from "@/components/layout/CinematicAtmosphere";
 
 const orbitron = Orbitron({
   variable: "--font-orbitron",
@@ -21,7 +21,7 @@ const rajdhani = Rajdhani({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://arc-web.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://arcweb.com.br";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     "portfólio",
     "freelance",
   ],
-  authors: [{ name: "ARC WEB" }],
+  authors: [{ name: "Gabriel Almeida" }, { name: "ARC WEB" }],
   openGraph: {
     type: "website",
     locale: "pt_BR",
@@ -100,7 +100,9 @@ export default function RootLayout({
           aria-hidden="true"
         />
 
-        <CursorCustomizado />
+        {/* circuits + code streams on edges (non-interactive) */}
+        <CinematicAtmosphere />
+
         <HUDOverlay />
         <Navbar />
 
