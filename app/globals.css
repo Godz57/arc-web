@@ -298,6 +298,151 @@
   }
 }
 
+/* ── Boot sequence (cinematic HUD) ── */
+@keyframes boot-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes boot-spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes boot-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+
+@keyframes boot-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes boot-sweep {
+  0% {
+    top: 8%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    top: 92%;
+    opacity: 0;
+  }
+}
+
+@keyframes boot-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.boot-ring-spin {
+  animation: boot-spin 8s linear infinite;
+}
+
+.boot-ring-spin-slow {
+  animation: boot-spin 14s linear infinite;
+}
+
+.boot-ring-spin-reverse {
+  animation: boot-spin-rev 6s linear infinite;
+}
+
+.boot-core-pulse {
+  animation: boot-pulse 1.6s ease-in-out infinite;
+}
+
+.boot-reactor-glow {
+  animation: boot-glow 2.2s ease-in-out infinite;
+}
+
+.boot-scan-sweep {
+  animation: boot-sweep 2.8s ease-in-out infinite;
+}
+
+.boot-bar-shimmer {
+  animation: boot-shimmer 1.4s linear infinite;
+}
+
+.boot-ticks {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 8deg,
+    rgba(77, 184, 255, 0.35) 8deg 10deg,
+    transparent 10deg 28deg,
+    rgba(77, 184, 255, 0.2) 28deg 30deg,
+    transparent 30deg 48deg,
+    rgba(77, 184, 255, 0.35) 48deg 50deg,
+    transparent 50deg 68deg,
+    rgba(77, 184, 255, 0.2) 68deg 70deg,
+    transparent 70deg 88deg,
+    rgba(77, 184, 255, 0.35) 88deg 90deg,
+    transparent 90deg 108deg,
+    rgba(77, 184, 255, 0.2) 108deg 110deg,
+    transparent 110deg 128deg,
+    rgba(77, 184, 255, 0.35) 128deg 130deg,
+    transparent 130deg 148deg,
+    rgba(77, 184, 255, 0.2) 148deg 150deg,
+    transparent 150deg 168deg,
+    rgba(77, 184, 255, 0.35) 168deg 170deg,
+    transparent 170deg 188deg,
+    rgba(77, 184, 255, 0.2) 188deg 190deg,
+    transparent 190deg 208deg,
+    rgba(77, 184, 255, 0.35) 208deg 210deg,
+    transparent 210deg 228deg,
+    rgba(77, 184, 255, 0.2) 228deg 230deg,
+    transparent 230deg 248deg,
+    rgba(77, 184, 255, 0.35) 248deg 250deg,
+    transparent 250deg 268deg,
+    rgba(77, 184, 255, 0.2) 268deg 270deg,
+    transparent 270deg 288deg,
+    rgba(77, 184, 255, 0.35) 288deg 290deg,
+    transparent 290deg 308deg,
+    rgba(77, 184, 255, 0.2) 308deg 310deg,
+    transparent 310deg 328deg,
+    rgba(77, 184, 255, 0.35) 328deg 330deg,
+    transparent 330deg 348deg,
+    rgba(77, 184, 255, 0.2) 348deg 350deg,
+    transparent 350deg 360deg
+  );
+  animation: boot-spin 20s linear infinite;
+  mask-image: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 3px),
+    #000 calc(100% - 2px)
+  );
+  -webkit-mask-image: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 3px),
+    #000 calc(100% - 2px)
+  );
+}
+
 /* Hide edge effects on small screens — keep mobile clean */
 @media (max-width: 900px) {
   .cinematic-atmosphere__code,
