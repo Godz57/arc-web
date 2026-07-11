@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { faqItems } from "@/lib/data";
@@ -59,35 +59,27 @@ export default function Faq() {
                     />
                   </button>
 
-                  <AnimatePresence initial={false}>
-                    {open && (
-                      <motion.div
-                        id={`faq-panel-${item.id}`}
-                        role="region"
-                        aria-labelledby={`faq-trigger-${item.id}`}
-                        initial={
-                          shouldReduceMotion
-                            ? { opacity: 1, height: "auto" }
-                            : { opacity: 0, height: 0 }
-                        }
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={
-                          shouldReduceMotion
-                            ? { opacity: 0 }
-                            : { opacity: 0, height: 0 }
-                        }
-                        transition={{
-                          duration: shouldReduceMotion ? 0 : 0.28,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                        className="overflow-hidden"
-                      >
-                        <p className="border-t border-hud-cyan/10 px-5 pb-5 pt-3 font-rajdhani text-sm leading-relaxed text-arc-blue/70 md:px-6 md:pl-[3.25rem]">
-                          {item.answer}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {/*
+                    Answers always stay in the DOM (SEO / crawlers).
+                    Collapse is pure CSS grid — no conditional unmount.
+                  */}
+                  <div
+                    id={`faq-panel-${item.id}`}
+                    role="region"
+                    aria-labelledby={`faq-trigger-${item.id}`}
+                    aria-hidden={!open}
+                    className={`grid transition-[grid-template-rows] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      shouldReduceMotion
+                        ? "duration-0"
+                        : "duration-300"
+                    } ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+                  >
+                    <div className="min-h-0 overflow-hidden">
+                      <p className="border-t border-hud-cyan/10 px-5 pb-5 pt-3 font-rajdhani text-sm leading-relaxed text-arc-blue/70 md:px-6 md:pl-[3.25rem]">
+                        {item.answer}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </li>
             );

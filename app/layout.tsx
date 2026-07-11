@@ -6,6 +6,8 @@ import HUDOverlay from "@/components/layout/HUDOverlay";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CinematicAtmosphere from "@/components/layout/CinematicAtmosphere";
+import JsonLd from "@/components/seo/JsonLd";
+import { getSiteUrl, seoCopy } from "@/lib/seo";
 
 const orbitron = Orbitron({
   variable: "--font-orbitron",
@@ -21,43 +23,45 @@ const rajdhani = Rajdhani({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://arcweb.com.br";
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "ARC WEB | Sites que parecem tecnologia do futuro",
+    default: seoCopy.title,
     template: "%s | ARC WEB",
   },
-  description:
-    "ARC WEB é o portfólio vivo de uma agência/dev freelance especializada em criar sites premium, interativos e imersivos com design de nível Awwwards.",
-  keywords: [
-    "desenvolvimento web",
-    "sites premium",
-    "Next.js",
-    "React Three Fiber",
-    "portfólio",
-    "freelance",
-  ],
+  description: seoCopy.description,
+  keywords: [...seoCopy.keywords],
   authors: [{ name: "Gabriel Almeida" }, { name: "ARC WEB" }],
+  creator: "Gabriel Almeida",
+  publisher: "ARC WEB",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "pt_BR",
     url: "/",
     siteName: "ARC WEB",
-    title: "ARC WEB | Sites que parecem tecnologia do futuro",
-    description:
-      "Design imersivo, interações vivas e tecnologia de ponta para quem quer um site que parece tecnologia do futuro.",
+    title: seoCopy.title,
+    description: seoCopy.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "ARC WEB | Sites que parecem tecnologia do futuro",
-    description:
-      "Design imersivo, interações vivas e tecnologia de ponta para quem quer um site que parece tecnologia do futuro.",
+    title: seoCopy.title,
+    description: seoCopy.description,
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -72,6 +76,8 @@ export default function RootLayout({
       className={`${orbitron.variable} ${rajdhani.variable} h-full antialiased`}
     >
       <body className="relative min-h-full bg-carbon font-rajdhani text-arc-blue">
+        <JsonLd />
+
         {/* background grid */}
         <div
           className="fixed inset-0 -z-10 bg-hud-grid"
