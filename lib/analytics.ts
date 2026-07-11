@@ -1,49 +1,65 @@
 /**
- * Google Analytics 4 helpers.
+ * Analytics helpers — GTM + GA4.
  *
- * Measurement ID: NEXT_PUBLIC_GA_MEASUREMENT_ID (e.g. G-XXXXXXXXXX).
- * Fallback hardcode keeps production tracking alive if env is missing
- * on a given deploy (NEXT_PUBLIC is public anyway).
+ * GTM container: NEXT_PUBLIC_GTM_ID (e.g. GTM-XXXXXXX)
+ * GA4 stream:    NEXT_PUBLIC_GA_MEASUREMENT_ID (e.g. G-XXXXXXXXXX)
+ *
+ * When GTM is installed, keep GA4 either:
+ *  - via direct gtag on the site (current setup), OR
+ *  - via a GA4 Configuration tag inside GTM
+ * …but not both for the same Measurement ID (double pageviews).
+ *
+ * Set NEXT_PUBLIC_GA_VIA_GTM=true only after GA4 is configured inside GTM;
+ * that disables the direct gtag loader.
  */
 
-/** Production GA4 stream — ARC WEB */
+export const GTM_ID_FALLBACK = "GTM-KN4DLJ2W";
 export const GA_MEASUREMENT_ID_FALLBACK = "G-CGLHP3YJXN";
+
+export function getGtmId(): string | undefined {
+  const fromEnv = process.env.NEXT_PUBLIC_GTM_ID?.trim();
+  if (fromEnv && fromEnv.startsWith("GTM-")) return fromEnv;
+  if (process.env.NODE_ENV === "production") return GTM_ID_FALLBACK;
+  return fromEnv?.startsWith("GTM-") ? fromEnv : GTM_ID_FALLBACK;
+}
 
 export function getGaId(): string | undefined {
   const fromEnv = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
   if (fromEnv && fromEnv.startsWith("G-")) return fromEnv;
-  // Prefer env in all environments; only fall back in production builds
-  if (process.env.NODE_ENV === "production") {
-    return GA_MEASUREMENT_ID_FALLBACK;
-  }
+  if (process.env.NODE_ENV === "production") return GA_MEASUREMENT_ID_FALLBACK;
   return undefined;
 }
 
-type GtagFn = (
-  command: "event" | "config" | "js" | "set" | "consent",
-  ...args: unknown[]
-) => void;
+/** When true, GA4 is expected to fire only from GTM (no direct gtag). */
+export function isGaViaGtm(): boolean {
+  return process.env.NEXT_PUBLIC_GA_VIA_GTM === "true";
+}
 
 declare global {
   interface Window {
     dataLayer?: unknown[];
-    gtag?: GtagFn;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
-function gtag(): GtagFn | undefined {
-  if (typeof window === "undefined") return undefined;
-  return typeof window.gtag === "function" ? window.gtag : undefined;
-}
-
-/** Fire a GA4 event when the tag is loaded */
+/**
+ * Push custom events to dataLayer (GTM) and gtag (direct GA) when present.
+ */
 export function trackEvent(
   name: string,
   params?: Record<string, string | number | boolean | undefined>
 ) {
-  const send = gtag();
-  if (!send) return;
-  send("event", name, params);
+  if (typeof window === "undefined") return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: name,
+    ...params,
+  });
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", name, params);
+  }
 }
 
 export function trackContactSubmit(projectType?: string) {

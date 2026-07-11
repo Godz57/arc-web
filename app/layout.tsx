@@ -7,7 +7,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CinematicAtmosphere from "@/components/layout/CinematicAtmosphere";
 import JsonLd from "@/components/seo/JsonLd";
-import Analytics from "@/components/seo/Analytics";
+import Analytics, { GtmNoscript } from "@/components/seo/Analytics";
 import { getSiteUrl, seoCopy } from "@/lib/seo";
 
 const orbitron = Orbitron({
@@ -110,6 +110,8 @@ export default function RootLayout({
       className={`${orbitron.variable} ${rajdhani.variable} h-full antialiased`}
     >
       <body className="relative min-h-full bg-carbon font-rajdhani text-arc-blue">
+        {/* GTM noscript — first child of body (Google recommendation) */}
+        <GtmNoscript />
         <JsonLd />
 
         {/* background grid */}
