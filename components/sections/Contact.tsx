@@ -19,6 +19,14 @@ import {
 const contactSchema = z.object({
   name: z.string().min(2, "Identificação mínima: 2 caracteres"),
   email: z.string().email("Endereço de uplink inválido"),
+  whatsapp: z
+    .string()
+    .optional()
+    .refine((val) => {
+      if (!val?.trim()) return true;
+      const digits = val.replace(/\D/g, "");
+      return digits.length >= 10 && digits.length <= 13;
+    }, "WhatsApp inválido (use DDD + número)"),
   project: z.string().min(2, "Descreva o tipo de missão"),
   message: z.string().min(10, "Mensagem deve ter pelo menos 10 caracteres"),
 });
@@ -47,6 +55,7 @@ async function transmitUplink(data: ContactForm): Promise<void> {
         name: data.name,
         email: data.email,
         replyto: data.email,
+        whatsapp: data.whatsapp,
         project: data.project,
         message: data.message,
         botcheck: "",
@@ -158,7 +167,8 @@ export default function Contact() {
                 Mensagem enviada
               </h3>
               <p className="mt-2 font-rajdhani text-arc-blue/70">
-                Recebi seu contato. Em breve retorno no e-mail informado.
+                Recebi seu contato. Em breve retorno no e-mail ou WhatsApp
+                informado.
               </p>
             </motion.div>
           ) : (
@@ -240,6 +250,32 @@ export default function Contact() {
 
                 <div>
                   <label
+                    htmlFor="whatsapp"
+                    className="mb-1 block font-rajdhani text-xs uppercase tracking-[0.2em] text-hud-cyan/80"
+                  >
+                    {`> WHATSAPP:`}{" "}
+                    <span className="normal-case tracking-normal text-arc-blue/40">
+                      (opcional)
+                    </span>
+                  </label>
+                  <input
+                    id="whatsapp"
+                    type="tel"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    placeholder="(61) 99999-9999"
+                    className={inputBase}
+                    {...register("whatsapp")}
+                  />
+                  {errors.whatsapp && (
+                    <p className="mt-1 text-xs text-red-alert">
+                      {errors.whatsapp.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label
                     htmlFor="project"
                     className="mb-1 block font-rajdhani text-xs uppercase tracking-[0.2em] text-hud-cyan/80"
                   >
@@ -287,7 +323,7 @@ export default function Contact() {
 
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs text-arc-blue/40">
-                  Todos os campos são obrigatórios.
+                  Campos obrigatórios, exceto WhatsApp.
                 </p>
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
                   {whatsappUrl(defaultWhatsappMessage) && (

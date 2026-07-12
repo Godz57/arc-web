@@ -4,6 +4,14 @@ import { z } from "zod";
 const contactSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
+  whatsapp: z
+    .string()
+    .optional()
+    .refine((val) => {
+      if (!val?.trim()) return true;
+      const digits = val.replace(/\D/g, "");
+      return digits.length >= 10 && digits.length <= 13;
+    }),
   project: z.string().min(2),
   message: z.string().min(10),
 });
@@ -115,6 +123,7 @@ async function sendWeb3Forms(data: z.infer<typeof contactSchema>) {
       name: data.name,
       email: data.email,
       replyto: data.email,
+      whatsapp: data.whatsapp,
       project: data.project,
       message: data.message,
     }),
@@ -140,6 +149,7 @@ async function sendFormspree(data: z.infer<typeof contactSchema>) {
     body: JSON.stringify({
       name: data.name,
       email: data.email,
+      whatsapp: data.whatsapp,
       project: data.project,
       message: data.message,
       _subject: `[ARC WEB] Uplink — ${data.project}`,
@@ -164,6 +174,7 @@ async function sendFormSubmit(data: z.infer<typeof contactSchema>) {
     body: JSON.stringify({
       name: data.name,
       email: data.email,
+      whatsapp: data.whatsapp,
       project: data.project,
       message: data.message,
       _subject: `[ARC WEB] Uplink — ${data.project}`,
