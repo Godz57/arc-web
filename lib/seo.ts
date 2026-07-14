@@ -91,7 +91,7 @@ export const geoDefinitions = [
  */
 export function buildJsonLd(siteUrl: string = getSiteUrl()) {
   const logoUrl = `${siteUrl}/icon.svg`;
-  const imageUrl = `${siteUrl}/opengraph-image`;
+  const imageUrl = `${siteUrl}/og-preview.png`;
   const orgId = `${siteUrl}/#organization`;
   const personId = `${siteUrl}/#person`;
   const websiteId = `${siteUrl}/#website`;

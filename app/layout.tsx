@@ -63,11 +63,13 @@ export const metadata: Metadata = {
     siteName: "ARC WEB",
     title: seoCopy.title,
     description: seoCopy.socialDescription,
+    // Static PNG — WhatsApp/Telegram falham com mais frequência em rotas dinâmicas /opengraph-image
     images: [
       {
-        url: "/opengraph-image",
+        url: "/og-preview.png",
         width: 1200,
         height: 630,
+        type: "image/png",
         alt: "ARC WEB — Criação de sites premium e experiências web",
       },
     ],
@@ -76,7 +78,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: seoCopy.title,
     description: seoCopy.socialDescription,
-    images: ["/opengraph-image"],
+    images: ["/og-preview.png"],
   },
   robots: {
     index: true,
