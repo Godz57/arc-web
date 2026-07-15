@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" role="img" aria-label="ARC WEB">
+  <!-- Official monogram: geometric A + cyan core (from brand mark 19) -->
+  <!-- Left leg + peak + upper right of A -->
+  <path
+    d="M28 78 L50 20 L62 48"
+    stroke="#ffffff"
+    stroke-width="3.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <!-- Diagonal crossbar (broken around core) -->
+  <path
+    d="M38 58 L46 52"
+    stroke="#ffffff"
+    stroke-width="3.2"
+    stroke-linecap="round"
+  />
+  <path
+    d="M58 44 L72 36"
+    stroke="#ffffff"
+    stroke-width="3.2"
+    stroke-linecap="round"
+  />
+  <!-- Lower right leg -->
+  <path
+    d="M58 52 L72 78"
+    stroke="#ffffff"
+    stroke-width="3.2"
+    stroke-linecap="round"
+  />
+  <!-- Core / reactor -->
+  <circle cx="52" cy="50" r="7.5" fill="#4db8ff"/>
+</svg>

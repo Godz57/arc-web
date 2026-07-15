@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { playHud } from "@/lib/audio";
+import Logo from "@/components/ui/Logo";
 
 const navLinks = [
   { label: "Início", href: "#hero", id: "hero" },
@@ -76,18 +77,10 @@ export default function Navbar() {
             e.preventDefault();
             handleLinkClick("#hero");
           }}
-          className="group flex shrink-0 items-center gap-2.5"
+          className="group flex shrink-0 items-center"
           aria-label="ARC WEB — início"
         >
-          <span
-            className="relative flex h-7 w-7 items-center justify-center rounded-sm border border-hud-cyan/25 bg-hud-cyan/5"
-            aria-hidden="true"
-          >
-            <span className="h-2 w-2 rounded-full bg-hud-cyan/90 shadow-[0_0_10px_rgba(77,184,255,0.7)]" />
-          </span>
-          <span className="font-orbitron text-sm font-semibold tracking-[0.22em] text-chrome/90 transition-colors group-hover:text-chrome">
-            ARC WEB
-          </span>
+          <Logo variant="lockup" size={30} className="group-hover:opacity-95" />
         </a>
 
         {/* Desktop nav — centered cluster */}

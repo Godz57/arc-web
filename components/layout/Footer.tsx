@@ -16,6 +16,7 @@ import {
 } from "@/lib/data";
 import { playHud } from "@/lib/audio";
 import { trackWhatsAppClick } from "@/lib/analytics";
+import Logo from "@/components/ui/Logo";
 
 const year = new Date().getFullYear();
 
@@ -72,17 +73,9 @@ export default function Footer() {
                 e.preventDefault();
                 scrollTo("#hero");
               }}
-              className="inline-flex items-center gap-2.5"
+              className="inline-flex items-center"
             >
-              <span
-                className="flex h-8 w-8 items-center justify-center rounded-sm border border-hud-cyan/25 bg-hud-cyan/5"
-                aria-hidden
-              >
-                <span className="h-2 w-2 rounded-full bg-hud-cyan shadow-[0_0_10px_rgba(77,184,255,0.7)]" />
-              </span>
-              <span className="font-orbitron text-lg font-bold tracking-[0.18em] text-chrome text-glow-chrome">
-                ARC WEB
-              </span>
+              <Logo variant="lockup" size={32} />
             </a>
             <p className="mt-4 max-w-xs font-rajdhani text-sm leading-relaxed text-arc-blue/60">
               Criação de sites premium, landing pages e sistemas web com design
