@@ -25,26 +25,60 @@
     "ctaSecondary": "Ver processo",
     "ctaWork": "Ver missões",
     "scrollHint": "Scroll",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "livePrototype": "Protótipo vivo",
+    "stackLabel": "Stack",
+    "roleLabel": "Papel",
+    "roleValue": "Ambiente vivo",
+    "powerHint": "Clique no núcleo para power-up",
+    "brandBadge": "ARC WEB · Sites premium",
+    "tagLanding": "Landing pages",
+    "tagSystems": "Sistemas web",
+    "tag3d": "Experiências 3D"
   },
   "Boot": {
     "status": "Inicializando sistemas",
-    "skip": "Pular"
+    "skip": "Pular",
+    "ariaLabel": "Inicializando sistema, {progress} por cento",
+    "skipHint": "ESC / ENTER PARA PULAR"
   },
   "Sections": {
     "aboutEyebrow": "Sobre",
     "aboutTitle": "O estúdio",
+    "aboutSubtitle": "Desenvolvimento web com design imersivo — clareza sobre como eu trabalho e o que entrego.",
+    "aboutFounder": "Fundador",
+    "aboutDefinitions": "Definições rápidas",
+    "aboutStack": "Stack principal",
+    "aboutPhotoAlt": "Foto de perfil de {name}",
+    "aboutHonesty": "Prefiro mostrar trabalho real a inventar métricas. Os números honestos vêm nos projetos — não em barras de skill inventadas.",
     "servicesEyebrow": "Serviços",
     "servicesTitle": "O que construímos",
+    "servicesSubtitle": "Cada módulo resolve um desafio real — com visual e engenharia no mesmo nível deste protótipo.",
     "portfolioEyebrow": "Portfólio",
     "portfolioTitle": "Mission log",
+    "portfolioSubtitle": "O case CORE é este site — ao vivo. Abaixo, protótipos de alta fidelidade que mostram o repertório. O seu projeto pode ser a próxima missão.",
     "portfolioFeatured": "Prova viva",
+    "portfolioLiveCase": "Case em produção",
+    "portfolioCaseHint": "Você já está dentro do case. Cada scroll é entrega real.",
+    "portfolioExplore": "Explorar o site",
+    "portfolioConceptNote": "Conceitos de missão · não são claims de clientes",
+    "portfolioConceptFooter": "CONCEPT // NOT A CLIENT CLAIM",
     "processEyebrow": "Processo",
     "processTitle": "Da ideia ao deploy",
+    "processSubtitle": "Quatro etapas claras: briefing, design, build e publicação — sem confusão de escopo.",
+    "processStandby": "Aguardando",
+    "processActive": "Ativo",
+    "processDone": "Concluído",
+    "processModShort0": "OBJETIVOS",
+    "processModShort1": "INTERFACE",
+    "processModShort2": "CÓDIGO",
+    "processModShort3": "DEPLOY",
     "principlesEyebrow": "Diretrizes",
     "principlesTitle": "Como trabalhamos",
+    "principlesSubtitle": "Em vez de depoimentos inventados: os princípios que regem cada build ARC WEB.",
     "faqEyebrow": "FAQ",
     "faqTitle": "Perguntas frequentes",
+    "faqSubtitle": "Respostas diretas antes do briefing. Se faltar algo, o WhatsApp ou o formulário resolvem.",
     "contactEyebrow": "Contato",
     "contactTitle": "Vamos construir o seu próximo site",
     "contactSubtitle": "Conte o objetivo, o prazo e o tipo de projeto. Resposta em até 24 horas."
@@ -63,13 +97,22 @@
     "errorGeneric": "Canal instável. Tente novamente.",
     "placeholderName": "Digite seu nome operacional",
     "placeholderEmail": "canal@dominio.com",
+    "placeholderWhatsapp": "(61) 99999-9999",
     "placeholderProject": "Landing page, e-commerce, sistema...",
     "placeholderMessage": "Objetivo, prazo e contexto da missão",
     "validationName": "Identificação mínima: 2 caracteres",
     "validationEmail": "Endereço de uplink inválido",
     "validationWhatsapp": "WhatsApp inválido (use DDD + número)",
     "validationProject": "Descreva o tipo de missão",
-    "validationMessage": "Mensagem deve ter pelo menos 10 caracteres"
+    "validationMessage": "Mensagem deve ter pelo menos 10 caracteres",
+    "requiredNote": "Campos obrigatórios, exceto WhatsApp.",
+    "channelActive": "Canal ativo · web3forms",
+    "uplinkOffline": "UPLINK OFFLINE — defina NEXT_PUBLIC_WEB3FORMS_KEY em .env.local e reinicie o servidor."
+  },
+  "ModuleDock": {
+    "title": "Module dock",
+    "allReady": "Todos os módulos ativos — sistema pronto",
+    "scrollHint": "Os módulos aparecem conforme você rola"
   },
   "Footer": {
     "tagline": "Sites premium, landing pages e sistemas com design imersivo e performance real.",
@@ -82,10 +125,13 @@
   "Privacy": {
     "eyebrow": "Legal · ARC WEB",
     "title": "Política de Privacidade",
-    "updatedPrefix": "Última atualização:"
+    "updatedPrefix": "Última atualização:",
+    "backToContact": "← Voltar ao contato"
   },
   "Error": {
     "title": "Falha no sistema",
+    "body": "Tente recarregar. Em alguns celulares o 3D pode falhar — o site deve continuar utilizável após o retry.",
+    "eyebrow": "Canal instável",
     "retry": "Tentar novamente",
     "home": "Voltar ao início"
   },

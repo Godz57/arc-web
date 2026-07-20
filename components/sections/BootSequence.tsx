@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useTranslations } from "next-intl";
 import { loadMutePreference, playHud } from "@/lib/audio";
 import { storageGet, storageSet } from "@/lib/safe-storage";
 
@@ -24,6 +25,7 @@ function finishBoot(
 }
 
 export default function BootSequence() {
+  const t = useTranslations("Boot");
   const [booted, setBooted] = useState(true); // default true to avoid SSR flash
   const [progress, setProgress] = useState(0);
   const [activeStage, setActiveStage] = useState(0);
@@ -160,7 +162,7 @@ export default function BootSequence() {
       role="status"
       aria-live="polite"
       aria-busy="true"
-      aria-label={`Inicializando sistema, ${progress} por cento`}
+      aria-label={t("ariaLabel", { progress })}
     >
       {/* Atmosphere */}
       <div
@@ -328,11 +330,11 @@ export default function BootSequence() {
         onClick={skipBoot}
         className="absolute bottom-6 right-6 z-20 border border-hud-cyan/20 bg-carbon/60 px-3 py-2 font-orbitron text-[10px] uppercase tracking-[0.25em] text-hud-cyan/80 backdrop-blur-sm transition-colors hover:border-titan-gold/40 hover:text-titan-gold sm:bottom-8 sm:right-8 sm:text-xs"
       >
-        Skip ↵
+        {t("skip")} ↵
       </button>
 
       <p className="absolute bottom-6 left-6 z-20 hidden font-rajdhani text-[10px] tracking-widest text-arc-blue/30 sm:block sm:bottom-8 sm:left-8">
-        ESC / ENTER TO SKIP
+        {t("skipHint")}
       </p>
     </div>
   );

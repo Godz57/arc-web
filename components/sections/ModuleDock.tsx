@@ -1,6 +1,7 @@
 "use client";
 
 import { FileText, Layers, Boxes, Rocket } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export interface DockModule {
   code: string;
@@ -43,17 +44,17 @@ export default function ModuleDock({
   activeIndex,
   allLocked,
 }: ModuleDockProps) {
+  const t = useTranslations("ModuleDock");
+
   return (
     <div className="relative flex min-h-[320px] flex-col p-4 sm:p-5">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
           <p className="font-orbitron text-[10px] uppercase tracking-[0.22em] text-hud-cyan/60">
-            Module dock
+            {t("title")}
           </p>
           <p className="mt-1 font-rajdhani text-xs text-arc-blue/45">
-            {allLocked
-              ? "Todos os módulos ativos — sistema pronto"
-              : "Os módulos aparecem conforme você rola"}
+            {allLocked ? t("allReady") : t("scrollHint")}
           </p>
         </div>
         <span className="shrink-0 font-orbitron text-[10px] tabular-nums text-hud-cyan/50">

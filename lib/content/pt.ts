@@ -294,4 +294,81 @@ export const content: SiteContent = {
   ],
 
   defaultWhatsappMessage: "Olá! Quero iniciar um projeto com a ARC WEB.",
+
+  privacy: {
+    updated: "11 de julho de 2026",
+    metaTitle: "Política de Privacidade",
+    metaDescription:
+      "Como a ARC WEB trata dados pessoais coletados pelo site, formulário de contato e analytics.",
+    sections: [
+      {
+        id: "who",
+        title: "1. Quem somos",
+        paragraphs: [
+          "A ARC WEB ({{siteHost}}) é um estúdio de desenvolvimento web. Responsável pelo tratamento: Gabriel Almeida — contato: {{email}}.",
+        ],
+      },
+      {
+        id: "data",
+        title: "2. Quais dados coletamos",
+        paragraphs: [
+          "• Formulário de contato: nome, e-mail, tipo de projeto e mensagem que você envia.",
+          "• WhatsApp: se você clicar para conversar, a conversa ocorre no app da Meta; não armazenamos o histórico no site.",
+          "• Dados de navegação: páginas visitadas, dispositivo, origem aproximada do tráfego e eventos (ex.: envio de formulário), via Google Analytics 4 e Google Tag Manager.",
+          "• Publicidade (quando ativa): se você chega por anúncios Google Ads, cookies/identificadores podem ser usados para medir conversões e otimizar campanhas.",
+        ],
+      },
+      {
+        id: "purpose",
+        title: "3. Para que usamos",
+        paragraphs: [
+          "• Responder pedidos de briefing e orçamento",
+          "• Entregar e melhorar serviços de desenvolvimento web",
+          "• Medir desempenho do site e campanhas de marketing",
+          "• Cumprir obrigações legais quando aplicável",
+          "Base legal principal (LGPD): execução de medidas pré-contratuais a pedido do titular e legítimo interesse em analytics/segurança, com minimização de dados.",
+        ],
+      },
+      {
+        id: "cookies",
+        title: "4. Cookies e ferramentas de terceiros",
+        paragraphs: [
+          "Utilizamos, entre outras:",
+          "• Google Analytics 4 (medição de audiência e eventos)",
+          "• Google Tag Manager (gestão de tags)",
+          "• Google Ads (quando houver campanhas ativas)",
+          "• Web3Forms / provedor de formulário (envio da mensagem)",
+          "Você pode bloquear cookies no navegador; isso pode limitar funcionalidades de medição. Políticas dos provedores: Google Privacy (https://policies.google.com/privacy).",
+        ],
+      },
+      {
+        id: "sharing",
+        title: "5. Compartilhamento",
+        paragraphs: [
+          "Não vendemos dados pessoais. Compartilhamos apenas com processadores necessários (hospedagem, e-mail/formulário, analytics/ads) sob obrigação de confidencialidade e conforme a finalidade acima.",
+        ],
+      },
+      {
+        id: "retention",
+        title: "6. Retenção e segurança",
+        paragraphs: [
+          "Mensagens de contato são mantidas pelo tempo necessário para atendimento e eventual relação comercial. Dados de analytics seguem as retenções configuradas no Google Analytics. Adotamos medidas razoáveis de segurança (HTTPS, controle de acesso).",
+        ],
+      },
+      {
+        id: "rights",
+        title: "7. Seus direitos (LGPD)",
+        paragraphs: [
+          "Você pode solicitar confirmação de tratamento, acesso, correção, anonimização, portabilidade ou eliminação dos dados, quando cabível, pelo e-mail {{email}}. Também pode reclamar à ANPD.",
+        ],
+      },
+      {
+        id: "contact",
+        title: "8. Contato",
+        paragraphs: [
+          "Dúvidas sobre privacidade: {{email}}. Site: {{siteHost}}.",
+        ],
+      },
+    ],
+  },
 };

@@ -2,13 +2,22 @@
 
 import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { Gauge, Zap, Layers } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import SectionHeader from "@/components/ui/SectionHeader";
 import HudCard from "@/components/ui/HudCard";
-import { principles } from "@/lib/data";
+import { getContent } from "@/lib/content";
+import type { PrincipleIconId } from "@/lib/content/types";
+import type { Locale } from "@/i18n/routing";
 import { playHud } from "@/lib/audio";
+
+const ICONS = { gauge: Gauge, zap: Zap, layers: Layers } as const;
 
 /** Design principles (honest conceptual content — no fake testimonials) */
 export default function Testimonials() {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Sections");
+  const { principles } = getContent(locale);
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
@@ -40,9 +49,9 @@ export default function Testimonials() {
     >
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
-          label="System Directives"
-          title="Diretrizes de Operação"
-          subtitle="Em vez de depoimentos inventados: os princípios que regem cada build ARC WEB."
+          label={t("principlesEyebrow")}
+          title={t("principlesTitle")}
+          subtitle={t("principlesSubtitle")}
         />
 
         <motion.div
@@ -53,7 +62,8 @@ export default function Testimonials() {
           className="grid gap-6 md:grid-cols-3"
         >
           {principles.map((principle) => {
-            const Icon = principle.icon;
+            const iconId = principle.icon as PrincipleIconId;
+            const Icon = ICONS[iconId] ?? Gauge;
             return (
               <motion.div
                 key={principle.id}

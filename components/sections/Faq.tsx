@@ -3,11 +3,16 @@
 import { useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { faqItems } from "@/lib/data";
+import { getContent } from "@/lib/content";
+import type { Locale } from "@/i18n/routing";
 import { playHud } from "@/lib/audio";
 
 export default function Faq() {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Sections");
+  const { faqItems } = getContent(locale);
   const [openId, setOpenId] = useState<string | null>(faqItems[0]?.id ?? null);
   const shouldReduceMotion = useReducedMotion();
 
@@ -20,9 +25,9 @@ export default function Faq() {
     <section id="faq" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-3xl px-6">
         <SectionHeader
-          label="FAQ"
-          title="Perguntas frequentes"
-          subtitle="Respostas diretas antes do briefing. Se faltar algo, o WhatsApp ou o formulário resolvem."
+          label={t("faqEyebrow")}
+          title={t("faqTitle")}
+          subtitle={t("faqSubtitle")}
         />
 
         <ul className="space-y-3">

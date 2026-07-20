@@ -25,26 +25,60 @@
     "ctaSecondary": "See process",
     "ctaWork": "View missions",
     "scrollHint": "Scroll",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "livePrototype": "Living prototype",
+    "stackLabel": "Stack",
+    "roleLabel": "Role",
+    "roleValue": "Living environment",
+    "powerHint": "Click the core for power-up",
+    "brandBadge": "ARC WEB · Premium sites",
+    "tagLanding": "Landing pages",
+    "tagSystems": "Web systems",
+    "tag3d": "3D experiences"
   },
   "Boot": {
     "status": "Initializing systems",
-    "skip": "Skip"
+    "skip": "Skip",
+    "ariaLabel": "Initializing system, {progress} percent",
+    "skipHint": "ESC / ENTER TO SKIP"
   },
   "Sections": {
     "aboutEyebrow": "About",
     "aboutTitle": "The studio",
+    "aboutSubtitle": "Web development with immersive design — clarity on how I work and what I deliver.",
+    "aboutFounder": "Founder",
+    "aboutDefinitions": "Quick definitions",
+    "aboutStack": "Core stack",
+    "aboutPhotoAlt": "Profile photo of {name}",
+    "aboutHonesty": "I prefer showing real work over inventing metrics. Honest numbers come from projects — not made-up skill bars.",
     "servicesEyebrow": "Services",
     "servicesTitle": "What we build",
+    "servicesSubtitle": "Each module solves a real challenge — with visuals and engineering at the same level as this prototype.",
     "portfolioEyebrow": "Portfolio",
     "portfolioTitle": "Mission log",
+    "portfolioSubtitle": "The CORE case is this site — live. Below, high-fidelity prototypes that show the repertoire. Your project can be the next mission.",
     "portfolioFeatured": "Living proof",
+    "portfolioLiveCase": "Live production case",
+    "portfolioCaseHint": "You are already inside the case. Every scroll is real delivery.",
+    "portfolioExplore": "Explore the site",
+    "portfolioConceptNote": "Mission concepts · not client claims",
+    "portfolioConceptFooter": "CONCEPT // NOT A CLIENT CLAIM",
     "processEyebrow": "Process",
     "processTitle": "From idea to deploy",
+    "processSubtitle": "Four clear steps: briefing, design, build, and launch — no scope confusion.",
+    "processStandby": "Standby",
+    "processActive": "Active",
+    "processDone": "Done",
+    "processModShort0": "OBJECTIVES",
+    "processModShort1": "INTERFACE",
+    "processModShort2": "CODE",
+    "processModShort3": "DEPLOY",
     "principlesEyebrow": "Principles",
     "principlesTitle": "How we work",
+    "principlesSubtitle": "Instead of invented testimonials: the principles that govern every ARC WEB build.",
     "faqEyebrow": "FAQ",
     "faqTitle": "Frequently asked questions",
+    "faqSubtitle": "Straight answers before the briefing. If something is missing, WhatsApp or the form will do.",
     "contactEyebrow": "Contact",
     "contactTitle": "Let's build your next site",
     "contactSubtitle": "Share the goal, timeline, and project type. Reply within 24 hours."
@@ -63,13 +97,22 @@
     "errorGeneric": "Channel unstable. Please try again.",
     "placeholderName": "Enter your operational name",
     "placeholderEmail": "channel@domain.com",
+    "placeholderWhatsapp": "(61) 99999-9999",
     "placeholderProject": "Landing page, e-commerce, system...",
     "placeholderMessage": "Goal, timeline, and mission context",
     "validationName": "Minimum identification: 2 characters",
     "validationEmail": "Invalid uplink address",
     "validationWhatsapp": "Invalid WhatsApp (use area code + number)",
     "validationProject": "Describe the mission type",
-    "validationMessage": "Message must be at least 10 characters"
+    "validationMessage": "Message must be at least 10 characters",
+    "requiredNote": "Required fields, except WhatsApp.",
+    "channelActive": "Channel active · web3forms",
+    "uplinkOffline": "UPLINK OFFLINE — set NEXT_PUBLIC_WEB3FORMS_KEY in .env.local and restart the server."
+  },
+  "ModuleDock": {
+    "title": "Module dock",
+    "allReady": "All modules active — system ready",
+    "scrollHint": "Modules appear as you scroll"
   },
   "Footer": {
     "tagline": "Premium sites, landing pages, and systems with immersive design and real performance.",
@@ -82,10 +125,13 @@
   "Privacy": {
     "eyebrow": "Legal · ARC WEB",
     "title": "Privacy Policy",
-    "updatedPrefix": "Last updated:"
+    "updatedPrefix": "Last updated:",
+    "backToContact": "← Back to contact"
   },
   "Error": {
     "title": "System failure",
+    "body": "Try reloading. On some phones 3D may fail — the site should remain usable after retry.",
+    "eyebrow": "Channel unstable",
     "retry": "Try again",
     "home": "Back to home"
   },

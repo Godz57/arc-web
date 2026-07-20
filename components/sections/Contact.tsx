@@ -6,32 +6,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Send, CheckCircle2, AlertTriangle, MessageCircle } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import SectionHeader from "@/components/ui/SectionHeader";
 import HudButton from "@/components/ui/HudButton";
 import { playHud } from "@/lib/audio";
 import { trackContactSubmit, trackWhatsAppClick } from "@/lib/analytics";
 import { pulseReactor } from "@/lib/reactor-bus";
-import {
-  defaultWhatsappMessage,
-  whatsappUrl,
-} from "@/lib/data";
+import { getContent } from "@/lib/content";
+import { whatsappUrl } from "@/lib/data";
+import type { Locale } from "@/i18n/routing";
 
-const contactSchema = z.object({
-  name: z.string().min(2, "Identificação mínima: 2 caracteres"),
-  email: z.string().email("Endereço de uplink inválido"),
-  whatsapp: z
-    .string()
-    .optional()
-    .refine((val) => {
-      if (!val?.trim()) return true;
-      const digits = val.replace(/\D/g, "");
-      return digits.length >= 10 && digits.length <= 13;
-    }, "WhatsApp inválido (use DDD + número)"),
-  project: z.string().min(2, "Descreva o tipo de missão"),
-  message: z.string().min(10, "Mensagem deve ter pelo menos 10 caracteres"),
-});
-
-type ContactForm = z.infer<typeof contactSchema>;
+type ContactForm = {
+  name: string;
+  email: string;
+  whatsapp?: string;
+  project: string;
+  message: string;
+};
 
 /**
  * Web3Forms is submitted from the browser (key is public by design).
@@ -68,7 +59,7 @@ async function transmitUplink(data: ContactForm): Promise<void> {
       json = JSON.parse(text) as { success?: boolean; message?: string };
     } catch {
       throw new Error(
-        "Web3Forms retornou resposta inválida. Confira a access key e o e-mail no dashboard."
+        "Web3Forms returned an invalid response. Check the access key and email in the dashboard."
       );
     }
 
@@ -94,13 +85,15 @@ async function transmitUplink(data: ContactForm): Promise<void> {
   };
 
   if (!res.ok || !json.success) {
-    throw new Error(
-      json.message || `Falha no uplink (HTTP ${res.status}).`
-    );
+    throw new Error(json.message || `Uplink failed (HTTP ${res.status}).`);
   }
 }
 
 export default function Contact() {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Contact");
+  const tSections = useTranslations("Sections");
+  const { defaultWhatsappMessage } = getContent(locale);
   const shouldReduceMotion = useReducedMotion();
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -108,6 +101,25 @@ export default function Contact() {
   const configured = useMemo(
     () => Boolean(process.env.NEXT_PUBLIC_WEB3FORMS_KEY?.trim()),
     []
+  );
+
+  const contactSchema = useMemo(
+    () =>
+      z.object({
+        name: z.string().min(2, t("validationName")),
+        email: z.string().email(t("validationEmail")),
+        whatsapp: z
+          .string()
+          .optional()
+          .refine((val) => {
+            if (!val?.trim()) return true;
+            const digits = val.replace(/\D/g, "");
+            return digits.length >= 10 && digits.length <= 13;
+          }, t("validationWhatsapp")),
+        project: z.string().min(2, t("validationProject")),
+        message: z.string().min(10, t("validationMessage")),
+      }),
+    [t]
   );
 
   const {
@@ -132,12 +144,12 @@ export default function Contact() {
       setTimeout(() => setSubmitted(false), 6000);
     } catch (err) {
       setSubmitError(
-        err instanceof Error
-          ? err.message
-          : "Canal instável. Tente novamente."
+        err instanceof Error ? err.message : t("errorGeneric")
       );
     }
   };
+
+  const wa = whatsappUrl(defaultWhatsappMessage);
 
   const inputBase =
     "w-full border-b border-hud-cyan/20 bg-transparent px-0 py-3 font-rajdhani text-arc-blue placeholder-arc-blue/25 outline-none transition-colors focus:border-hud-cyan";
@@ -146,9 +158,9 @@ export default function Contact() {
     <section id="contact" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-3xl px-6">
         <SectionHeader
-          label="Contato"
-          title="Vamos construir o seu próximo site"
-          subtitle="Conte o objetivo, o prazo e o tipo de projeto. Resposta em até 24 horas."
+          label={tSections("contactEyebrow")}
+          title={tSections("contactTitle")}
+          subtitle={tSections("contactSubtitle")}
         />
 
         <AnimatePresence mode="wait">
@@ -164,11 +176,10 @@ export default function Contact() {
                 <CheckCircle2 className="h-7 w-7" />
               </div>
               <h3 className="font-orbitron text-xl font-bold text-chrome">
-                Mensagem enviada
+                {t("successTitle")}
               </h3>
               <p className="mt-2 font-rajdhani text-arc-blue/70">
-                Recebi seu contato. Em breve retorno no e-mail ou WhatsApp
-                informado.
+                {t("successBody")}
               </p>
             </motion.div>
           ) : (
@@ -185,21 +196,14 @@ export default function Contact() {
               {!configured && (
                 <div className="mb-6 flex items-start gap-2 rounded-sm border border-titan-gold/25 bg-titan-gold/5 px-3 py-2 text-xs text-titan-gold/90">
                   <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                  <span>
-                    UPLINK OFFLINE — defina{" "}
-                    <code className="text-hud-cyan">
-                      NEXT_PUBLIC_WEB3FORMS_KEY
-                    </code>{" "}
-                    em <code className="text-hud-cyan">.env.local</code> e
-                    reinicie o servidor.
-                  </span>
+                  <span>{t("uplinkOffline")}</span>
                 </div>
               )}
 
               {configured && (
                 <div className="mb-6 flex items-center gap-2 rounded-sm border border-hud-cyan/20 bg-hud-cyan/5 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-hud-cyan/80">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-hud-cyan shadow-[0_0_6px_#4db8ff]" />
-                  Canal ativo · web3forms
+                  {t("channelActive")}
                 </div>
               )}
 
@@ -209,13 +213,13 @@ export default function Contact() {
                     htmlFor="name"
                     className="mb-1 block font-rajdhani text-xs uppercase tracking-[0.2em] text-hud-cyan/80"
                   >
-                    {`> NOME:`}
+                    {`> ${t("name").toUpperCase()}:`}
                   </label>
                   <input
                     id="name"
                     type="text"
                     autoComplete="name"
-                    placeholder="Digite seu nome operacional"
+                    placeholder={t("placeholderName")}
                     className={inputBase}
                     {...register("name")}
                   />
@@ -231,13 +235,13 @@ export default function Contact() {
                     htmlFor="email"
                     className="mb-1 block font-rajdhani text-xs uppercase tracking-[0.2em] text-hud-cyan/80"
                   >
-                    {`> EMAIL:`}
+                    {`> ${t("email").toUpperCase()}:`}
                   </label>
                   <input
                     id="email"
                     type="email"
                     autoComplete="email"
-                    placeholder="canal@dominio.com"
+                    placeholder={t("placeholderEmail")}
                     className={inputBase}
                     {...register("email")}
                   />
@@ -253,9 +257,9 @@ export default function Contact() {
                     htmlFor="whatsapp"
                     className="mb-1 block font-rajdhani text-xs uppercase tracking-[0.2em] text-hud-cyan/80"
                   >
-                    {`> WHATSAPP:`}{" "}
+                    {`> ${t("whatsapp").toUpperCase()}:`}{" "}
                     <span className="normal-case tracking-normal text-arc-blue/40">
-                      (opcional)
+                      {t("whatsappOptional")}
                     </span>
                   </label>
                   <input
@@ -263,7 +267,7 @@ export default function Contact() {
                     type="tel"
                     autoComplete="tel"
                     inputMode="tel"
-                    placeholder="(61) 99999-9999"
+                    placeholder={t("placeholderWhatsapp")}
                     className={inputBase}
                     {...register("whatsapp")}
                   />
@@ -279,12 +283,12 @@ export default function Contact() {
                     htmlFor="project"
                     className="mb-1 block font-rajdhani text-xs uppercase tracking-[0.2em] text-hud-cyan/80"
                   >
-                    {`> PROJETO:`}
+                    {`> ${t("project").toUpperCase()}:`}
                   </label>
                   <input
                     id="project"
                     type="text"
-                    placeholder="Landing page, e-commerce, sistema..."
+                    placeholder={t("placeholderProject")}
                     className={inputBase}
                     {...register("project")}
                   />
@@ -300,12 +304,12 @@ export default function Contact() {
                     htmlFor="message"
                     className="mb-1 block font-rajdhani text-xs uppercase tracking-[0.2em] text-hud-cyan/80"
                   >
-                    {`> MENSAGEM:`}
+                    {`> ${t("message").toUpperCase()}:`}
                   </label>
                   <textarea
                     id="message"
                     rows={4}
-                    placeholder="Descreva a missão, objetivos e prazo..."
+                    placeholder={t("placeholderMessage")}
                     className={`${inputBase} resize-none`}
                     {...register("message")}
                   />
@@ -322,14 +326,12 @@ export default function Contact() {
               )}
 
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs text-arc-blue/40">
-                  Campos obrigatórios, exceto WhatsApp.
-                </p>
+                <p className="text-xs text-arc-blue/40">{t("requiredNote")}</p>
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
-                  {whatsappUrl(defaultWhatsappMessage) && (
+                  {wa && (
                     <HudButton
                       variant="secondary"
-                      href={whatsappUrl(defaultWhatsappMessage)!}
+                      href={wa}
                       target="_blank"
                       onClick={() => {
                         playHud("click");
@@ -339,7 +341,7 @@ export default function Contact() {
                     >
                       <span className="flex items-center justify-center gap-2">
                         <MessageCircle className="h-4 w-4" />
-                        WhatsApp
+                        {t("whatsapp")}
                       </span>
                     </HudButton>
                   )}
@@ -352,12 +354,12 @@ export default function Contact() {
                       {isSubmitting ? (
                         <>
                           <span className="h-4 w-4 animate-spin rounded-full border-2 border-arc-blue/30 border-t-hud-cyan" />
-                          ENVIANDO...
+                          {t("submitting")}
                         </>
                       ) : (
                         <>
                           <Send className="h-4 w-4" />
-                          ENVIAR
+                          {t("submit")}
                         </>
                       )}
                     </span>

@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronDown, MessageCircle } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import HudButton from "@/components/ui/HudButton";
 import ClientErrorBoundary from "@/components/ui/ClientErrorBoundary";
 import { playHud } from "@/lib/audio";
-import {
-  defaultWhatsappMessage,
-  whatsappUrl,
-} from "@/lib/data";
-import { seoCopy } from "@/lib/seo";
+import { whatsappUrl } from "@/lib/data";
+import { getContent } from "@/lib/content";
+import { getSeoCopy } from "@/lib/seo";
+import type { Locale } from "@/i18n/routing";
 import { trackWhatsAppClick } from "@/lib/analytics";
 import {
   pulseReactor,
@@ -25,14 +25,19 @@ const Scene = dynamic(() => import("@/components/three/Scene"), {
   loading: () => null,
 });
 
-const STATUS_LABEL: Record<ReactorSiteStatus, string> = {
-  online: "Core online",
-  overdrive: "Core overdrive",
-  assembled: "Sistema montado",
-  uplink: "Canal aberto",
-};
-
 export default function Hero() {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Hero");
+  const seo = getSeoCopy(locale);
+  const { defaultWhatsappMessage } = getContent(locale);
+
+  const statusLabel: Record<ReactorSiteStatus, string> = {
+    online: t("statusOnline"),
+    overdrive: t("statusOverdrive"),
+    assembled: t("statusAssembled"),
+    uplink: t("statusUplink"),
+  };
+
   const [powerUp, setPowerUp] = useState(false);
   const [panelPulse, setPanelPulse] = useState(false);
   const [status, setStatus] = useState<ReactorSiteStatus>("online");
@@ -104,6 +109,8 @@ export default function Hero() {
     },
   };
 
+  const wa = whatsappUrl(defaultWhatsappMessage);
+
   return (
     <section
       id="hero"
@@ -157,7 +164,7 @@ export default function Hero() {
         {/* Top-right of reactor zone */}
         <div className="absolute right-[7%] top-[20%] max-w-[14rem] text-right lg:right-[11%] lg:top-[18%]">
           <p className="font-orbitron text-[11px] uppercase tracking-[0.26em] text-hud-cyan/70 drop-shadow-[0_1px_8px_rgba(10,14,20,0.9)]">
-            Protótipo vivo
+            {t("livePrototype")}
           </p>
           <p
             className={`mt-1.5 inline-flex items-center gap-2 font-orbitron text-xs uppercase tracking-[0.14em] text-hud-cyan drop-shadow-[0_1px_10px_rgba(10,14,20,0.95)] sm:text-sm ${
@@ -169,14 +176,14 @@ export default function Hero() {
                 panelPulse ? "animate-pulse shadow-[0_0_12px_#4db8ff]" : ""
               }`}
             />
-            {STATUS_LABEL[status]}
+            {statusLabel[status]}
           </p>
         </div>
 
         {/* Mid-right */}
         <div className="absolute right-[4%] top-[46%] max-w-[11rem] text-right lg:right-[7%]">
           <p className="font-rajdhani text-xs uppercase tracking-[0.22em] text-arc-blue/55 drop-shadow-[0_1px_8px_rgba(10,14,20,0.9)]">
-            Stack
+            {t("stackLabel")}
           </p>
           <p className="mt-1 font-orbitron text-sm tracking-wide text-arc-blue/85 drop-shadow-[0_1px_10px_rgba(10,14,20,0.95)] sm:text-base">
             Next · R3F
@@ -186,24 +193,24 @@ export default function Hero() {
         {/* Lower-right */}
         <div className="absolute bottom-[27%] right-[9%] max-w-[12rem] text-right lg:bottom-[25%] lg:right-[12%]">
           <p className="font-rajdhani text-xs uppercase tracking-[0.22em] text-arc-blue/55 drop-shadow-[0_1px_8px_rgba(10,14,20,0.9)]">
-            Papel
+            {t("roleLabel")}
           </p>
           <p className="mt-1 font-orbitron text-sm tracking-wide text-arc-blue/85 drop-shadow-[0_1px_10px_rgba(10,14,20,0.95)] sm:text-base">
-            Ambiente vivo
+            {t("roleValue")}
           </p>
         </div>
 
         {/* Lower-center near core */}
         <div className="absolute bottom-[16%] left-[50%] max-w-[14rem] lg:left-[54%]">
           <p className="font-rajdhani text-xs leading-relaxed text-arc-blue/55 drop-shadow-[0_1px_8px_rgba(10,14,20,0.9)] sm:text-sm">
-            Clique no núcleo para power-up
+            {t("powerHint")}
           </p>
           <button
             type="button"
             onClick={scrollToProcess}
             className="pointer-events-auto mt-2.5 inline-flex items-center gap-1.5 font-orbitron text-[11px] uppercase tracking-[0.16em] text-hud-cyan/85 transition-colors hover:text-hud-cyan drop-shadow-[0_1px_8px_rgba(10,14,20,0.9)]"
           >
-            Ver processo
+            {t("ctaSecondary")}
             <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
@@ -217,7 +224,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute bottom-20 right-6 z-[2] text-right md:hidden">
         <p className="inline-flex items-center gap-2 font-orbitron text-[11px] uppercase tracking-wider text-hud-cyan/85 drop-shadow-[0_1px_8px_rgba(10,14,20,0.95)]">
           <span className="h-2 w-2 rounded-full bg-hud-cyan shadow-[0_0_8px_rgba(77,184,255,0.7)]" />
-          {STATUS_LABEL[status]}
+          {statusLabel[status]}
         </p>
       </div>
 
@@ -240,7 +247,7 @@ export default function Hero() {
               }`}
             />
             <span className="font-rajdhani text-[11px] uppercase tracking-[0.28em] text-hud-cyan/70">
-              ARC WEB · Sites premium
+              {t("brandBadge")}
             </span>
           </motion.div>
 
@@ -248,25 +255,25 @@ export default function Hero() {
             variants={itemVariants}
             className="font-orbitron text-3xl font-semibold leading-[1.15] tracking-tight text-chrome sm:text-4xl lg:text-[2.75rem]"
           >
-            {seoCopy.h1}
+            {seo.h1}
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
             className="mt-5 font-rajdhani text-base leading-relaxed text-arc-blue/70 sm:text-lg"
           >
-            {seoCopy.h1Support}
+            {seo.h1Support}
           </motion.p>
 
           <motion.div
             variants={itemVariants}
             className="mt-8 flex flex-wrap items-center gap-3"
           >
-            <HudButton onClick={scrollToContact}>Iniciar projeto</HudButton>
-            {whatsappUrl(defaultWhatsappMessage) ? (
+            <HudButton onClick={scrollToContact}>{t("ctaPrimary")}</HudButton>
+            {wa ? (
               <HudButton
                 variant="secondary"
-                href={whatsappUrl(defaultWhatsappMessage)!}
+                href={wa}
                 target="_blank"
                 onClick={() => {
                   playHud("click");
@@ -275,7 +282,7 @@ export default function Hero() {
               >
                 <span className="flex items-center gap-2">
                   <MessageCircle className="h-4 w-4" />
-                  WhatsApp
+                  {t("whatsapp")}
                 </span>
               </HudButton>
             ) : (
@@ -284,7 +291,7 @@ export default function Hero() {
                 onClick={scrollToWork}
                 className="inline-flex items-center gap-2 border border-transparent px-4 py-3 font-orbitron text-xs uppercase tracking-[0.16em] text-arc-blue/55 transition-colors hover:text-hud-cyan"
               >
-                Ver trabalhos
+                {t("ctaWork")}
                 <ArrowRight className="h-3.5 w-3.5" />
               </button>
             )}
@@ -294,11 +301,11 @@ export default function Hero() {
             variants={itemVariants}
             className="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-rajdhani text-xs uppercase tracking-[0.18em] text-arc-blue/40"
           >
-            <li>Landing pages</li>
+            <li>{t("tagLanding")}</li>
             <li className="text-hud-cyan/25">·</li>
-            <li>Sistemas web</li>
+            <li>{t("tagSystems")}</li>
             <li className="text-hud-cyan/25">·</li>
-            <li>Experiências 3D</li>
+            <li>{t("tag3d")}</li>
           </motion.ul>
         </motion.div>
       </div>
@@ -314,7 +321,7 @@ export default function Hero() {
       >
         <div className="flex flex-col items-center gap-1.5 text-arc-blue/35">
           <span className="font-rajdhani text-[10px] uppercase tracking-[0.28em]">
-            Scroll
+            {t("scrollHint")}
           </span>
           <ChevronDown className="h-4 w-4" />
         </div>

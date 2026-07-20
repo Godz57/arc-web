@@ -3,13 +3,18 @@
 import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Check } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import SectionHeader from "@/components/ui/SectionHeader";
 import HudCard from "@/components/ui/HudCard";
 import ServiceIcon from "@/components/ui/ServiceIcon";
-import { services } from "@/lib/data";
+import { getContent } from "@/lib/content";
+import type { Locale } from "@/i18n/routing";
 import { playHud } from "@/lib/audio";
 
 export default function Services() {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Sections");
+  const { services } = getContent(locale);
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
@@ -41,9 +46,9 @@ export default function Services() {
     >
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
-          label="Serviços de desenvolvimento web"
-          title="Landing pages, e-commerce e sistemas"
-          subtitle="Cada módulo resolve um desafio real — com visual e engenharia no mesmo nível deste protótipo."
+          label={t("servicesEyebrow")}
+          title={t("servicesTitle")}
+          subtitle={t("servicesSubtitle")}
         />
 
         <motion.div

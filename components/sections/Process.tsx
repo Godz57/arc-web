@@ -5,20 +5,27 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "framer-motion";
+import { useLocale, useTranslations } from "next-intl";
 import SectionHeader from "@/components/ui/SectionHeader";
 import ModuleDock, { moduleStatus } from "@/components/sections/ModuleDock";
-import { processSteps } from "@/lib/data";
+import { getContent } from "@/lib/content";
+import type { Locale } from "@/i18n/routing";
 import { markReactorAssembled } from "@/lib/reactor-bus";
 import { playHud } from "@/lib/audio";
 
-const MODULE_META = [
-  { code: "01", label: "BRIEFING", short: "OBJETIVOS" },
-  { code: "02", label: "DESIGN", short: "INTERFACE" },
-  { code: "03", label: "BUILD", short: "CÓDIGO" },
-  { code: "04", label: "LAUNCH", short: "DEPLOY" },
+const MODULE_CODES = ["01", "02", "03", "04"] as const;
+const MODULE_LABELS = ["BRIEFING", "DESIGN", "BUILD", "LAUNCH"] as const;
+const MOD_SHORT_KEYS = [
+  "processModShort0",
+  "processModShort1",
+  "processModShort2",
+  "processModShort3",
 ] as const;
 
 export default function Process() {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Sections");
+  const { processSteps } = getContent(locale);
   const sectionRef = useRef<HTMLElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -29,12 +36,12 @@ export default function Process() {
   const modules = useMemo(
     () =>
       processSteps.map((step, i) => ({
-        code: MODULE_META[i]?.code ?? String(i + 1).padStart(2, "0"),
-        label: (MODULE_META[i]?.label ?? step.title).toUpperCase(),
-        short: MODULE_META[i]?.short ?? step.title,
+        code: MODULE_CODES[i] ?? String(i + 1).padStart(2, "0"),
+        label: (MODULE_LABELS[i] ?? step.title).toUpperCase(),
+        short: t(MOD_SHORT_KEYS[i] ?? "processModShort0"),
         description: step.title,
       })),
-    []
+    [processSteps, t]
   );
 
   useGSAP(
@@ -116,9 +123,9 @@ export default function Process() {
     >
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeader
-          label="Processo de criação de sites"
-          title="Do briefing ao launch"
-          subtitle="Quatro etapas claras: briefing, design, build e publicação — sem confusão de escopo."
+          label={t("processEyebrow")}
+          title={t("processTitle")}
+          subtitle={t("processSubtitle")}
         />
 
         <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-12">
@@ -144,8 +151,8 @@ export default function Process() {
 
             <div className="space-y-10">
               {processSteps.map((step, index) => {
-                const meta = MODULE_META[index];
-                const number = meta?.code ?? String(index + 1).padStart(2, "0");
+                const number =
+                  MODULE_CODES[index] ?? String(index + 1).padStart(2, "0");
                 const st = moduleStatus(assemblyProgress, index);
                 const isActive = index === activePiece && !allLocked;
                 const isDone = st === "LOCKED";
@@ -194,10 +201,10 @@ export default function Process() {
                           }`}
                         >
                           {st === "STANDBY"
-                            ? "Aguardando"
+                            ? t("processStandby")
                             : st === "REVEAL"
-                              ? "Ativo"
-                              : "Concluído"}
+                              ? t("processActive")
+                              : t("processDone")}
                         </span>
                       </div>
                       <p className="font-rajdhani text-arc-blue/70">

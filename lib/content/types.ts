@@ -52,6 +52,13 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface PrivacySection {
+  id: string;
+  title: string;
+  /** Body paragraphs; lines starting with "• " render as list items */
+  paragraphs: string[];
+}
+
 export interface SiteContent {
   services: Service[];
   featuredMission: Mission;
@@ -71,4 +78,10 @@ export interface SiteContent {
   footerNav: { label: string; href: string }[];
   footerServices: { label: string; href: string }[];
   defaultWhatsappMessage: string;
+  privacy: {
+    updated: string;
+    metaTitle: string;
+    metaDescription: string;
+    sections: PrivacySection[];
+  };
 }

@@ -33,4 +33,11 @@ describe("getContent", () => {
   it("shares stack tags across locales", () => {
     expect(getContent("en").stackTags).toEqual(getContent("pt").stackTags);
   });
+
+  it("keeps privacy section counts aligned", () => {
+    expect(getContent("en").privacy.sections.length).toBe(
+      getContent("pt").privacy.sections.length
+    );
+    expect(getContent("en").privacy.sections.length).toBeGreaterThan(3);
+  });
 });

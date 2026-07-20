@@ -294,4 +294,81 @@ export const content: SiteContent = {
   ],
 
   defaultWhatsappMessage: "Hello! I want to start a project with ARC WEB.",
+
+  privacy: {
+    updated: "July 11, 2026",
+    metaTitle: "Privacy Policy",
+    metaDescription:
+      "How ARC WEB handles personal data collected through the website, contact form, and analytics.",
+    sections: [
+      {
+        id: "who",
+        title: "1. Who we are",
+        paragraphs: [
+          "ARC WEB ({{siteHost}}) is a web development studio. Data controller: Gabriel Almeida — contact: {{email}}.",
+        ],
+      },
+      {
+        id: "data",
+        title: "2. What data we collect",
+        paragraphs: [
+          "• Contact form: name, email, project type, and the message you send.",
+          "• WhatsApp: if you click to chat, the conversation happens in Meta’s app; we do not store chat history on the site.",
+          "• Browsing data: pages visited, device, approximate traffic source, and events (e.g. form submit), via Google Analytics 4 and Google Tag Manager.",
+          "• Advertising (when active): if you arrive via Google Ads, cookies/identifiers may be used to measure conversions and optimize campaigns.",
+        ],
+      },
+      {
+        id: "purpose",
+        title: "3. How we use it",
+        paragraphs: [
+          "• Respond to briefing and quote requests",
+          "• Deliver and improve web development services",
+          "• Measure site performance and marketing campaigns",
+          "• Meet legal obligations when applicable",
+          "Primary legal basis (LGPD): pre-contractual steps at the data subject’s request and legitimate interest in analytics/security, with data minimization.",
+        ],
+      },
+      {
+        id: "cookies",
+        title: "4. Cookies and third-party tools",
+        paragraphs: [
+          "We use, among others:",
+          "• Google Analytics 4 (audience and event measurement)",
+          "• Google Tag Manager (tag management)",
+          "• Google Ads (when campaigns are active)",
+          "• Web3Forms / form provider (message delivery)",
+          "You may block cookies in your browser; that can limit measurement features. Provider policies: Google Privacy (https://policies.google.com/privacy).",
+        ],
+      },
+      {
+        id: "sharing",
+        title: "5. Sharing",
+        paragraphs: [
+          "We do not sell personal data. We share only with necessary processors (hosting, email/form, analytics/ads) under confidentiality obligations and for the purposes above.",
+        ],
+      },
+      {
+        id: "retention",
+        title: "6. Retention and security",
+        paragraphs: [
+          "Contact messages are kept for as long as needed for support and any commercial relationship. Analytics data follows retentions configured in Google Analytics. We apply reasonable security measures (HTTPS, access control).",
+        ],
+      },
+      {
+        id: "rights",
+        title: "7. Your rights (LGPD)",
+        paragraphs: [
+          "You may request confirmation of processing, access, correction, anonymization, portability, or deletion of data, where applicable, at {{email}}. You may also lodge a complaint with Brazil’s ANPD.",
+        ],
+      },
+      {
+        id: "contact",
+        title: "8. Contact",
+        paragraphs: [
+          "Privacy questions: {{email}}. Website: {{siteHost}}.",
+        ],
+      },
+    ],
+  },
 };

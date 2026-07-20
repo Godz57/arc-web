@@ -3,12 +3,17 @@
 import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ExternalLink, Rocket, Sparkles } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import SectionHeader from "@/components/ui/SectionHeader";
 import HudCard from "@/components/ui/HudCard";
-import { featuredMission, missions } from "@/lib/data";
+import { getContent } from "@/lib/content";
+import type { Locale } from "@/i18n/routing";
 import { playHud } from "@/lib/audio";
 
 export default function Portfolio() {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Sections");
+  const { featuredMission, missions } = getContent(locale);
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
@@ -50,9 +55,9 @@ export default function Portfolio() {
     >
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
-          label="Mission Log"
-          title="Missões e prova de craft"
-          subtitle="O case CORE é este site — ao vivo. Abaixo, protótipos de alta fidelidade que mostram o repertório. O seu projeto pode ser a próxima missão."
+          label={t("portfolioEyebrow")}
+          title={t("portfolioTitle")}
+          subtitle={t("portfolioSubtitle")}
         />
 
         {/* Featured: ARC WEB live case */}
@@ -92,7 +97,7 @@ export default function Portfolio() {
                     {featuredMission.status}
                   </span>
                   <span className="rounded-sm border border-titan-gold/25 bg-titan-gold/10 px-2 py-1 font-rajdhani text-[10px] uppercase tracking-wider text-titan-gold/90">
-                    Case em produção
+                    {t("portfolioLiveCase")}
                   </span>
                 </div>
 
@@ -120,7 +125,7 @@ export default function Portfolio() {
 
               <div className="flex flex-col items-start gap-3 md:items-end md:pt-2">
                 <p className="max-w-[14rem] font-rajdhani text-xs leading-relaxed text-arc-blue/45 md:text-right">
-                  Você já está dentro do case. Cada scroll é entrega real.
+                  {t("portfolioCaseHint")}
                 </p>
                 <a
                   href={featuredMission.href ?? "#hero"}
@@ -133,7 +138,7 @@ export default function Portfolio() {
                   }}
                   className="inline-flex items-center gap-2 border border-hud-cyan/35 bg-hud-cyan/10 px-4 py-2.5 font-orbitron text-[11px] uppercase tracking-[0.16em] text-hud-cyan transition-all hover:border-hud-cyan/60 hover:bg-hud-cyan/15 hover:shadow-[0_0_16px_rgba(0,212,255,0.15)]"
                 >
-                  Explorar o site
+                  {t("portfolioExplore")}
                   <ExternalLink className="h-3.5 w-3.5" />
                 </a>
               </div>
@@ -142,7 +147,7 @@ export default function Portfolio() {
         </motion.div>
 
         <p className="mb-6 font-rajdhani text-xs uppercase tracking-[0.22em] text-arc-blue/40">
-          Conceitos de missão · não são claims de clientes
+          {t("portfolioConceptNote")}
         </p>
 
         <motion.div
@@ -196,7 +201,7 @@ export default function Portfolio() {
 
                 <div className="mt-6 flex items-center gap-2 text-xs text-arc-blue/40">
                   <span className="h-[1px] flex-1 bg-hud-cyan/10" />
-                  <span>CONCEPT // NOT A CLIENT CLAIM</span>
+                  <span>{t("portfolioConceptFooter")}</span>
                   <span className="h-[1px] flex-1 bg-hud-cyan/10" />
                 </div>
               </HudCard>

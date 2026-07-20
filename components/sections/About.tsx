@@ -7,9 +7,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion, motion } from "framer-motion";
 import { Code2, Palette, Sparkles } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { aboutContent, aboutPillars, stackTags } from "@/lib/data";
-import { geoDefinitions } from "@/lib/seo";
+import { getContent } from "@/lib/content";
+import { getGeoDefinitions } from "@/lib/seo";
+import type { Locale } from "@/i18n/routing";
 
 const pillarIcons = {
   craft: Palette,
@@ -18,6 +20,12 @@ const pillarIcons = {
 } as const;
 
 export default function About() {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Sections");
+  const content = getContent(locale);
+  const { aboutContent, aboutPillars, stackTags } = content;
+  const geoDefinitions = getGeoDefinitions(locale);
+
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -72,9 +80,9 @@ export default function About() {
     <section id="about" ref={sectionRef} className="relative py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeader
-          label="Sobre o estúdio"
-          title="Quem está por trás da ARC WEB"
-          subtitle="Desenvolvimento web com design imersivo — clareza sobre como eu trabalho e o que entrego."
+          label={t("aboutEyebrow")}
+          title={t("aboutTitle")}
+          subtitle={t("aboutSubtitle")}
         />
 
         <div
@@ -99,7 +107,7 @@ export default function About() {
                 <div className="absolute inset-[3px] overflow-hidden rounded-full border border-carbon/80 bg-carbon ring-2 ring-hud-cyan/15">
                   <Image
                     src={aboutContent.photo}
-                    alt={`Foto de perfil de ${aboutContent.name}`}
+                    alt={t("aboutPhotoAlt", { name: aboutContent.name })}
                     width={168}
                     height={168}
                     className="h-full w-full object-cover object-center"
@@ -109,7 +117,7 @@ export default function About() {
               </div>
               <div>
                 <p className="font-orbitron text-[10px] uppercase tracking-[0.25em] text-hud-cyan/55">
-                  Fundador
+                  {t("aboutFounder")}
                 </p>
                 <h3 className="mt-1 font-orbitron text-2xl font-semibold text-chrome">
                   {aboutContent.name}
@@ -130,7 +138,7 @@ export default function About() {
             {/* GEO: standalone answer blocks for AI / organic extractability */}
             <div className="mt-8 space-y-4 border-t border-hud-cyan/10 pt-6">
               <p className="font-orbitron text-[10px] uppercase tracking-[0.22em] text-arc-blue/40">
-                Definições rápidas
+                {t("aboutDefinitions")}
               </p>
               {geoDefinitions.map((item) => (
                 <article key={item.term} className="space-y-1.5">
@@ -146,7 +154,7 @@ export default function About() {
 
             <div className="mt-8 border-t border-hud-cyan/10 pt-6">
               <p className="mb-3 font-orbitron text-[10px] uppercase tracking-[0.22em] text-arc-blue/40">
-                Stack principal
+                {t("aboutStack")}
               </p>
               <div className="flex flex-wrap gap-2">
                 {stackTags.map((tag) => (
@@ -195,8 +203,7 @@ export default function About() {
               viewport={{ once: true }}
               className="pt-2 font-rajdhani text-xs leading-relaxed text-arc-blue/40"
             >
-              Prefiro mostrar trabalho real a inventar métricas. Os números
-              honestos vêm nos projetos — não em barras de skill inventadas.
+              {t("aboutHonesty")}
             </motion.p>
           </div>
         </div>
