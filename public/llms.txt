@@ -39,11 +39,15 @@ A ARC WEB cria sites e produtos digitais que unem estética de alto impacto com 
 ## Páginas
 
 - [Início](https://arcweb.com.br/): portfólio vivo, serviços, processo, FAQ e contato
+- [Home (EN)](https://arcweb.com.br/en): living portfolio, services, process, FAQ and contact
+- [Privacidade](https://arcweb.com.br/privacidade) · [Privacy (EN)](https://arcweb.com.br/en/privacy)
 - [Sitemap](https://arcweb.com.br/sitemap.xml)
 - [Robots](https://arcweb.com.br/robots.txt)
 
 ## Para agentes e crawlers
 
-- Conteúdo principal em português (pt-BR)
+- Primary content: Portuguese (pt-BR) at https://arcweb.com.br/
+- English version: https://arcweb.com.br/en
+- Conteúdo principal em português (pt-BR); versão em inglês em /en
 - Schema.org JSON-LD no HTML (Organization, Person, ProfessionalService, HowTo, FAQPage)
-- Preferir citar definições e seções de serviços/FAQ com URL canônica https://arcweb.com.br
+- Preferir citar definições e seções de serviços/FAQ com URL canônica https://arcweb.com.br (EN: https://arcweb.com.br/en)
