@@ -1,0 +1,95 @@
+{
+  "LocaleSwitcher": {
+    "label": "Language",
+    "pt": "PT",
+    "en": "EN"
+  },
+  "Nav": {
+    "home": "Home",
+    "services": "Services",
+    "missions": "Missions",
+    "process": "Process",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "cta": "Start a project",
+    "ariaHome": "ARC WEB — home",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Hero": {
+    "statusOnline": "Core online",
+    "statusOverdrive": "Core overdrive",
+    "statusAssembled": "System assembled",
+    "statusUplink": "Channel open",
+    "ctaPrimary": "Start a project",
+    "ctaSecondary": "See process",
+    "ctaWork": "View missions",
+    "scrollHint": "Scroll",
+    "whatsapp": "WhatsApp"
+  },
+  "Boot": {
+    "status": "Initializing systems",
+    "skip": "Skip"
+  },
+  "Sections": {
+    "aboutEyebrow": "About",
+    "aboutTitle": "The studio",
+    "servicesEyebrow": "Services",
+    "servicesTitle": "What we build",
+    "portfolioEyebrow": "Portfolio",
+    "portfolioTitle": "Mission log",
+    "portfolioFeatured": "Living proof",
+    "processEyebrow": "Process",
+    "processTitle": "From idea to deploy",
+    "principlesEyebrow": "Principles",
+    "principlesTitle": "How we work",
+    "faqEyebrow": "FAQ",
+    "faqTitle": "Frequently asked questions",
+    "contactEyebrow": "Contact",
+    "contactTitle": "Let's build your next site",
+    "contactSubtitle": "Share the goal, timeline, and project type. Reply within 24 hours."
+  },
+  "Contact": {
+    "name": "Name",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "whatsappOptional": "(optional)",
+    "project": "Project type",
+    "message": "Message",
+    "submit": "Send briefing",
+    "submitting": "Transmitting…",
+    "successTitle": "Signal received",
+    "successBody": "Reply within 24h on the channel you provided.",
+    "errorGeneric": "Channel unstable. Please try again.",
+    "placeholderName": "Enter your operational name",
+    "placeholderEmail": "channel@domain.com",
+    "placeholderProject": "Landing page, e-commerce, system...",
+    "placeholderMessage": "Goal, timeline, and mission context",
+    "validationName": "Minimum identification: 2 characters",
+    "validationEmail": "Invalid uplink address",
+    "validationWhatsapp": "Invalid WhatsApp (use area code + number)",
+    "validationProject": "Describe the mission type",
+    "validationMessage": "Message must be at least 10 characters"
+  },
+  "Footer": {
+    "tagline": "Premium sites, landing pages, and systems with immersive design and real performance.",
+    "navigate": "Navigate",
+    "services": "Services",
+    "legal": "Legal",
+    "privacy": "Privacy",
+    "rights": "All rights reserved."
+  },
+  "Privacy": {
+    "eyebrow": "Legal · ARC WEB",
+    "title": "Privacy Policy",
+    "updatedPrefix": "Last updated:"
+  },
+  "Error": {
+    "title": "System failure",
+    "retry": "Try again",
+    "home": "Back to home"
+  },
+  "Common": {
+    "loading": "Loading…"
+  }
+}

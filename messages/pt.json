@@ -1,0 +1,95 @@
+{
+  "LocaleSwitcher": {
+    "label": "Idioma",
+    "pt": "PT",
+    "en": "EN"
+  },
+  "Nav": {
+    "home": "Início",
+    "services": "Serviços",
+    "missions": "Missões",
+    "process": "Processo",
+    "faq": "FAQ",
+    "contact": "Contato",
+    "cta": "Iniciar projeto",
+    "ariaHome": "ARC WEB — início",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu"
+  },
+  "Hero": {
+    "statusOnline": "Core online",
+    "statusOverdrive": "Core overdrive",
+    "statusAssembled": "Sistema montado",
+    "statusUplink": "Canal aberto",
+    "ctaPrimary": "Iniciar projeto",
+    "ctaSecondary": "Ver processo",
+    "ctaWork": "Ver missões",
+    "scrollHint": "Scroll",
+    "whatsapp": "WhatsApp"
+  },
+  "Boot": {
+    "status": "Inicializando sistemas",
+    "skip": "Pular"
+  },
+  "Sections": {
+    "aboutEyebrow": "Sobre",
+    "aboutTitle": "O estúdio",
+    "servicesEyebrow": "Serviços",
+    "servicesTitle": "O que construímos",
+    "portfolioEyebrow": "Portfólio",
+    "portfolioTitle": "Mission log",
+    "portfolioFeatured": "Prova viva",
+    "processEyebrow": "Processo",
+    "processTitle": "Da ideia ao deploy",
+    "principlesEyebrow": "Diretrizes",
+    "principlesTitle": "Como trabalhamos",
+    "faqEyebrow": "FAQ",
+    "faqTitle": "Perguntas frequentes",
+    "contactEyebrow": "Contato",
+    "contactTitle": "Vamos construir o seu próximo site",
+    "contactSubtitle": "Conte o objetivo, o prazo e o tipo de projeto. Resposta em até 24 horas."
+  },
+  "Contact": {
+    "name": "Nome",
+    "email": "E-mail",
+    "whatsapp": "WhatsApp",
+    "whatsappOptional": "(opcional)",
+    "project": "Tipo de projeto",
+    "message": "Mensagem",
+    "submit": "Transmitir briefing",
+    "submitting": "Transmitindo…",
+    "successTitle": "Sinal recebido",
+    "successBody": "Retorno em até 24h no canal informado.",
+    "errorGeneric": "Canal instável. Tente novamente.",
+    "placeholderName": "Digite seu nome operacional",
+    "placeholderEmail": "canal@dominio.com",
+    "placeholderProject": "Landing page, e-commerce, sistema...",
+    "placeholderMessage": "Objetivo, prazo e contexto da missão",
+    "validationName": "Identificação mínima: 2 caracteres",
+    "validationEmail": "Endereço de uplink inválido",
+    "validationWhatsapp": "WhatsApp inválido (use DDD + número)",
+    "validationProject": "Descreva o tipo de missão",
+    "validationMessage": "Mensagem deve ter pelo menos 10 caracteres"
+  },
+  "Footer": {
+    "tagline": "Sites premium, landing pages e sistemas com design imersivo e performance real.",
+    "navigate": "Navegar",
+    "services": "Serviços",
+    "legal": "Legal",
+    "privacy": "Privacidade",
+    "rights": "Todos os direitos reservados."
+  },
+  "Privacy": {
+    "eyebrow": "Legal · ARC WEB",
+    "title": "Política de Privacidade",
+    "updatedPrefix": "Última atualização:"
+  },
+  "Error": {
+    "title": "Falha no sistema",
+    "retry": "Tentar novamente",
+    "home": "Voltar ao início"
+  },
+  "Common": {
+    "loading": "Carregando…"
+  }
+}
