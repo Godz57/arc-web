@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { setRequestLocale } from "next-intl/server";
 import { getSiteUrl, seoCopy } from "@/lib/seo";
 import { siteContact } from "@/lib/data";
 
@@ -18,7 +19,12 @@ export const metadata: Metadata = {
 
 const updated = "11 de julho de 2026";
 
-export default function PrivacidadePage() {
+export default function PrivacidadePage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(params.locale);
   const siteUrl = getSiteUrl();
 
   return (

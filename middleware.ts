@@ -1,12 +1,15 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import createMiddleware from "next-intl/middleware";
+import { NextRequest, NextResponse } from "next/server";
+import { routing } from "./i18n/routing";
 
 const APEX_HOST = "arcweb.com.br";
 const WWW_HOST = "www.arcweb.com.br";
 
+const intlMiddleware = createMiddleware(routing);
+
 /**
- * Canonical host: apex only.
- * www → apex permanent redirect (avoids duplicate indexing).
+ * 1) Canonical host: www → apex permanent redirect
+ * 2) Locale routing via next-intl (pt default, en prefix as-needed)
  */
 export function middleware(request: NextRequest) {
   const host = request.headers.get("host")?.split(":")[0]?.toLowerCase();
@@ -19,12 +22,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
-  return NextResponse.next();
+  return intlMiddleware(request);
 }
 
 export const config = {
-  // Skip static assets / Next internals for speed
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|icon.svg|.*\\.(?:svg|png|jpg|jpeg|gif|webp|glb|txt)$).*)",
-  ],
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 };

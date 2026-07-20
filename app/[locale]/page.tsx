@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import { setRequestLocale } from "next-intl/server";
 import BootSequence from "@/components/sections/BootSequence";
 import Hero from "@/components/sections/Hero";
 import SectionSkeleton from "@/components/ui/SectionSkeleton";
@@ -28,7 +29,13 @@ const Contact = dynamic(() => import("@/components/sections/Contact"), {
   loading: () => <SectionSkeleton id="contact" />,
 });
 
-export default function Home() {
+export default function Home({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(params.locale);
+
   return (
     <>
       <BootSequence />
