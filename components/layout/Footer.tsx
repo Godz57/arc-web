@@ -7,13 +7,11 @@ import {
   MessageCircle,
   ArrowUpRight,
 } from "lucide-react";
-import {
-  defaultWhatsappMessage,
-  footerNav,
-  footerServices,
-  siteContact,
-  whatsappUrl,
-} from "@/lib/data";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
+import { getContent } from "@/lib/content";
+import { siteContact, whatsappUrl } from "@/lib/data";
 import { playHud } from "@/lib/audio";
 import { trackWhatsAppClick } from "@/lib/analytics";
 import Logo from "@/components/ui/Logo";
@@ -21,6 +19,11 @@ import Logo from "@/components/ui/Logo";
 const year = new Date().getFullYear();
 
 export default function Footer() {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("Footer");
+  const tNav = useTranslations("Nav");
+  const content = getContent(locale);
+  const { footerNav, footerServices, defaultWhatsappMessage } = content;
   const wa = whatsappUrl(defaultWhatsappMessage);
 
   const socials = [
@@ -78,8 +81,7 @@ export default function Footer() {
               <Logo variant="lockup" size={32} />
             </a>
             <p className="mt-4 max-w-xs font-rajdhani text-sm leading-relaxed text-arc-blue/60">
-              Criação de sites premium, landing pages e sistemas web com design
-              imersivo e performance — do briefing ao deploy.
+              {t("tagline")}
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               {socials.map((link) => {
@@ -109,7 +111,7 @@ export default function Footer() {
           {/* Nav */}
           <div className="lg:col-span-2">
             <h4 className="font-orbitron text-[11px] uppercase tracking-[0.22em] text-hud-cyan/70">
-              Navegação
+              {t("navigate")}
             </h4>
             <ul className="mt-4 space-y-2.5">
               {footerNav.map((item) => (
@@ -132,7 +134,7 @@ export default function Footer() {
           {/* Services */}
           <div className="lg:col-span-3">
             <h4 className="font-orbitron text-[11px] uppercase tracking-[0.22em] text-hud-cyan/70">
-              Serviços
+              {t("services")}
             </h4>
             <ul className="mt-4 space-y-2.5">
               {footerServices.map((item) => (
@@ -155,7 +157,7 @@ export default function Footer() {
           {/* Contact */}
           <div className="lg:col-span-3">
             <h4 className="font-orbitron text-[11px] uppercase tracking-[0.22em] text-hud-cyan/70">
-              Contato
+              {tNav("contact")}
             </h4>
             <ul className="mt-4 space-y-3">
               <li>
@@ -192,7 +194,7 @@ export default function Footer() {
                   }}
                   className="mt-1 inline-flex items-center gap-2 border border-hud-cyan/30 bg-hud-cyan/5 px-4 py-2.5 font-orbitron text-[10px] uppercase tracking-[0.16em] text-hud-cyan transition-all hover:border-hud-cyan/55 hover:bg-hud-cyan/10"
                 >
-                  Iniciar projeto
+                  {tNav("cta")}
                 </a>
               </li>
             </ul>
@@ -201,15 +203,15 @@ export default function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-hud-cyan/10 pt-8 sm:flex-row">
           <p className="font-rajdhani text-xs tracking-wider text-arc-blue/40">
-            © {year} ARC WEB. ALL SYSTEMS OPERATIONAL.
+            © {year} ARC WEB. {t("rights")}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
+            <Link
               href="/privacidade"
               className="font-rajdhani text-xs tracking-wider text-arc-blue/40 transition-colors hover:text-hud-cyan"
             >
-              Privacidade
-            </a>
+              {t("privacy")}
+            </Link>
             <p className="font-rajdhani text-xs tracking-wider text-arc-blue/30">
               Built with intention · Next.js · R3F
             </p>

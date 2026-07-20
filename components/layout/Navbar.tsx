@@ -1,22 +1,30 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { playHud } from "@/lib/audio";
 import Logo from "@/components/ui/Logo";
+import LocaleSwitcher from "@/components/layout/LocaleSwitcher";
 
-const navLinks = [
-  { label: "Início", href: "#hero", id: "hero" },
-  { label: "Serviços", href: "#services", id: "services" },
-  { label: "Missões", href: "#portfolio", id: "portfolio" },
-  { label: "Processo", href: "#process", id: "process" },
-  { label: "FAQ", href: "#faq", id: "faq" },
-  { label: "Contato", href: "#contact", id: "contact" },
+const SECTION_LINKS = [
+  { key: "home" as const, href: "#hero", id: "hero" },
+  { key: "services" as const, href: "#services", id: "services" },
+  { key: "missions" as const, href: "#portfolio", id: "portfolio" },
+  { key: "process" as const, href: "#process", id: "process" },
+  { key: "faq" as const, href: "#faq", id: "faq" },
+  { key: "contact" as const, href: "#contact", id: "contact" },
 ];
 
 export default function Navbar() {
+  const t = useTranslations("Nav");
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeId, setActiveId] = useState("hero");
+
+  const navLinks = SECTION_LINKS.map((item) => ({
+    ...item,
+    label: t(item.key),
+  }));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -26,7 +34,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const ids = navLinks.map((l) => l.id);
+    const ids = SECTION_LINKS.map((l) => l.id);
     const elements = ids
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
@@ -78,7 +86,7 @@ export default function Navbar() {
             handleLinkClick("#hero");
           }}
           className="group flex shrink-0 items-center"
-          aria-label="ARC WEB — início"
+          aria-label={t("ariaHome")}
         >
           <Logo variant="lockup" size={30} className="group-hover:opacity-95" />
         </a>
@@ -114,8 +122,9 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* Desktop CTA */}
-        <div className="hidden shrink-0 md:block">
+        {/* Desktop: locale + CTA */}
+        <div className="hidden shrink-0 items-center gap-4 md:flex">
+          <LocaleSwitcher />
           <a
             href="#contact"
             onClick={(e) => {
@@ -124,7 +133,7 @@ export default function Navbar() {
             }}
             className="inline-flex items-center gap-2 rounded-sm border border-hud-cyan/30 bg-hud-cyan/5 px-4 py-2 font-orbitron text-[10px] uppercase tracking-[0.18em] text-hud-cyan transition-all hover:border-hud-cyan/55 hover:bg-hud-cyan/10 hover:shadow-[0_0_20px_rgba(77,184,255,0.12)]"
           >
-            Iniciar projeto
+            {t("cta")}
           </a>
         </div>
 
@@ -133,10 +142,12 @@ export default function Navbar() {
           type="button"
           className="relative z-50 flex h-10 w-10 items-center justify-center md:hidden"
           onClick={() => setOpen(!open)}
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-label={open ? t("closeMenu") : t("openMenu")}
           aria-expanded={open}
         >
-          <span className="sr-only">{open ? "Fechar" : "Menu"}</span>
+          <span className="sr-only">
+            {open ? t("closeMenu") : t("openMenu")}
+          </span>
           <span className="relative block h-3.5 w-5">
             <span
               className={`absolute left-0 top-0 h-px w-full bg-arc-blue/80 transition-all duration-300 ${
@@ -190,15 +201,18 @@ export default function Navbar() {
               );
             })}
           </ul>
+          <div className="mt-4 flex items-center justify-center">
+            <LocaleSwitcher />
+          </div>
           <a
             href="#contact"
             onClick={(e) => {
               e.preventDefault();
               handleLinkClick("#contact");
             }}
-            className="mt-4 flex w-full items-center justify-center border border-hud-cyan/35 bg-hud-cyan/10 py-3 font-orbitron text-[11px] uppercase tracking-[0.18em] text-hud-cyan"
+            className="mt-3 flex w-full items-center justify-center border border-hud-cyan/35 bg-hud-cyan/10 py-3 font-orbitron text-[11px] uppercase tracking-[0.18em] text-hud-cyan"
           >
-            Iniciar projeto
+            {t("cta")}
           </a>
         </div>
       </div>
