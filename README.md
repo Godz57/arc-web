@@ -6,6 +6,8 @@ Site de captação de leads com estética de HUD holográfico inspirado na armad
 
 > Criação de sites premium, landing pages e sistemas web com design imersivo e performance.
 
+**Idiomas / Locales:** o site é bilíngue — **português (padrão)** em `/` e **inglês** em `/en`. O seletor de idioma fica na navegação (navbar). Privacidade: `/privacidade` ↔ `/en/privacy`. Não há redirecionamento por geo-IP; o visitante escolhe o idioma.
+
 Checklist operacional SEO/GEO: [`docs/SEO-LAUNCH.md`](./docs/SEO-LAUNCH.md)
 
 ---
@@ -67,7 +69,10 @@ arc-web/
 │   ├── sections/           # BootSequence, Hero, About, Services, Portfolio, Process, Testimonials, Contact
 │   └── ui/                 # HudButton, HudCard, Scanlines, SectionHeader
 ├── lib/
-│   └── data.ts             # conteúdo dos cards e seções
+│   ├── content/            # copy de marketing PT/EN (typed)
+│   └── data.ts             # contact helpers (WhatsApp, siteContact)
+├── messages/               # UI chrome next-intl (pt.json / en.json)
+├── i18n/                   # routing, navigation, request config
 ├── public/                 # assets estáticos
 ├── tailwind.config.ts      # paleta e fontes customizadas
 ├── .env.example            # template de variáveis de ambiente

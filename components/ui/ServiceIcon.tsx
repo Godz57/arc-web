@@ -1,6 +1,6 @@
 "use client";
 
-import type { ServiceVariant } from "@/lib/data";
+import type { ServiceVariant } from "@/lib/content/types";
 
 interface ServiceIconProps {
   variant: ServiceVariant;

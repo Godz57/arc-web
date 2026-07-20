@@ -22,9 +22,9 @@ interface SuitAssemblyProps {
 }
 
 const DEFAULT_MODULES: AssemblyModule[] = [
-  { code: "01", label: "BRIEFING", short: "OBJETIVOS" },
+  { code: "01", label: "BRIEFING", short: "OBJECTIVES" },
   { code: "02", label: "DESIGN", short: "INTERFACE" },
-  { code: "03", label: "BUILD", short: "CÓDIGO" },
+  { code: "03", label: "BUILD", short: "CODE" },
   { code: "04", label: "LAUNCH", short: "DEPLOY" },
 ];
 

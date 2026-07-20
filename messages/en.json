@@ -136,6 +136,9 @@
     "home": "Back to home"
   },
   "Common": {
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "loadingSection": "Loading section",
+    "unmuteHud": "Unmute HUD audio",
+    "muteHud": "Mute HUD audio"
   }
 }

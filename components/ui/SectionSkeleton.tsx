@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
 interface SectionSkeletonProps {
   id?: string;
   className?: string;
@@ -7,12 +11,14 @@ export default function SectionSkeleton({
   id,
   className = "",
 }: SectionSkeletonProps) {
+  const t = useTranslations("Common");
+
   return (
     <section
       id={id}
       className={`relative min-h-[50vh] animate-pulse py-24 md:min-h-[60vh] md:py-32 ${className}`}
       aria-busy="true"
-      aria-label="Carregando seção"
+      aria-label={t("loadingSection")}
     >
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto mb-14 max-w-3xl text-center">

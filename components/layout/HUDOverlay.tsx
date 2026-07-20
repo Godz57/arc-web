@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Volume2, VolumeX } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   loadMutePreference,
   setMuted,
@@ -14,6 +15,7 @@ function pad(n: number) {
 }
 
 export default function HUDOverlay() {
+  const t = useTranslations("Common");
   const [time, setTime] = useState("--:--:--");
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [fps, setFps] = useState(0);
@@ -104,7 +106,7 @@ export default function HUDOverlay() {
         type="button"
         onClick={handleMuteToggle}
         className="pointer-events-auto glass-panel flex items-center gap-1.5 px-2.5 py-1 transition-colors hover:border-hud-cyan/30 hover:text-hud-cyan/90"
-        aria-label={muted ? "Ativar áudio HUD" : "Silenciar áudio HUD"}
+        aria-label={muted ? t("unmuteHud") : t("muteHud")}
       >
         {muted ? (
           <VolumeX className="h-3 w-3 text-titan-gold/80" />

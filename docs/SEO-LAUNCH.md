@@ -4,6 +4,14 @@ Site canônico: **https://arcweb.com.br**
 Sitemap: **https://arcweb.com.br/sitemap.xml**  
 Agents: **https://arcweb.com.br/llms.txt**
 
+### i18n / hreflang (bilíngue)
+
+- **PT (default):** `/` e `/privacidade` — `lang=pt-BR`, canonical sem prefixo
+- **EN:** `/en` e `/en/privacy` — `lang=en`, canonical com `/en`
+- **hreflang:** cada página emite `pt-BR`, `en` e `x-default` (x-default → PT)
+- **Sitemap:** 4 URLs (`/`, `/privacidade`, `/en`, `/en/privacy`)
+- **Sem geo-IP redirect:** `localeDetection: false` — o visitante permanece no locale da URL; troca só pelo seletor na nav
+
 ---
 
 ## 1. Google Search Console (você no browser — 5 min)

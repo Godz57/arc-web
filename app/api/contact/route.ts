@@ -60,7 +60,7 @@ export async function POST(request: Request) {
     body = await request.json();
   } catch {
     return NextResponse.json(
-      { success: false, message: "Payload JSON inválido." },
+      { success: false, message: "Invalid JSON payload." },
       { status: 400 }
     );
   }
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: "Dados de uplink inválidos.",
+        message: "Invalid uplink data.",
         issues: parsed.error.flatten().fieldErrors,
       },
       { status: 400 }
@@ -84,7 +84,7 @@ export async function POST(request: Request) {
       {
         success: false,
         message:
-          "Uplink não configurado. Defina WEB3FORMS_ACCESS_KEY no .env.local.",
+          "Uplink not configured. Set WEB3FORMS_ACCESS_KEY in .env.local.",
         configured: false,
       },
       { status: 503 }
@@ -103,7 +103,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, message: "TRANSMISSION SENT" });
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Falha no canal de transmissão.";
+      err instanceof Error ? err.message : "Transmission channel failure.";
     console.error("[ARC WEB] contact uplink error:", message);
     return NextResponse.json({ success: false, message }, { status: 502 });
   }

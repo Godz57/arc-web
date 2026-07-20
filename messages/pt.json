@@ -136,6 +136,9 @@
     "home": "Voltar ao início"
   },
   "Common": {
-    "loading": "Carregando…"
+    "loading": "Carregando…",
+    "loadingSection": "Carregando seção",
+    "unmuteHud": "Ativar áudio HUD",
+    "muteHud": "Silenciar áudio HUD"
   }
 }
